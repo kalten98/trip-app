@@ -1,0 +1,2525 @@
+{
+ "schema": 1,
+ "id": "taipei-2027-01",
+ "title": "Taipei · January 2027",
+ "title_zh": "台北 · 2027年1月",
+ "dates": {
+  "start": "2027-01-03",
+  "end": "2027-01-08"
+ },
+ "timezone": "Asia/Taipei",
+ "group": {
+  "adults": 4,
+  "access": "Prefer lifts and escalators; short walks; seated meals"
+ },
+ "flights": [
+  {
+   "no": "SQ878",
+   "date": "2027-01-03",
+   "dep": "11:40",
+   "from": "SIN T3",
+   "arr": "16:20",
+   "to": "TPE T2"
+  },
+  {
+   "no": "SQ879",
+   "date": "2027-01-08",
+   "dep": "17:35",
+   "from": "TPE T2",
+   "arr": "22:20",
+   "to": "SIN"
+  }
+ ],
+ "hotel": "hotel",
+ "weather_note": "January: highs ~17–21 °C, lows ~12–16 °C, frequent drizzle and wind. Layers, light rain jacket, umbrella, non-slip shoes.",
+ "emergency": {
+  "police": "110",
+  "ambulance_fire": "119",
+  "tourist_hotline": "0800-011-765"
+ },
+ "rules": [
+  "English first, then Mandarin",
+  "MRT: use lift/escalator exits; stairs-only exits marked avoid",
+  "Every meal has a main + 2 backups",
+  "Booking details load only after the group code"
+ ],
+ "stations": {
+  "shandao": {
+   "en": "Shandao Temple",
+   "zh": "善導寺",
+   "code": "BL13",
+   "recommended": [
+    "6",
+    "3"
+   ],
+   "avoid": [
+    "2",
+    "5"
+   ],
+   "note": "Exit 6 (2 escalators, hotel side); Exit 3 lift across Zhongxiao E. Rd",
+   "exits": [
+    {
+     "stairs": 1,
+     "escalators": 2,
+     "lift": false,
+     "where_zh": "忠孝東路1段與林森北路交叉口、近警政署",
+     "no": "1",
+     "lat": 25.045097,
+     "lng": 121.523009,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 0,
+     "lift": false,
+     "where_zh": "忠孝東路1段與林森南路交叉口",
+     "no": "2",
+     "lat": 25.044796,
+     "lng": 121.523053,
+     "ok": false
+    },
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": true,
+     "where_zh": "忠孝東路1段70號巷口",
+     "no": "3",
+     "lat": 25.044568,
+     "lng": 121.523734,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": false,
+     "where_zh": "忠孝東路1段84號巷口、近青島國宅",
+     "no": "4",
+     "lat": 25.044111,
+     "lng": 121.524217,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 0,
+     "lift": false,
+     "where_zh": "忠孝東路1段與紹興南街交叉口、近華山市場",
+     "no": "5",
+     "lat": 25.044256,
+     "lng": 121.52482,
+     "ok": false
+    },
+    {
+     "stairs": 1,
+     "escalators": 2,
+     "lift": false,
+     "where_zh": "忠孝東路1段與紹興北街交叉口、近善導寺",
+     "no": "6",
+     "lat": 25.044632,
+     "lng": 121.524898,
+     "ok": true
+    }
+   ]
+  },
+  "zx_xinsheng": {
+   "en": "Zhongxiao Xinsheng",
+   "zh": "忠孝新生",
+   "code": "BL14,O7",
+   "recommended": [
+    "2"
+   ],
+   "avoid": [
+    "7"
+   ],
+   "note": "Exit 2 lift + escalator, Zhongxiao Park",
+   "exits": [
+    {
+     "stairs": 1,
+     "escalators": 2,
+     "lift": false,
+     "where_zh": "忠孝東路2段101號、近忠孝國小",
+     "no": "1",
+     "lat": 25.042784,
+     "lng": 121.531829,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": true,
+     "where_zh": "忠孝東路2段134巷、近忠孝公園",
+     "no": "2",
+     "lat": 25.042103,
+     "lng": 121.532065,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": false,
+     "where_zh": "忠孝東路3段10巷",
+     "no": "3",
+     "lat": 25.041783,
+     "lng": 121.53368,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 2,
+     "lift": false,
+     "where_zh": "忠孝東路3段與新生南路1段交叉口、近台北科技大學",
+     "no": "4",
+     "lat": 25.042458,
+     "lng": 121.533213,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": false,
+     "where_zh": "新生南路1段56巷口，近濟南路",
+     "no": "5",
+     "lat": 25.0410441,
+     "lng": 121.5323987,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 2,
+     "lift": false,
+     "where_zh": "新生南路1段、濟南路口",
+     "no": "6",
+     "lat": 25.040791,
+     "lng": 121.533068,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 0,
+     "lift": false,
+     "where_zh": "新生南路1段、忠孝東路3段口",
+     "no": "7",
+     "lat": 25.041729,
+     "lng": 121.533068,
+     "ok": false
+    }
+   ]
+  },
+  "daqiaotou": {
+   "en": "Daqiaotou",
+   "zh": "大橋頭",
+   "code": "O12",
+   "recommended": [
+    "1"
+   ],
+   "avoid": [],
+   "note": "Exit 1 lift (behind exit, Lane 225 Minquan W. Rd)",
+   "exits": [
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": true,
+     "where_zh": "民權西路225巷口",
+     "no": "1",
+     "lat": 25.06318,
+     "lng": 121.512319,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 2,
+     "lift": false,
+     "where_zh": "民權西路、重慶北路3段口",
+     "no": "2",
+     "lat": 25.063195,
+     "lng": 121.513258,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": false,
+     "where_zh": "重慶北路3段、大橋國小旁",
+     "no": "3",
+     "lat": 25.063739,
+     "lng": 121.51344,
+     "ok": true
+    }
+   ]
+  },
+  "beimen": {
+   "en": "Beimen",
+   "zh": "北門",
+   "code": "G13",
+   "recommended": [
+    "2",
+    "3"
+   ],
+   "avoid": [],
+   "note": "Exit 2 or 3 lift + escalators",
+   "exits": [
+    {
+     "stairs": 1,
+     "escalators": 2,
+     "lift": false,
+     "where_zh": "塔城街與忠孝西路2段路口西北隅（於塔城街上）",
+     "no": "1",
+     "lat": 25.048861,
+     "lng": 121.509986,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 2,
+     "lift": true,
+     "where_zh": "塔城街東側",
+     "no": "2",
+     "lat": 25.049583,
+     "lng": 121.510506,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 2,
+     "lift": true,
+     "where_zh": "塔城街與鄭州路口西南隅（於鄭州路上）",
+     "no": "3",
+     "lat": 25.049943,
+     "lng": 121.510227,
+     "ok": true
+    }
+   ]
+  },
+  "zhongshan": {
+   "en": "Zhongshan",
+   "zh": "中山",
+   "code": "R11,G14",
+   "recommended": [
+    "6",
+    "4",
+    "5",
+    "1"
+   ],
+   "avoid": [
+    "2",
+    "3"
+   ],
+   "note": "Exit 4/5/6 lift; Exit 1 (Nanxi side) escalators only",
+   "exits": [
+    {
+     "stairs": 1,
+     "escalators": 2,
+     "lift": false,
+     "where_zh": "南京西路16號",
+     "no": "1",
+     "lat": 25.052414,
+     "lng": 121.520303,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 0,
+     "lift": false,
+     "where_zh": "南京西路12號旁、近中山北路1段",
+     "no": "2",
+     "lat": 25.052382,
+     "lng": 121.521063,
+     "ok": false
+    },
+    {
+     "stairs": 1,
+     "escalators": 0,
+     "lift": false,
+     "where_zh": "南京西路11號旁、近中山北路2段",
+     "no": "3",
+     "lat": 25.052611,
+     "lng": 121.521154,
+     "ok": false
+    },
+    {
+     "stairs": 0,
+     "escalators": 1,
+     "lift": true,
+     "where_zh": "南京西路27號旁",
+     "no": "4",
+     "lat": 25.052858,
+     "lng": 121.520306,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": true,
+     "where_zh": "南京西路55號、近南京西路與赤峰街路口東北隅",
+     "no": "5",
+     "lat": 25.053037,
+     "lng": 121.519329,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": true,
+     "where_zh": "南京西路與赤峰街路口東南隅，南京西路64巷旁",
+     "no": "6",
+     "lat": 25.052833,
+     "lng": 121.519007,
+     "ok": true
+    }
+   ]
+  },
+  "ximen": {
+   "en": "Ximen",
+   "zh": "西門",
+   "code": "BL11",
+   "recommended": [
+    "6",
+    "4"
+   ],
+   "avoid": [
+    "2",
+    "5"
+   ],
+   "note": "Exit 6 lift + escalator beside the Red House; Exit 4 lift",
+   "exits": [
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": false,
+     "where_zh": "漢中街、成都路口、近西門紅樓",
+     "no": "1",
+     "lat": 25.042137,
+     "lng": 121.507566,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 0,
+     "lift": false,
+     "where_zh": "中華路1段59號、近台北市憲兵隊",
+     "no": "2",
+     "lat": 25.041545,
+     "lng": 121.508435,
+     "ok": false
+    },
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": false,
+     "where_zh": "中華路1段、寶慶路口",
+     "no": "3",
+     "lat": 25.041789,
+     "lng": 121.508888,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": true,
+     "where_zh": "中華路1段、衡陽路口",
+     "no": "4",
+     "lat": 25.042203,
+     "lng": 121.509006,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 0,
+     "lift": false,
+     "where_zh": "中華路1段、秀山街口",
+     "no": "5",
+     "lat": 25.042935,
+     "lng": 121.508789,
+     "ok": false
+    },
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": true,
+     "where_zh": "漢中街、成都路口",
+     "no": "6",
+     "lat": 25.042573,
+     "lng": 121.507602,
+     "ok": true
+    }
+   ]
+  },
+  "nangang_ex": {
+   "en": "Nangang Exhibition Center",
+   "zh": "南港展覽館",
+   "code": "BR24,BL23",
+   "recommended": [
+    "2A",
+    "2",
+    "5"
+   ],
+   "avoid": [],
+   "note": "2A/2 for LaLaport (lift); 5 for Di Wang Shibu (lift + escalator)",
+   "exits": [
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": true,
+     "where_zh": "經貿二路、南港展覽館旁",
+     "no": "1",
+     "lat": 25.0557844,
+     "lng": 121.6170736,
+     "ok": true
+    },
+    {
+     "stairs": 0,
+     "escalators": 0,
+     "lift": true,
+     "where_zh": "南港路1段32號與經貿二路交叉口",
+     "no": "2",
+     "lat": 25.05540682,
+     "lng": 121.6171863,
+     "ok": true
+    },
+    {
+     "stairs": 0,
+     "escalators": 0,
+     "lift": true,
+     "where_zh": "南港路1段與經貿一路交叉口",
+     "no": "3",
+     "lat": 25.055123,
+     "lng": 121.618239,
+     "ok": true
+    },
+    {
+     "stairs": 0,
+     "escalators": 0,
+     "lift": true,
+     "where_zh": "經貿一路、南港展覽館旁",
+     "no": "4",
+     "lat": 25.055356,
+     "lng": 121.6182634,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": true,
+     "where_zh": "南港路1段與研究院路1段交叉口",
+     "no": "5",
+     "lat": 25.054917,
+     "lng": 121.616861,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 2,
+     "lift": false,
+     "where_zh": "南港路1段與經貿一路交叉口",
+     "no": "6",
+     "lat": 25.05476367,
+     "lng": 121.6179283,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 2,
+     "lift": false,
+     "where_zh": "富康街1巷16弄、近誠正國中",
+     "no": "7",
+     "lat": 25.054035,
+     "lng": 121.618148,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 0,
+     "lift": true,
+     "where_zh": "南港路1段與經貿二路交叉口",
+     "no": "2A",
+     "lat": 25.05533633,
+     "lng": 121.6171997,
+     "ok": true
+    }
+   ]
+  },
+  "dongmen": {
+   "en": "Dongmen",
+   "zh": "東門",
+   "code": "O06",
+   "recommended": [
+    "5",
+    "8"
+   ],
+   "avoid": [
+    "2",
+    "4",
+    "6"
+   ],
+   "note": "Exit 5 escalator (Yongkang Park); Exit 8 only lift",
+   "exits": [
+    {
+     "stairs": 0,
+     "escalators": 2,
+     "lift": false,
+     "where_zh": "信義路2段、近臨沂街口",
+     "no": "1",
+     "lat": 25.034157,
+     "lng": 121.527994,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 0,
+     "lift": false,
+     "where_zh": "信義路2段與金山南路1段路口",
+     "no": "2",
+     "lat": 25.03422,
+     "lng": 121.527565,
+     "ok": false
+    },
+    {
+     "stairs": 1,
+     "escalators": 2,
+     "lift": false,
+     "where_zh": "信義路2段114巷口",
+     "no": "3",
+     "lat": 25.033676,
+     "lng": 121.527854,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 0,
+     "lift": false,
+     "where_zh": "信義路2段148巷口、近淡江大學臺北校區",
+     "no": "4",
+     "lat": 25.033646,
+     "lng": 121.528879,
+     "ok": false
+    },
+    {
+     "stairs": 0,
+     "escalators": 1,
+     "lift": false,
+     "where_zh": "信義路2段166號、近永康公園",
+     "no": "5",
+     "lat": 25.033564,
+     "lng": 121.529506,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 0,
+     "lift": false,
+     "where_zh": "信義路2段、近連雲街口",
+     "no": "6",
+     "lat": 25.033924,
+     "lng": 121.529957,
+     "ok": false
+    },
+    {
+     "stairs": 0,
+     "escalators": 2,
+     "lift": false,
+     "where_zh": "近信義路2段191號",
+     "no": "7",
+     "lat": 25.033962,
+     "lng": 121.529678,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 0,
+     "lift": true,
+     "where_zh": "信義路2段163號、東門郵局旁",
+     "no": "8",
+     "lat": 25.034074,
+     "lng": 121.528965,
+     "ok": true
+    }
+   ]
+  },
+  "zoo": {
+   "en": "Taipei Zoo",
+   "zh": "動物園",
+   "code": "BR01",
+   "recommended": [
+    "2",
+    "1"
+   ],
+   "avoid": [],
+   "note": "Exit 2 by the gondola, lift + escalators",
+   "exits": [
+    {
+     "stairs": 1,
+     "escalators": 1,
+     "lift": true,
+     "where_zh": "新光路2段(臨動物園)",
+     "no": "1",
+     "lat": 24.9982988,
+     "lng": 121.579942,
+     "ok": true
+    },
+    {
+     "stairs": 1,
+     "escalators": 2,
+     "lift": true,
+     "where_zh": "新光路2段(臨貓空纜車)",
+     "no": "2",
+     "lat": 24.997971,
+     "lng": 121.579321,
+     "ok": true
+    }
+   ]
+  },
+  "shilin": {
+   "en": "Shilin",
+   "zh": "士林",
+   "code": "R16",
+   "recommended": [
+    "2",
+    "1"
+   ],
+   "avoid": [],
+   "note": "Exit 1/2 lift; taxi to the Palace Museum",
+   "exits": [
+    {
+     "stairs": 1,
+     "escalators": 0,
+     "lift": true,
+     "where_zh": "中正路247巷旁",
+     "no": "1",
+     "lat": 25.094106,
+     "lng": 121.525966,
+     "ok": true
+    },
+    {
+     "stairs": 0,
+     "escalators": 0,
+     "lift": true,
+     "where_zh": "福德路1號",
+     "no": "2",
+     "lat": 25.09286,
+     "lng": 121.52644,
+     "ok": true
+    }
+   ]
+  }
+ },
+ "places": {
+  "hotel": {
+   "en": "HOTEL COZZI Zhongxiao Taipei",
+   "zh": "和逸飯店・台北忠孝館",
+   "type": "hotel",
+   "area": "Hotel / Shandao Temple 善導寺",
+   "lat": 25.0446217,
+   "lng": 121.5253585,
+   "address": "31, Sec. 1, Zhongxiao E. Rd · 台北市中正區忠孝東路一段31號",
+   "mrt": "shandao",
+   "hours": "Check-in 15:00 · Check-out 11:00"
+  },
+  "tpe_t2": {
+   "en": "Taiwan Taoyuan International Airport, Terminal 2",
+   "zh": "臺灣桃園國際機場 第二航廈",
+   "type": "transport",
+   "area": "Taoyuan 桃園",
+   "lat": 25.07932,
+   "lng": 121.2346,
+   "address": "Dayuan, Taoyuan · 桃園市大園區",
+   "note": "SQ878 arrives / SQ879 departs T2"
+  },
+  "shandao_temple": {
+   "en": "Shandao Temple",
+   "zh": "善導寺",
+   "type": "sight",
+   "area": "Hotel / Shandao Temple 善導寺",
+   "lat": 25.04476,
+   "lng": 121.52342,
+   "address": "Sec. 1, Zhongxiao E. Rd · 忠孝東路一段",
+   "mrt": "shandao",
+   "note": "Beside MRT Exit 6; hours to check",
+   "verify": true
+  },
+  "huashan1914": {
+   "en": "Huashan 1914 Creative Park",
+   "zh": "華山1914文化創意產業園區",
+   "type": "sight",
+   "area": "Hotel / Shandao Temple 善導寺",
+   "lat": 25.04461,
+   "lng": 121.52918,
+   "address": "1, Sec. 1, Bade Rd · 八德路一段1號",
+   "mrt": "zx_xinsheng",
+   "access": "Flat paths, cafés, indoor halls"
+  },
+  "qidong": {
+   "en": "Qidong Street Japanese Houses (Qidong Poetry Salon)",
+   "zh": "齊東詩舍",
+   "type": "sight",
+   "area": "Hotel / Shandao Temple 善導寺",
+   "lat": 25.04137,
+   "lng": 121.52856,
+   "address": "Qidong St · 齊東街",
+   "mrt": "shandao",
+   "note": "Quiet lane; hours to check",
+   "verify": true
+  },
+  "formosa_chang_huashan": {
+   "en": "Formosa Chang, Huashan store",
+   "zh": "鬍鬚張魯肉飯 華山店",
+   "type": "food",
+   "area": "Hotel / Shandao Temple 善導寺",
+   "lat": 25.04398,
+   "lng": 121.52576,
+   "address": "150, Sec. 1, Zhongxiao E. Rd · 忠孝東路一段150號",
+   "mrt": "shandao",
+   "hours": "Daily 10:30–22:00",
+   "access": "On Taipei accessible friendly-store list",
+   "verify": true
+  },
+  "fuhang": {
+   "en": "Fuhang Soy Milk",
+   "zh": "阜杭豆漿",
+   "type": "food",
+   "area": "Hotel / Shandao Temple 善導寺",
+   "lat": 25.0442333,
+   "lng": 121.5248433,
+   "address": "2F, 108, Sec. 1, Zhongxiao E. Rd · 忠孝東路一段108號2樓",
+   "mrt": "shandao",
+   "hours": "Breakfast; closed Mondays; cash only",
+   "access": "Long queue; stairs to 2F (lift to confirm)",
+   "verify": true
+  },
+  "shuang_yue": {
+   "en": "Shuang Yue Food (Qingdao E. Rd branch)",
+   "zh": "雙月食品社 青島店",
+   "type": "food",
+   "area": "Hotel / Shandao Temple 善導寺",
+   "lat": 25.0437017,
+   "lng": 121.5220376,
+   "address": "6-2 Qingdao E. Rd · 青島東路6-2號",
+   "mrt": "shandao",
+   "hours": "Mon–Sat 11:00–14:00, 17:00–20:00; Sun closed",
+   "access": "No reservations; go early",
+   "verify": true
+  },
+  "kitchen12": {
+   "en": "Kitchen 12, Sheraton Grand Taipei",
+   "zh": "台北喜來登 十二廚",
+   "type": "food",
+   "area": "Hotel / Shandao Temple 善導寺",
+   "lat": 25.04468,
+   "lng": 121.52256,
+   "address": "12, Sec. 1, Zhongxiao E. Rd · 忠孝東路一段12號",
+   "mrt": "shandao",
+   "hours": "Lunch 11:30–14:00 · Dinner 18:00–21:00",
+   "note": "Buffet ~NT$1,590–1,990 + 10%; book"
+  },
+  "rixing": {
+   "en": "Ri Xing Type Foundry",
+   "zh": "日星鑄字行",
+   "type": "sight",
+   "area": "Dadaocheng 大稻埕",
+   "lat": 25.0521778,
+   "lng": 121.5163806,
+   "address": "13, Ln. 97, Taiyuan Rd · 太原路97巷13號",
+   "mrt": "beimen",
+   "hours": "Mon–Fri 09:00–12:00, 13:30–18:00; Sat to 17:00; Sun closed",
+   "verify": true
+  },
+  "xiahai": {
+   "en": "Xiahai City God Temple",
+   "zh": "霞海城隍廟",
+   "type": "sight",
+   "area": "Dadaocheng 大稻埕",
+   "lat": 25.05563,
+   "lng": 121.51021,
+   "address": "61, Sec. 1, Dihua St · 迪化街一段61號",
+   "mrt": "daqiaotou",
+   "access": "Listed wheelchair accessible"
+  },
+  "dihua_street": {
+   "en": "Dihua Street",
+   "zh": "迪化街",
+   "type": "sight",
+   "area": "Dadaocheng 大稻埕",
+   "lat": 25.057,
+   "lng": 121.51,
+   "address": "Sec. 1, Dihua St · 迪化街一段",
+   "mrt": "daqiaotou",
+   "access": "Flat but narrow arcades; short loop only"
+  },
+  "rice_house": {
+   "en": "Dadaocheng Centennial Rice House",
+   "zh": "大稻埕百年米倉",
+   "type": "food",
+   "area": "Dadaocheng 大稻埕",
+   "lat": 25.06143,
+   "lng": 121.50922,
+   "address": "North Dihua St (near 296, Sec. 1) · 迪化街一段北段",
+   "mrt": "daqiaotou",
+   "note": "Location from OSM 'Yehjinfa Rice House'; confirm",
+   "verify": true
+  },
+  "oriental_guizhou": {
+   "en": "Oriental Cuisine Guizhou",
+   "type": "food",
+   "area": "Dadaocheng 大稻埕",
+   "lat": 25.0565,
+   "lng": 121.5101,
+   "address": "Dihua St heritage building · 迪化街",
+   "mrt": "daqiaotou",
+   "verify": true,
+   "zh_missing": "Chinese name not found yet"
+  },
+  "elementi": {
+   "en": "Elementi (Italian)",
+   "type": "food",
+   "area": "Dadaocheng 大稻埕",
+   "lat": 25.0558,
+   "lng": 121.51,
+   "address": "76, Sec. 1, Dihua St · 迪化街一段76號",
+   "mrt": "daqiaotou",
+   "verify": true,
+   "zh_missing": "Western restaurant; no Chinese name found"
+  },
+  "kao_chi": {
+   "en": "Kao Chi (Shanghainese)",
+   "zh": "高記",
+   "type": "food",
+   "area": "Da'an / Dongmen 大安",
+   "lat": 25.0334,
+   "lng": 121.5297,
+   "address": "Yongkang St · 永康街",
+   "mrt": "dongmen",
+   "note": "Book; address to confirm",
+   "verify": true
+  },
+  "dtf_xinyi": {
+   "en": "Din Tai Fung, Xinyi Road",
+   "zh": "鼎泰豐 信義店",
+   "type": "food",
+   "area": "Da'an / Dongmen 大安",
+   "lat": 25.03352,
+   "lng": 121.5301,
+   "address": "194, Sec. 2, Xinyi Rd · 信義路二段194號",
+   "mrt": "dongmen",
+   "access": "Ticket queue; seated"
+  },
+  "yingge_museum": {
+   "en": "Yingge Ceramics Museum",
+   "zh": "新北市立鶯歌陶瓷博物館",
+   "type": "sight",
+   "area": "Yingge 鶯歌",
+   "lat": 24.94923,
+   "lng": 121.3521,
+   "address": "200 Wenhua Rd, Yingge · 鶯歌區文化路200號",
+   "hours": "09:30–17:00; closed Mon (or 1st Mon) — check",
+   "access": "Lifts",
+   "verify": true
+  },
+  "yingge_old_street": {
+   "en": "Yingge Old Street",
+   "zh": "鶯歌老街",
+   "type": "shop",
+   "area": "Yingge 鶯歌",
+   "lat": 24.95257,
+   "lng": 121.34952,
+   "address": "Jianshanpu Rd · 尖山埔路",
+   "access": "Pedestrian street; pottery shops; optional seated pottery class"
+  },
+  "fugui_taoyuan": {
+   "en": "Fu Gui Tao Yuan",
+   "zh": "富貴陶園",
+   "type": "food",
+   "area": "Yingge 鶯歌",
+   "lat": 24.9526,
+   "lng": 121.3497,
+   "address": "Yingge Old Street area · 鶯歌老街",
+   "access": "2F restaurant; lift to confirm",
+   "verify": true
+  },
+  "chajia": {
+   "en": "Cha Jia Shi Tang",
+   "zh": "茶家食堂",
+   "type": "food",
+   "area": "Yingge 鶯歌",
+   "lat": 24.953,
+   "lng": 121.35,
+   "address": "2F, 62 Chongqing St, Yingge · 重慶街62號2樓",
+   "hours": "10:00–20:00",
+   "access": "Stairs to 2F — check",
+   "verify": true
+  },
+  "apo_sushi": {
+   "en": "A-Po Sushi",
+   "zh": "阿婆壽司",
+   "type": "food",
+   "area": "Yingge 鶯歌",
+   "lat": 24.95443,
+   "lng": 121.35222,
+   "address": "63 Zhongzheng 1st Rd, Yingge · 中正一路63號",
+   "hours": "24 hours",
+   "access": "Seats 1F–3F; ask for 1F"
+  },
+  "zushi_temple": {
+   "en": "Sanxia Zushi Temple",
+   "zh": "三峽祖師廟",
+   "type": "sight",
+   "area": "Sanxia 三峽",
+   "lat": 24.93392,
+   "lng": 121.37018,
+   "address": "1 Changfu St, Sanxia · 長福街1號"
+  },
+  "sanxia_old_street": {
+   "en": "Sanxia Old Street",
+   "zh": "三峽老街",
+   "type": "shop",
+   "area": "Sanxia 三峽",
+   "lat": 24.93134,
+   "lng": 121.36835,
+   "address": "Minquan St · 民權街",
+   "note": "Try the golden croissant 金牛角"
+  },
+  "zhongshan_lanes": {
+   "en": "Zhongshan lanes (Chifeng St)",
+   "zh": "中山 赤峰街",
+   "type": "shop",
+   "area": "Zhongshan 中山",
+   "lat": 25.05522,
+   "lng": 121.51963,
+   "address": "Chifeng St · 赤峰街",
+   "mrt": "zhongshan",
+   "access": "Short stroll; flat"
+  },
+  "eslite_nanxi": {
+   "en": "Eslite Spectrum Nanxi (5F bookstore)",
+   "zh": "誠品生活南西",
+   "type": "shop",
+   "area": "Zhongshan 中山",
+   "lat": 25.05211,
+   "lng": 121.52065,
+   "address": "14 Nanjing W. Rd · 南京西路14號",
+   "mrt": "zhongshan",
+   "hours": "Bookstore 5F 11:00–22:00",
+   "access": "Mall lifts, seats"
+  },
+  "shin_yeh_nanxi": {
+   "en": "Shin Yeh, Nanxi branch",
+   "zh": "欣葉 南西店",
+   "type": "food",
+   "area": "Zhongshan 中山",
+   "lat": 25.0522,
+   "lng": 121.5212,
+   "address": "Nanjing W. Rd · 南京西路",
+   "mrt": "zhongshan",
+   "note": "Branch to confirm",
+   "verify": true
+  },
+  "dtf_nanxi": {
+   "en": "Din Tai Fung, Shin Kong Mitsukoshi Nanxi",
+   "zh": "鼎泰豐 新光三越南西店",
+   "type": "food",
+   "area": "Zhongshan 中山",
+   "lat": 25.0522,
+   "lng": 121.5212,
+   "address": "12 Nanjing W. Rd · 南京西路12號",
+   "mrt": "zhongshan",
+   "verify": true
+  },
+  "red_house": {
+   "en": "Red House",
+   "zh": "西門紅樓",
+   "type": "sight",
+   "area": "Ximending 西門町",
+   "lat": 25.04214,
+   "lng": 121.50628,
+   "address": "10 Chengdu Rd · 成都路10號",
+   "mrt": "ximen",
+   "hours": "Tue–Sun ~11:00–20:00/22:00; closed Mon",
+   "access": "Flat plaza by MRT Exit 1"
+  },
+  "rainbow_six": {
+   "en": "Rainbow Six crossing (photo spot)",
+   "zh": "西門町彩虹六色",
+   "type": "sight",
+   "area": "Ximending 西門町",
+   "lat": 25.0423,
+   "lng": 121.5068,
+   "address": "By the Red House · 西門紅樓旁",
+   "mrt": "ximen"
+  },
+  "wannian": {
+   "en": "Wan Nian Building",
+   "zh": "萬年大樓",
+   "type": "shop",
+   "area": "Ximending 西門町",
+   "lat": 25.04365,
+   "lng": 121.50593,
+   "address": "70 Xining S. Rd · 西寧南路70號",
+   "mrt": "ximen",
+   "hours": "Shops ~11:00–21:30; Mon from 14:00",
+   "access": "4F models/anime; lift to confirm",
+   "verify": true
+  },
+  "lost_and_found": {
+   "en": "Lost and Found café (Ximen)",
+   "zh": "Lost and Found 西門店",
+   "type": "food",
+   "area": "Ximending 西門町",
+   "lat": 25.0428,
+   "lng": 121.506,
+   "address": "Ximending lane · 西門町巷內",
+   "mrt": "ximen",
+   "note": "Seated break; exact address to confirm",
+   "verify": true
+  },
+  "mala_ximen": {
+   "en": "Mala Hotpot, Ximen branch",
+   "zh": "馬辣頂級麻辣鴛鴦火鍋 西門店",
+   "type": "food",
+   "area": "Ximending 西門町",
+   "lat": 25.04338,
+   "lng": 121.50623,
+   "address": "2F, 157 Xining S. Rd · 西寧南路157號2樓",
+   "mrt": "ximen",
+   "hours": "Daily 11:30–02:00",
+   "access": "Book; 2F lift to confirm",
+   "verify": true
+  },
+  "mongkok_hotpot": {
+   "en": "Mong Kok Stone Hotpot",
+   "zh": "旺角石頭火鍋",
+   "type": "food",
+   "area": "Ximending 西門町",
+   "lat": 25.04576,
+   "lng": 121.50889,
+   "address": "74, Sec. 1, Zhonghua Rd · 中華路一段74號",
+   "mrt": "ximen",
+   "note": "NT$290–690; book"
+  },
+  "diaomin": {
+   "en": "Diaomin Pickled Fish",
+   "zh": "刁民酸菜魚",
+   "type": "food",
+   "area": "Ximending 西門町",
+   "lat": 25.04505,
+   "lng": 121.50857,
+   "address": "88, Sec. 1, Zhonghua Rd · 中華路一段88號",
+   "mrt": "ximen",
+   "note": "Mild tomato-fish soup option"
+  },
+  "cheng_wei_zhen": {
+   "en": "Cheng Wei Zhen",
+   "zh": "程味珍意麵滷味",
+   "type": "food",
+   "area": "Ximending 西門町",
+   "lat": 25.04625,
+   "lng": 121.50706,
+   "address": "65 Xining S. Rd · 西寧南路65號",
+   "mrt": "ximen",
+   "hours": "Late night; cash only",
+   "verify": true
+  },
+  "eslite_ximen": {
+   "en": "Eslite Spectrum Ximen (3F bookstore)",
+   "zh": "誠品生活西門",
+   "type": "shop",
+   "area": "Ximending 西門町",
+   "lat": 25.0437117,
+   "lng": 121.5053975,
+   "address": "52 Emei St · 峨眉街52號",
+   "mrt": "ximen",
+   "hours": "Bookstore 3F 11:30–22:00"
+  },
+  "lalaport": {
+   "en": "Mitsui Shopping Park LaLaport Taipei Nangang",
+   "zh": "南港LaLaport",
+   "type": "shop",
+   "area": "Nangang 南港",
+   "lat": 25.05933,
+   "lng": 121.61795,
+   "address": "131 Jingmao 2nd Rd · 經貿二路131號",
+   "mrt": "nangang_ex",
+   "hours": "~11:00–22:00",
+   "access": "Coin wheelchair rental B1F/1F; lifts"
+  },
+  "lin_cong_ming": {
+   "en": "Lin Cong Ming Casserole Fish Head (B1 food hall)",
+   "zh": "林聰明沙鍋魚頭",
+   "type": "food",
+   "area": "Nangang 南港",
+   "lat": 25.05933,
+   "lng": 121.61795,
+   "address": "LaLaport B1",
+   "mrt": "nangang_ex"
+  },
+  "osaka_ohsho": {
+   "en": "Osaka Ohsho (5F)",
+   "zh": "大阪王將",
+   "type": "food",
+   "area": "Nangang 南港",
+   "lat": 25.05933,
+   "lng": 121.61795,
+   "address": "LaLaport 5F",
+   "mrt": "nangang_ex"
+  },
+  "taiyo_tomato": {
+   "en": "Taiyo Tomato Ramen (5F)",
+   "zh": "太陽蕃茄拉麵",
+   "type": "food",
+   "area": "Nangang 南港",
+   "lat": 25.05933,
+   "lng": 121.61795,
+   "address": "LaLaport 5F",
+   "mrt": "nangang_ex"
+  },
+  "han_mei_shan": {
+   "en": "Han Mei Shan Korean",
+   "zh": "韓美膳",
+   "type": "food",
+   "area": "Nangang 南港",
+   "lat": 25.05933,
+   "lng": 121.61795,
+   "address": "LaLaport",
+   "mrt": "nangang_ex"
+  },
+  "mitsuboshi": {
+   "en": "Mitsuboshi (Japanese)",
+   "zh": "三之星",
+   "type": "food",
+   "area": "Nangang 南港",
+   "lat": 25.05933,
+   "lng": 121.61795,
+   "address": "LaLaport",
+   "mrt": "nangang_ex"
+  },
+  "diwang": {
+   "en": "Di Wang Shibu Ginger Duck (Shimao branch)",
+   "zh": "帝王食補薑母鴨 世貿店",
+   "type": "food",
+   "area": "Nangang 南港",
+   "lat": 25.05333,
+   "lng": 121.61601,
+   "address": "633, Sec. 7, Zhongxiao E. Rd · 忠孝東路七段633號",
+   "mrt": "nangang_ex",
+   "note": "Branch + hours to confirm",
+   "verify": true
+  },
+  "npm": {
+   "en": "National Palace Museum",
+   "zh": "國立故宮博物院",
+   "type": "sight",
+   "area": "Shilin 士林",
+   "lat": 25.10157,
+   "lng": 121.54886,
+   "address": "221, Sec. 2, Zhishan Rd · 至善路二段221號",
+   "mrt": "shilin",
+   "mrt_via": "Taxi ~10 min from Shilin MRT (~2.5 km); taxi from hotel recommended",
+   "hours": "Tue–Sun 09:00–17:00; closed Mon",
+   "access": "Lifts; wheelchair loan"
+  },
+  "silks_palace": {
+   "en": "Silks Palace (museum restaurant)",
+   "zh": "故宮晶華",
+   "type": "food",
+   "area": "Shilin 士林",
+   "lat": 25.1012,
+   "lng": 121.5481,
+   "address": "At the National Palace Museum",
+   "mrt": "shilin",
+   "mrt_via": "Taxi ~10 min from Shilin MRT (~2.5 km)",
+   "note": "Book",
+   "verify": true
+  },
+  "shilin_food": {
+   "en": "Restaurants near Shilin Official Residence",
+   "zh": "士林官邸周邊餐廳",
+   "type": "food",
+   "area": "Shilin 士林",
+   "lat": 25.0935,
+   "lng": 121.526,
+   "address": "Near Fulin Rd · 福林路一帶",
+   "mrt": "shilin",
+   "verify": true
+  },
+  "shilin_residence": {
+   "en": "Shilin Official Residence",
+   "zh": "士林官邸",
+   "type": "sight",
+   "area": "Shilin 士林",
+   "lat": 25.09273,
+   "lng": 121.53089,
+   "address": "60 Fulin Rd · 福林路60號",
+   "mrt": "shilin",
+   "access": "Flat gardens"
+  },
+  "xpark": {
+   "en": "Xpark Aquarium",
+   "zh": "橫濱八景島Xpark",
+   "type": "sight",
+   "area": "Taoyuan 桃園",
+   "lat": 25.01719,
+   "lng": 121.21407,
+   "address": "105 Chunde Rd, Zhongli · 中壢區春德路105號",
+   "hours": "10:00–18:00 (Sat to 20:00)",
+   "access": "Lifts; no wheelchair rental"
+  },
+  "landmark_plaza": {
+   "en": "Landmark Plaza food court",
+   "zh": "置地廣場 美食街",
+   "type": "food",
+   "area": "Taoyuan 桃園",
+   "lat": 25.0168,
+   "lng": 121.214,
+   "address": "Beside Xpark · Xpark旁",
+   "verify": true
+  },
+  "gloria_outlets": {
+   "en": "Gloria Outlets",
+   "zh": "華泰名品城",
+   "type": "shop",
+   "area": "Taoyuan 桃園",
+   "lat": 25.01593,
+   "lng": 121.21487,
+   "address": "Zhongli, Taoyuan · 中壢區",
+   "note": "Near the airport"
+  },
+  "maokong_gondola": {
+   "en": "Maokong Gondola (Taipei Zoo Station)",
+   "zh": "貓空纜車 動物園站",
+   "type": "sight",
+   "area": "Maokong 貓空",
+   "lat": 24.99602,
+   "lng": 121.5763,
+   "address": "Xinguang Rd · 新光路二段",
+   "mrt": "zoo",
+   "hours": "Closed Mondays; stops in fog/wind"
+  },
+  "maokong_station": {
+   "en": "Maokong Station (tea houses)",
+   "zh": "貓空纜車 貓空站",
+   "type": "sight",
+   "area": "Maokong 貓空",
+   "lat": 24.96897,
+   "lng": 121.58822,
+   "address": "Zhinan Rd · 指南路三段",
+   "mrt": "zoo",
+   "mrt_via": "Gondola ~20–30 min from Taipei Zoo MRT"
+  }
+ },
+ "days": [
+  {
+   "date": "2027-01-03",
+   "dow": "Sun",
+   "title": "Arrival + evening near the hotel",
+   "title_zh": "抵達・飯店周邊",
+   "areas": [
+    "Hotel / Shandao Temple 善導寺"
+   ],
+   "items": [
+    {
+     "time": "11:40",
+     "text": "SQ878 Singapore Changi T3 → Taoyuan T2 (arr 16:20)",
+     "place": "tpe_t2",
+     "kind": "flight"
+    },
+    {
+     "time": "16:20",
+     "text": "Immigration and bags; buy EasyCard 悠遊卡 at a convenience store",
+     "place": "tpe_t2",
+     "kind": "travel"
+    },
+    {
+     "time": "17:20",
+     "text": "Meet the paid 7-seater van at arrivals",
+     "place": "tpe_t2",
+     "kind": "travel",
+     "transport": "Paid 7-seater van, ~50–60 min"
+    },
+    {
+     "time": "18:30",
+     "text": "Hotel check-in",
+     "place": "hotel",
+     "kind": "hotel"
+    },
+    {
+     "time": "19:00",
+     "text": "Dinner near the hotel",
+     "place": "formosa_chang_huashan",
+     "kind": "meal",
+     "transport": "Walk ~5–6 min (cross at the lights) or taxi",
+     "meal": {
+      "main": "formosa_chang_huashan",
+      "b1": "kitchen12",
+      "b2": "huashan1914",
+      "note": "Same-brand fallback: Formosa Chang Zhongxiao Xinsheng store (Ln. 134, Sec. 2, Zhongxiao E. Rd)"
+     }
+    },
+    {
+     "time": "20:00",
+     "text": "Optional stroll: Huashan 1914 at night (if dry)",
+     "place": "huashan1914",
+     "kind": "visit",
+     "transport": "Walk 5 min; taxi back"
+    }
+   ],
+   "rain_backup": "Arrival evening only; skip the stroll if wet.",
+   "mrt": "Hotel station Shandao Temple 善導寺: Exit 6 (2 escalators, hotel side); fallback Exit 3 (lift, across Zhongxiao E. Rd); avoid 2, 5",
+   "near_hotel": [
+    "shandao_temple",
+    "huashan1914",
+    "qidong",
+    "fuhang",
+    "shuang_yue",
+    "kitchen12"
+   ]
+  },
+  {
+   "date": "2027-01-04",
+   "dow": "Mon",
+   "title": "Old Taipei: Dadaocheng + Huashan",
+   "title_zh": "大稻埕・華山",
+   "areas": [
+    "Dadaocheng 大稻埕",
+    "Hotel / Shandao Temple 善導寺"
+   ],
+   "breakfast": {
+    "main": "hotel",
+    "b1": "saved03",
+    "b2": "saved26",
+    "note": "Fuhang closed Mondays"
+   },
+   "items": [
+    {
+     "time": "09:30",
+     "text": "Meet in lobby",
+     "place": "hotel",
+     "kind": "travel",
+     "transport": "Taxi ~10 min"
+    },
+    {
+     "time": "09:45",
+     "text": "Ri Xing Type Foundry (avoid 12:00–13:30 break)",
+     "place": "rixing",
+     "kind": "visit",
+     "transport": "MRT alt: Beimen Exit 2/3"
+    },
+    {
+     "time": "10:45",
+     "text": "Dihua Street short loop + Xiahai City God Temple",
+     "place": "xiahai",
+     "kind": "visit",
+     "transport": "Taxi ~5 min; MRT alt: Daqiaotou Exit 1"
+    },
+    {
+     "time": "12:00",
+     "text": "Lunch in Dadaocheng",
+     "place": "rice_house",
+     "kind": "meal",
+     "meal": {
+      "main": "rice_house",
+      "b1": "oriental_guizhou",
+      "b2": "elementi",
+      "note": "Casual extra: Cisheng Temple 慈聖宮 seating"
+     }
+    },
+    {
+     "time": "13:30",
+     "text": "Rest at the hotel",
+     "place": "hotel",
+     "kind": "rest",
+     "transport": "Taxi ~15 min"
+    },
+    {
+     "time": "15:30",
+     "text": "Huashan 1914 Creative Park",
+     "place": "huashan1914",
+     "kind": "visit",
+     "transport": "Walk 5–10 min or taxi; MRT alt: Zhongxiao Xinsheng Exit 2"
+    },
+    {
+     "time": "18:00",
+     "text": "Dinner",
+     "place": "kao_chi",
+     "kind": "meal",
+     "transport": "Taxi ~5 min; MRT alt: Dongmen Exit 5/8",
+     "meal": {
+      "main": "kao_chi",
+      "b1": "dtf_xinyi",
+      "b2": "huashan1914"
+     }
+    }
+   ],
+   "rain_backup": "Skip Dihua Street; Ri Xing (indoor) then straight to Huashan's indoor halls.",
+   "why": "Red House, Palace Museum, Maokong and likely Yingge museum are closed on Mondays.",
+   "mrt": "Taxi is the plan. MRT alt: Beimen 北門 Exit 2/3 (Ri Xing); Daqiaotou 大橋頭 Exit 1 (Dihua St); Zhongxiao Xinsheng 忠孝新生 Exit 2 (Huashan); Dongmen 東門 Exit 5/8 (dinner)"
+  },
+  {
+   "date": "2027-01-05",
+   "dow": "Tue",
+   "title": "Day trip: Yingge + Sanxia (private car)",
+   "title_zh": "鶯歌・三峽一日遊",
+   "areas": [
+    "Yingge 鶯歌",
+    "Sanxia 三峽"
+   ],
+   "breakfast": {
+    "main": "hotel",
+    "b1": "fuhang",
+    "b2": "saved03"
+   },
+   "items": [
+    {
+     "time": "09:00",
+     "text": "Meet in lobby → Klook 88273 private car, English-speaking driver",
+     "place": "hotel",
+     "kind": "travel",
+     "transport": "Private car (5- or 9-seater), ~40 min"
+    },
+    {
+     "time": "09:45",
+     "text": "Yingge Ceramics Museum",
+     "place": "yingge_museum",
+     "kind": "visit"
+    },
+    {
+     "time": "11:15",
+     "text": "Yingge Old Street pottery shops; optional seated pottery class",
+     "place": "yingge_old_street",
+     "kind": "visit"
+    },
+    {
+     "time": "12:30",
+     "text": "Lunch in Yingge",
+     "place": "fugui_taoyuan",
+     "kind": "meal",
+     "meal": {
+      "main": "fugui_taoyuan",
+      "b1": "chajia",
+      "b2": "apo_sushi"
+     }
+    },
+    {
+     "time": "13:45",
+     "text": "Sanxia Zushi Temple + Sanxia Old Street, tea break",
+     "place": "zushi_temple",
+     "kind": "visit",
+     "transport": "Car ~15 min"
+    },
+    {
+     "time": "15:30",
+     "text": "Drive back; rest at the hotel",
+     "place": "hotel",
+     "kind": "rest",
+     "transport": "Car ~40–50 min"
+    },
+    {
+     "time": "18:00",
+     "text": "Dinner (no booking; arrive early)",
+     "place": "shuang_yue",
+     "kind": "meal",
+     "transport": "Taxi ~5 min",
+     "meal": {
+      "main": "shuang_yue",
+      "b1": "dtf_xinyi",
+      "b2": "kitchen12"
+     }
+    }
+   ],
+   "rain_backup": "Museum and pottery class are indoor; shorten the old streets.",
+   "mrt": "Not used (private car)."
+  },
+  {
+   "date": "2027-01-06",
+   "dow": "Wed",
+   "title": "Zhongshan → Ximending",
+   "title_zh": "中山・西門町",
+   "areas": [
+    "Zhongshan 中山",
+    "Ximending 西門町"
+   ],
+   "breakfast": {
+    "main": "hotel",
+    "b1": "fuhang",
+    "b2": "saved03",
+    "note": "Fuhang suggested this morning (10:30 start): one person queues from ~06:30"
+   },
+   "items": [
+    {
+     "time": "10:30",
+     "text": "Meet in lobby",
+     "place": "hotel",
+     "kind": "travel",
+     "transport": "Taxi ~10 min"
+    },
+    {
+     "time": "10:45",
+     "text": "Zhongshan lanes + Eslite Spectrum Nanxi 5F bookstore",
+     "place": "eslite_nanxi",
+     "kind": "visit",
+     "transport": "MRT alt: Zhongshan Exit 6/4/5 (lift) or 1 (esc)"
+    },
+    {
+     "time": "12:30",
+     "text": "Lunch in Zhongshan",
+     "place": "shin_yeh_nanxi",
+     "kind": "meal",
+     "meal": {
+      "main": "shin_yeh_nanxi",
+      "b1": "dtf_nanxi",
+      "b2": "eslite_nanxi"
+     }
+    },
+    {
+     "time": "14:00",
+     "text": "Red House + Rainbow Six photo stop",
+     "place": "red_house",
+     "kind": "visit",
+     "transport": "Taxi ~10 min; MRT alt: Ximen Exit 6/4"
+    },
+    {
+     "time": "14:45",
+     "text": "Wan Nian Building (4F models/anime)",
+     "place": "wannian",
+     "kind": "visit",
+     "transport": "Short walk"
+    },
+    {
+     "time": "15:45",
+     "text": "Seated break: Lost and Found café",
+     "place": "lost_and_found",
+     "kind": "rest",
+     "transport": "Short walk"
+    },
+    {
+     "time": "17:00",
+     "text": "Dinner (book)",
+     "place": "mala_ximen",
+     "kind": "meal",
+     "meal": {
+      "main": "mala_ximen",
+      "b1": "mongkok_hotpot",
+      "b2": "diaomin",
+      "note": "Mild soup options available"
+     }
+    },
+    {
+     "time": "19:00",
+     "text": "Optional late snack: Cheng Wei Zhen (cash) → taxi back",
+     "place": "cheng_wei_zhen",
+     "kind": "visit",
+     "transport": "Taxi ~10 min"
+    }
+   ],
+   "rain_backup": "All main stops indoor or covered; Eslite Spectrum Ximen (3F) as an extra indoor stop.",
+   "mrt": "Taxi is the plan. MRT alt: Zhongshan 中山 Exit 6/4/5 (lift) or 1 (escalators); Ximen 西門 Exit 6/4 (lift); avoid Zhongshan 2/3, Ximen 2/5"
+  },
+  {
+   "date": "2027-01-07",
+   "dow": "Thu",
+   "title": "Nangang: shopping + ginger duck",
+   "title_zh": "南港",
+   "areas": [
+    "Nangang 南港"
+   ],
+   "breakfast": {
+    "main": "hotel",
+    "b1": "fuhang",
+    "b2": "saved26",
+    "note": "Fuhang suggested this morning (10:30 start)"
+   },
+   "items": [
+    {
+     "time": "10:30",
+     "text": "MRT: Shandao Temple Exit 6 → Blue Line (direct) → Nangang Exhibition Center Exit 2A/2",
+     "place": "hotel",
+     "kind": "travel",
+     "transport": "MRT direct, no transfer; or taxi ~25 min"
+    },
+    {
+     "time": "11:00",
+     "text": "LaLaport Taipei Nangang (wheelchair rental B1/1F)",
+     "place": "lalaport",
+     "kind": "visit"
+    },
+    {
+     "time": "11:45",
+     "text": "Lunch",
+     "place": "lin_cong_ming",
+     "kind": "meal",
+     "meal": {
+      "main": "lin_cong_ming",
+      "b1": "osaka_ohsho",
+      "b2": "taiyo_tomato"
+     }
+    },
+    {
+     "time": "17:30",
+     "text": "Dinner: ginger duck hotpot",
+     "place": "diwang",
+     "kind": "meal",
+     "transport": "Short taxi, or ~3 min walk from Nangang Exhibition Center Exit 5 (lift + escalator)",
+     "meal": {
+      "main": "diwang",
+      "b1": "han_mei_shan",
+      "b2": "mitsuboshi"
+     }
+    },
+    {
+     "time": "19:30",
+     "text": "Taxi back; pack",
+     "place": "hotel",
+     "kind": "travel",
+     "transport": "Taxi ~25 min"
+    }
+   ],
+   "rain_backup": "Fully indoor.",
+   "mrt": "Shandao Temple Exit 6 → Blue Line 板南線 direct → Nangang Exhibition Center Exit 2A/2 (lift) for LaLaport; Exit 5 for dinner"
+  },
+  {
+   "date": "2027-01-08",
+   "dow": "Fri",
+   "title": "Departure",
+   "title_zh": "回程",
+   "areas": [
+    "Hotel / Shandao Temple 善導寺"
+   ],
+   "breakfast": {
+    "main": "hotel",
+    "b1": "fuhang",
+    "b2": "saved03"
+   },
+   "items": [
+    {
+     "time": "09:30",
+     "text": "Breakfast, pack, last shopping near the hotel",
+     "place": "hotel",
+     "kind": "rest"
+    },
+    {
+     "time": "11:00",
+     "text": "Check out; leave bags with the hotel",
+     "place": "hotel",
+     "kind": "hotel"
+    },
+    {
+     "time": "11:15",
+     "text": "Lunch (arrive early to beat the queue)",
+     "place": "dtf_xinyi",
+     "kind": "meal",
+     "transport": "Taxi ~5 min",
+     "meal": {
+      "main": "dtf_xinyi",
+      "b1": "kao_chi",
+      "b2": "kitchen12"
+     }
+    },
+    {
+     "time": "13:30",
+     "text": "Van pick-up at the hotel",
+     "place": "hotel",
+     "kind": "travel",
+     "transport": "Paid 7-seater van, ~50–60 min"
+    },
+    {
+     "time": "14:30",
+     "text": "Taoyuan T2 check-in (3 h before)",
+     "place": "tpe_t2",
+     "kind": "travel"
+    },
+    {
+     "time": "17:35",
+     "text": "SQ879 Taoyuan T2 → Singapore Changi (arr 22:20)",
+     "place": "tpe_t2",
+     "kind": "flight"
+    }
+   ],
+   "rain_backup": "Option: van at 10:30 with luggage → Gloria Outlets (near the airport) → airport by 14:30.",
+   "mrt": "Not needed (taxi to lunch, van to airport). Hotel station Shandao Temple Exit 6 (escalators) or Exit 3 (lift)",
+   "near_hotel": [
+    "shandao_temple",
+    "huashan1914",
+    "qidong",
+    "fuhang",
+    "shuang_yue",
+    "kitchen12"
+   ]
+  }
+ ],
+ "spare_days": [
+  {
+   "id": "S1",
+   "title": "National Palace Museum + Shilin Official Residence",
+   "title_zh": "故宮・士林官邸",
+   "closed": "Mondays",
+   "swap_into": [
+    "2027-01-05",
+    "2027-01-06",
+    "2027-01-07"
+   ],
+   "items": [
+    {
+     "time": "10:00",
+     "text": "Lobby → taxi ~25 min",
+     "place": "hotel",
+     "kind": "travel"
+    },
+    {
+     "time": "10:30",
+     "text": "National Palace Museum (lifts, wheelchair loan)",
+     "place": "npm",
+     "kind": "visit"
+    },
+    {
+     "time": "13:00",
+     "text": "Lunch",
+     "place": "silks_palace",
+     "kind": "meal",
+     "meal": {
+      "main": "silks_palace",
+      "b1": "npm",
+      "b2": "shilin_food",
+      "note": "B1 = museum café / food court"
+     }
+    },
+    {
+     "time": "14:30",
+     "text": "Shilin Official Residence gardens (flat)",
+     "place": "shilin_residence",
+     "kind": "visit"
+    },
+    {
+     "time": "16:00",
+     "text": "Taxi back",
+     "place": "hotel",
+     "kind": "travel"
+    }
+   ]
+  },
+  {
+   "id": "S2",
+   "title": "Xpark Aquarium + Gloria Outlets (Taoyuan)",
+   "title_zh": "Xpark・華泰名品城",
+   "closed": "Check holidays",
+   "swap_into": [
+    "2027-01-04",
+    "2027-01-05",
+    "2027-01-06",
+    "2027-01-07"
+   ],
+   "items": [
+    {
+     "time": "10:00",
+     "text": "Lobby → car ~45 min",
+     "place": "hotel",
+     "kind": "travel"
+    },
+    {
+     "time": "10:45",
+     "text": "Xpark Aquarium (indoor, lifts)",
+     "place": "xpark",
+     "kind": "visit"
+    },
+    {
+     "time": "13:00",
+     "text": "Lunch",
+     "place": "gloria_outlets",
+     "kind": "meal",
+     "meal": {
+      "main": "gloria_outlets",
+      "b1": "xpark",
+      "b2": "landmark_plaza",
+      "note": "Restaurants to confirm"
+     }
+    },
+    {
+     "time": "14:00",
+     "text": "Gloria Outlets shopping",
+     "place": "gloria_outlets",
+     "kind": "visit"
+    },
+    {
+     "time": "17:30",
+     "text": "Back at the hotel",
+     "place": "hotel",
+     "kind": "travel"
+    }
+   ]
+  },
+  {
+   "id": "S3",
+   "title": "Maokong Gondola + tea house (half day)",
+   "title_zh": "貓空纜車",
+   "closed": "Mondays; fog/wind",
+   "swap_into": [
+    "2027-01-05",
+    "2027-01-06",
+    "2027-01-07"
+   ],
+   "items": [
+    {
+     "time": "14:00",
+     "text": "MRT/taxi to Taipei Zoo Station (Exit 2)",
+     "place": "maokong_gondola",
+     "kind": "travel"
+    },
+    {
+     "time": "14:30",
+     "text": "Gondola up; seated tea house",
+     "place": "maokong_station",
+     "kind": "visit",
+     "note": "Times flexible (half day, not Mondays)"
+    }
+   ]
+  }
+ ],
+ "saved_places": [
+  {
+   "id": "saved01",
+   "name": "Ximen Noodle Shop",
+   "en": "Ximen Noodle Shop",
+   "zh": "",
+   "note": "猪脚",
+   "list": "Taiwan",
+   "lat": 25.041694,
+   "lng": 121.505581,
+   "area": "Ximending 西門町",
+   "in_trip": true
+  },
+  {
+   "id": "saved02",
+   "name": "永富魚丸店",
+   "en": "",
+   "zh": "永富魚丸店",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.041693,
+   "lng": 121.505498,
+   "area": "Ximending 西門町",
+   "in_trip": true
+  },
+  {
+   "id": "saved03",
+   "name": "溫州大餛飩（林森南店）",
+   "en": "Wenzhou Big Wonton (Linsen S. Rd branch)",
+   "zh": "溫州大餛飩（林森南店）",
+   "note": "早餐",
+   "list": "Taiwan",
+   "lat": 25.044276,
+   "lng": 121.5230751,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved04",
+   "name": "Fuhang Soy Milk",
+   "en": "Fuhang Soy Milk",
+   "zh": "",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0442333,
+   "lng": 121.5248433,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved05",
+   "name": "明泉眼鏡有限公司",
+   "en": "",
+   "zh": "明泉眼鏡有限公司",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0438737,
+   "lng": 121.5215735,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved06",
+   "name": "八方雲集善導寺店",
+   "en": "",
+   "zh": "八方雲集善導寺店",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0449429,
+   "lng": 121.5238228,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved07",
+   "name": "50 Lan",
+   "en": "50 Lan",
+   "zh": "",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0449151,
+   "lng": 121.5238661,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved08",
+   "name": "蜜蜂咖啡 (Bee Coffee since 1978)",
+   "en": "Bee Coffee since 1978",
+   "zh": "蜜蜂咖啡",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0440629,
+   "lng": 121.5216115,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved09",
+   "name": "Moon Moon Food Qingdao Branch",
+   "en": "Moon Moon Food Qingdao Branch",
+   "zh": "",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0437017,
+   "lng": 121.5220376,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved10",
+   "name": "鷹流東京醬油拉麵-蘭丸(林森南店)",
+   "en": "",
+   "zh": "鷹流東京醬油拉麵-蘭丸(林森南店)",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0438237,
+   "lng": 121.5229398,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved11",
+   "name": "北平上園樓(山西餐廳)",
+   "en": "",
+   "zh": "北平上園樓(山西餐廳)",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0441116,
+   "lng": 121.5229998,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved12",
+   "name": "McDonald's Linsen 2nd Branch",
+   "en": "McDonald's Linsen 2nd Branch",
+   "zh": "",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0444427,
+   "lng": 121.523396,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved13",
+   "name": "莫名福州乾拌麵",
+   "en": "",
+   "zh": "莫名福州乾拌麵",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0432358,
+   "lng": 121.5249625,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved14",
+   "name": "KEEBE Hotel",
+   "en": "KEEBE Hotel",
+   "zh": "",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.1289861,
+   "lng": 121.7442816,
+   "area": "Keelung 基隆 (not in plan)",
+   "in_trip": false
+  },
+  {
+   "id": "saved15",
+   "name": "7-ELEVEN 極上門市",
+   "en": "7-ELEVEN",
+   "zh": "極上門市",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.1287427,
+   "lng": 121.7427223,
+   "area": "Keelung 基隆 (not in plan)",
+   "in_trip": false
+  },
+  {
+   "id": "saved16",
+   "name": "北平鍋貼水餃",
+   "en": "",
+   "zh": "北平鍋貼水餃",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.1288889,
+   "lng": 121.7440325,
+   "area": "Keelung 基隆 (not in plan)",
+   "in_trip": false
+  },
+  {
+   "id": "saved17",
+   "name": "小惠米苔目",
+   "en": "",
+   "zh": "小惠米苔目",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.1284401,
+   "lng": 121.7437381,
+   "area": "Keelung 基隆 (not in plan)",
+   "in_trip": false
+  },
+  {
+   "id": "saved18",
+   "name": "螃蟹羹‧油飯(吳記 第5號攤）",
+   "en": "",
+   "zh": "螃蟹羹‧油飯(吳記 第5號攤）",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.1285208,
+   "lng": 121.7428412,
+   "area": "Keelung 基隆 (not in plan)",
+   "in_trip": false
+  },
+  {
+   "id": "saved19",
+   "name": "基隆廟口22號蝦仁羹 豬腳",
+   "en": "",
+   "zh": "基隆廟口22號蝦仁羹 豬腳",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.1285327,
+   "lng": 121.7431106,
+   "area": "Keelung 基隆 (not in plan)",
+   "in_trip": false
+  },
+  {
+   "id": "saved20",
+   "name": "基隆廟口30號攤 蝦仁羹 魯肉飯",
+   "en": "",
+   "zh": "基隆廟口30號攤 蝦仁羹 魯肉飯",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.1284925,
+   "lng": 121.7431233,
+   "area": "Keelung 基隆 (not in plan)",
+   "in_trip": false
+  },
+  {
+   "id": "saved21",
+   "name": "羊妹妹",
+   "en": "",
+   "zh": "羊妹妹",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.1282998,
+   "lng": 121.7431541,
+   "area": "Keelung 基隆 (not in plan)",
+   "in_trip": false
+  },
+  {
+   "id": "saved22",
+   "name": "天一香肉焿順",
+   "en": "",
+   "zh": "天一香肉焿順",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.1282865,
+   "lng": 121.7431986,
+   "area": "Keelung 基隆 (not in plan)",
+   "in_trip": false
+  },
+  {
+   "id": "saved23",
+   "name": "螃蟹羹·油飯（沈記10號攤）",
+   "en": "",
+   "zh": "螃蟹羹·油飯（沈記10號攤）",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.12861,
+   "lng": 121.7429575,
+   "area": "Keelung 基隆 (not in plan)",
+   "in_trip": false
+  },
+  {
+   "id": "saved24",
+   "name": "魯排骨飯",
+   "en": "",
+   "zh": "魯排骨飯",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.1284175,
+   "lng": 121.7431048,
+   "area": "Keelung 基隆 (not in plan)",
+   "in_trip": false
+  },
+  {
+   "id": "saved25",
+   "name": "阡品便當店",
+   "en": "",
+   "zh": "阡品便當店",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0457578,
+   "lng": 121.5253995,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved26",
+   "name": "貳加貳早午餐",
+   "en": "Er Jia Er Brunch",
+   "zh": "貳加貳早午餐",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0451167,
+   "lng": 121.5254276,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved27",
+   "name": "7-ELEVEN 紹興門市 (SNOOPY主題商店)",
+   "en": "7-ELEVEN SNOOPY",
+   "zh": "紹興門市主題商店",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0454083,
+   "lng": 121.5255234,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved28",
+   "name": "可口美",
+   "en": "",
+   "zh": "可口美",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0455517,
+   "lng": 121.525375,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved29",
+   "name": "古早味傳統滷味（阿嬌滷味）",
+   "en": "",
+   "zh": "古早味傳統滷味（阿嬌滷味）",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0439757,
+   "lng": 121.5248455,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved30",
+   "name": "Ciao Ciao Good Food",
+   "en": "Ciao Ciao Good Food",
+   "zh": "",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0541785,
+   "lng": 121.5099307,
+   "area": "Dadaocheng 大稻埕",
+   "in_trip": true
+  },
+  {
+   "id": "saved31",
+   "name": "碗粿無刺虱目魚湯",
+   "en": "",
+   "zh": "碗粿無刺虱目魚湯",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0433094,
+   "lng": 121.5269875,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved32",
+   "name": "Dimple Cafe 酒窩咖啡館 台北忠孝",
+   "en": "Dimple Cafe",
+   "zh": "酒窩咖啡館台北忠孝",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.043902,
+   "lng": 121.5261477,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved33",
+   "name": "HOTEL COZZI Taipei Zhongxiao",
+   "en": "HOTEL COZZI Taipei Zhongxiao",
+   "zh": "",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0446217,
+   "lng": 121.5253585,
+   "area": "Hotel / Shandao Temple 善導寺",
+   "in_trip": true
+  },
+  {
+   "id": "saved34",
+   "name": "Eslite Bookstore Ximen Store",
+   "en": "Eslite Bookstore Ximen Store",
+   "zh": "",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0437117,
+   "lng": 121.5053975,
+   "area": "Ximending 西門町",
+   "in_trip": true
+  },
+  {
+   "id": "saved35",
+   "name": "Yongle Tainan Fried-Spanish Mackerel Thick Soup",
+   "en": "Yongle Tainan Fried-Spanish Mackerel Thick Soup",
+   "zh": "",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0543364,
+   "lng": 121.5102435,
+   "area": "Dadaocheng 大稻埕",
+   "in_trip": true
+  },
+  {
+   "id": "saved36",
+   "name": "浮雲客棧Kloud hotel",
+   "en": "Kloud hotel",
+   "zh": "浮雲客棧",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 24.1837202,
+   "lng": 120.6478401,
+   "area": "Outside Taipei trip area",
+   "in_trip": false
+  },
+  {
+   "id": "saved37",
+   "name": "慢點民宿",
+   "en": "",
+   "zh": "慢點民宿",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 23.9733363,
+   "lng": 121.6150381,
+   "area": "Outside Taipei trip area",
+   "in_trip": false
+  },
+  {
+   "id": "saved38",
+   "name": "Ri Xing Type Foundry",
+   "en": "Ri Xing Type Foundry",
+   "zh": "",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0521778,
+   "lng": 121.5163806,
+   "area": "Zhongshan 中山",
+   "in_trip": true
+  },
+  {
+   "id": "saved39",
+   "name": "Midtown Richardson",
+   "en": "Midtown Richardson",
+   "zh": "",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0427142,
+   "lng": 121.5094583,
+   "area": "Ximending 西門町",
+   "in_trip": true
+  },
+  {
+   "id": "saved40",
+   "name": "Dadaocheng Cisheng Temple",
+   "en": "Dadaocheng Cisheng Temple",
+   "zh": "",
+   "note": "肉粥,红烧肉,猪脚",
+   "list": "Taiwan",
+   "lat": 25.0602339,
+   "lng": 121.5120949,
+   "area": "Dadaocheng 大稻埕",
+   "in_trip": true
+  },
+  {
+   "id": "saved41",
+   "name": "Big Tea Pot",
+   "en": "Big Tea Pot",
+   "zh": "",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 24.968691,
+   "lng": 121.591771,
+   "area": "Maokong 貓空 (spare half day)",
+   "in_trip": true
+  },
+  {
+   "id": "saved42",
+   "name": "京鼎小館",
+   "en": "",
+   "zh": "京鼎小館",
+   "note": "",
+   "list": "Taiwan",
+   "lat": 25.0541888,
+   "lng": 121.550647,
+   "area": "Songshan 松山 (Taipei; not on a planned day)",
+   "in_trip": true
+  },
+  {
+   "id": "saved43",
+   "name": "GALERIE Bistro 家樂利小酒館",
+   "en": "GALERIE Bistro",
+   "zh": "家樂利小酒館",
+   "note": "",
+   "list": "Taiwan (Taipei)",
+   "lat": 25.0533612,
+   "lng": 121.5201329,
+   "area": "Zhongshan 中山",
+   "in_trip": true
+  },
+  {
+   "id": "saved44",
+   "name": "Lin’s Wagashi Confectionery",
+   "en": "Lin’s Wagashi Confectionery",
+   "zh": "",
+   "note": "",
+   "list": "Taiwan (Taipei)",
+   "lat": 25.0604793,
+   "lng": 121.5094493,
+   "area": "Dadaocheng 大稻埕",
+   "in_trip": true
+  },
+  {
+   "id": "saved45",
+   "name": "Lao-A-Bei",
+   "en": "Lao-A-Bei",
+   "zh": "",
+   "note": "",
+   "list": "Taiwan (Taipei)",
+   "lat": 25.0596023,
+   "lng": 121.5093473,
+   "area": "Dadaocheng 大稻埕",
+   "in_trip": true
+  },
+  {
+   "id": "saved46",
+   "name": "爆漿大貢丸-迪化店",
+   "en": "",
+   "zh": "爆漿大貢丸-迪化店",
+   "note": "",
+   "list": "Taiwan (Taipei)",
+   "lat": 25.0576935,
+   "lng": 121.5098271,
+   "area": "Dadaocheng 大稻埕",
+   "in_trip": true
+  },
+  {
+   "id": "saved47",
+   "name": "幸福 草莓大福",
+   "en": "",
+   "zh": "幸福 草莓大福",
+   "note": "",
+   "list": "Taiwan (Taipei)",
+   "lat": 25.0542016,
+   "lng": 121.5101057,
+   "area": "Dadaocheng 大稻埕",
+   "in_trip": true
+  },
+  {
+   "id": "saved48",
+   "name": "Lin He Fa Oily Rice Shop",
+   "en": "Lin He Fa Oily Rice Shop",
+   "zh": "",
+   "note": "油飯, Food",
+   "list": "Taiwan (Taipei)",
+   "lat": 25.0546625,
+   "lng": 121.5102536,
+   "area": "Dadaocheng 大稻埕",
+   "in_trip": true
+  },
+  {
+   "id": "saved49",
+   "name": "Eslite Spectrum Wuchang",
+   "en": "Eslite Spectrum Wuchang",
+   "zh": "",
+   "note": "",
+   "list": "台灣",
+   "lat": 25.0452596,
+   "lng": 121.5057671,
+   "area": "Ximending 西門町",
+   "in_trip": true
+  },
+  {
+   "id": "saved50",
+   "name": "Liangshan Po Soup Dumplings",
+   "en": "Liangshan Po Soup Dumplings",
+   "zh": "",
+   "note": "",
+   "list": "台灣",
+   "lat": 25.0454994,
+   "lng": 121.5057444,
+   "area": "Ximending 西門町",
+   "in_trip": true
+  },
+  {
+   "id": "saved51",
+   "name": "Formosa Chang Taipei DaAn Restaurant",
+   "en": "Formosa Chang Taipei DaAn Restaurant",
+   "zh": "",
+   "note": "",
+   "list": "台灣",
+   "lat": 25.0331501,
+   "lng": 121.5444574,
+   "area": "Da'an / Dongmen 大安",
+   "in_trip": true
+  },
+  {
+   "id": "saved52",
+   "name": "Ruian Soy Milk",
+   "en": "Ruian Soy Milk",
+   "zh": "",
+   "note": "",
+   "list": "台灣",
+   "lat": 25.0285427,
+   "lng": 121.541386,
+   "area": "Da'an / Dongmen 大安",
+   "in_trip": true
+  },
+  {
+   "id": "saved53",
+   "name": "蔦屋書店 新竹店",
+   "en": "",
+   "zh": "蔦屋書店 新竹店",
+   "note": "",
+   "list": "台灣",
+   "lat": 24.8192907,
+   "lng": 120.9724896,
+   "area": "Outside Taipei trip area",
+   "in_trip": false
+  }
+ ],
+ "to_book": [
+  "Airport van both ways (7-seater, 4 large suitcases): 3 Jan ~17:20 TPE T2; 8 Jan 13:30 hotel",
+  "Klook 88273 private car, Tue 5 Jan, English-speaking driver (5-seater ~S$211 or 9-seater ~S$262 + TWD 500)",
+  "Kao Chi: Mon 4 Jan dinner",
+  "Mala Hotpot: Wed 6 Jan 17:00, 4 pax",
+  "Optional seated pottery class in Yingge (Tue 5 Jan)",
+  "Confirm hours: Di Wang Shibu (Shimao branch), Formosa Chang Huashan store",
+  "Confirm lifts/stairs: Wan Nian Building, Mala Hotpot 2F, Fu Gui Tao Yuan, Cha Jia Shi Tang, Fuhang 2F",
+  "Check escalator direction at 1-escalator MRT exits (direction not in open data)"
+ ],
+ "sources": [
+  "02 Itinerary/itinerary-confirmed-261122.md",
+  "Taipei Metro open data (exits 2026-09-02, lifts 2026-08-30)",
+  "OpenStreetMap Nominatim geocoding (261122)",
+  "Google Maps saved lists (261122)"
+ ]
+}
