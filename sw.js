@@ -3,7 +3,7 @@
    - Fonts, Leaflet, icons: cache first.
    - Map tiles: saved as you view them (up to 600 tiles).
    - Backend (script.google.com) and weather API: never cached here (the app handles those). */
-var V = "trip-v2";
+var V = "trip-v3";
 var SHELL = ["./", "index.html", "data/trip.json", "manifest.webmanifest", "icons/icon-192.png", "icons/apple-touch-icon.png"];
 var TILE_CACHE = "trip-tiles-v1", TILE_MAX = 600;
 
