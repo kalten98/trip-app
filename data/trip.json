@@ -31,6 +31,9 @@
   }
  ],
  "hotel": "hotel",
+ "hotel_breakfast": "Included 4–8 Jan",
+ "booking_masked": "•••• 4454",
+ "booking_note": "Group booking number shown masked; full number, PNRs, e-tickets and vouchers load after the group code (private Sheet).",
  "weather_note": "January: highs ~17–21 °C, lows ~12–16 °C, frequent drizzle and wind. Layers, light rain jacket, umbrella, non-slip shoes.",
  "emergency": {
   "police": "110",
@@ -1200,6 +1203,168 @@
    "note": "Branch + hours to confirm",
    "verify": true
   },
+  "fulong_station": {
+   "en": "Fulong Station (tuk-tuk / bike rental shops)",
+   "zh": "福隆車站",
+   "type": "transport",
+   "area": "Fulong / Old Caoling Tunnel 福隆・舊草嶺",
+   "lat": 25.01593,
+   "lng": 121.94466,
+   "address": "2 Fulong St, Gongliao · 貢寮區福隆街2號",
+   "note": "Private car drops at a rental shop near the station"
+  },
+  "caoling_tunnel": {
+   "en": "Old Caoling Tunnel",
+   "zh": "舊草嶺隧道",
+   "type": "sight",
+   "area": "Fulong / Old Caoling Tunnel 福隆・舊草嶺",
+   "lat": 25.00432,
+   "lng": 121.95847,
+   "address": "Gongliao, New Taipei · 新北市貢寮區",
+   "hours": "Oct–May 08:30–17:00 (no entry after ~16:30)",
+   "access": "2.17 km, flat, covered. Walking allowed on weekdays only; electric 3-seat tuk-tuk 嘟嘟車 ~NT$700/1.5 h",
+   "verify": true
+  },
+  "shicheng": {
+   "en": "Shicheng end of the tunnel (sea view)",
+   "zh": "石城端 (台灣極東)",
+   "type": "sight",
+   "area": "Fulong / Old Caoling Tunnel 福隆・舊草嶺",
+   "lat": 25.00768,
+   "lng": 122.00344,
+   "address": "Toucheng, Yilan · 宜蘭頭城石城",
+   "note": "Turn-around point; coast view"
+  },
+  "aodi_eat_see_sea": {
+   "en": "Chi Fan Kan Hai (seafood, sea view)",
+   "zh": "吃飯看海 九孔鮑海鮮",
+   "type": "food",
+   "area": "Fulong / Old Caoling Tunnel 福隆・舊草嶺",
+   "lat": 25.0515,
+   "lng": 121.9225,
+   "address": "3-2 Xianglan St, Gongliao · 貢寮區香蘭街3-2號",
+   "access": "Book; ask for a window table",
+   "verify": true
+  },
+  "aodi_maoqilai": {
+   "en": "Mao Qi Lai Chi (Aodi seafood)",
+   "zh": "卯起來吃",
+   "type": "food",
+   "area": "Fulong / Old Caoling Tunnel 福隆・舊草嶺",
+   "lat": 25.0518,
+   "lng": 121.9228,
+   "address": "Aodi seafood area · 澳底",
+   "access": "Busy at noon; seated",
+   "verify": true
+  },
+  "fulong_bento": {
+   "en": "Yilong Fulong Bento",
+   "zh": "宜隆福隆便當",
+   "type": "food",
+   "area": "Fulong / Old Caoling Tunnel 福隆・舊草嶺",
+   "lat": 25.0158,
+   "lng": 121.945,
+   "address": "Near Fulong Station · 福隆車站旁",
+   "access": "Classic wooden-box bento; seating to confirm",
+   "verify": true
+  },
+  "dali_temple": {
+   "en": "Dali Tiangong Temple (Caoling Qingyun Temple)",
+   "zh": "大里天公廟 (草嶺慶雲宮)",
+   "type": "sight",
+   "area": "Fulong / Old Caoling Tunnel 福隆・舊草嶺",
+   "lat": 24.96972,
+   "lng": 121.92541,
+   "address": "Sec. 7, Binhai Rd, Toucheng · 頭城鎮濱海路七段",
+   "access": "Main hall at road level; upper halls have stairs",
+   "note": "Optional; Toucheng surcharge on the charter",
+   "verify": true
+  },
+  "fulong_beach": {
+   "en": "Fulong Beach (boardwalk view)",
+   "zh": "福隆海水浴場",
+   "type": "sight",
+   "area": "Fulong / Old Caoling Tunnel 福隆・舊草嶺",
+   "lat": 25.02225,
+   "lng": 121.94275,
+   "address": "Gongliao · 貢寮區",
+   "note": "Winter: short look only; windy"
+  },
+  "pick_linhefa": {
+   "en": "Lin He Fa Oily Rice (Yongle Market)",
+   "zh": "林合發油飯 (永樂市場)",
+   "type": "food",
+   "area": "Dadaocheng 大稻埕",
+   "lat": 25.0546625,
+   "lng": 121.5102536,
+   "address": "Yongle Market · 永樂市場",
+   "mrt": "daqiaotou",
+   "access": "Market stall: takeaway, morning queue, sells out",
+   "verify": true
+  },
+  "pick_tuto": {
+   "en": "Yongle Tainan Fried Spanish Mackerel Soup",
+   "zh": "永樂台南土魠魚羹",
+   "type": "food",
+   "area": "Dadaocheng 大稻埕",
+   "lat": 25.0543364,
+   "lng": 121.5102435,
+   "address": "1 Minle St · 民樂街1號",
+   "mrt": "daqiaotou"
+  },
+  "pick_daifuku": {
+   "en": "Xingfu Strawberry Daifuku",
+   "zh": "幸福 草莓大福",
+   "type": "food",
+   "area": "Dadaocheng 大稻埕",
+   "lat": 25.0542016,
+   "lng": 121.5101057,
+   "address": "Dadaocheng · 大稻埕",
+   "mrt": "daqiaotou",
+   "access": "Takeaway sweets"
+  },
+  "pick_gongwan": {
+   "en": "Bursting Pork Ball (Dihua)",
+   "zh": "爆漿大貢丸 迪化店",
+   "type": "food",
+   "area": "Dadaocheng 大稻埕",
+   "lat": 25.057695,
+   "lng": 121.5098519,
+   "address": "Dihua St · 迪化街",
+   "mrt": "daqiaotou"
+  },
+  "pick_laoabei": {
+   "en": "Lao-A-Bei Squid Thick Soup",
+   "zh": "老阿伯胖魷焿",
+   "type": "food",
+   "area": "Dadaocheng 大稻埕",
+   "lat": 25.059601,
+   "lng": 121.509322,
+   "address": "Dihua St north · 迪化街",
+   "mrt": "daqiaotou"
+  },
+  "pick_wagashi": {
+   "en": "Lin's Wagashi Confectionery",
+   "zh": "滋養和菓子",
+   "type": "food",
+   "area": "Dadaocheng 大稻埕",
+   "lat": 25.0604793,
+   "lng": 121.5094493,
+   "address": "Dadaocheng · 大稻埕",
+   "mrt": "daqiaotou",
+   "note": "Your link did not open; matched to your saved place — confirm",
+   "verify": true
+  },
+  "pick_galerie": {
+   "en": "GALERIE Bistro",
+   "zh": "家樂利小酒館",
+   "type": "food",
+   "area": "Zhongshan 中山",
+   "lat": 25.0533612,
+   "lng": 121.5201334,
+   "address": "Chifeng St area, Zhongshan · 中山站 赤峰街",
+   "mrt": "zhongshan"
+  },
   "npm": {
    "en": "National Palace Museum",
    "zh": "國立故宮博物院",
@@ -1452,61 +1617,78 @@
   {
    "date": "2027-01-05",
    "dow": "Tue",
-   "title": "Day trip: Yingge + Sanxia (private car)",
-   "title_zh": "鶯歌・三峽一日遊",
+   "title": "Day trip: Old Caoling Tunnel (Fulong)",
+   "title_zh": "舊草嶺隧道一日遊",
    "areas": [
-    "Yingge 鶯歌",
-    "Sanxia 三峽"
+    "Fulong / Old Caoling Tunnel 福隆・舊草嶺"
    ],
    "breakfast": {
     "main": "hotel",
     "b1": "fuhang",
-    "b2": "saved03"
+    "b2": "saved03",
+    "note": "Hotel breakfast included"
    },
    "items": [
     {
-     "time": "09:00",
-     "text": "Meet in lobby → Klook 88273 private car, English-speaking driver",
+     "time": "08:45",
+     "text": "Meet in lobby → private car (Klook 88273, English-speaking driver)",
      "place": "hotel",
      "kind": "travel",
-     "transport": "Private car (5- or 9-seater), ~40 min"
+     "transport": "Private car ~1 h 15 to Fulong"
     },
     {
-     "time": "09:45",
-     "text": "Yingge Ceramics Museum",
-     "place": "yingge_museum",
-     "kind": "visit"
+     "time": "10:00",
+     "text": "Fulong: rent 2 electric tuk-tuks 嘟嘟車 (3 seats each) near the station",
+     "place": "fulong_station",
+     "kind": "travel",
+     "transport": "Car drops at the rental shop"
     },
     {
-     "time": "11:15",
-     "text": "Yingge Old Street pottery shops; optional seated pottery class",
-     "place": "yingge_old_street",
-     "kind": "visit"
+     "time": "10:15",
+     "text": "Tuk-tuk to the Old Caoling Tunnel and through it (2.17 km, flat, covered) to the Shicheng sea view, then back",
+     "place": "caoling_tunnel",
+     "kind": "visit",
+     "note": "Weekday: walking also allowed inside. No entry after ~16:30"
     },
     {
-     "time": "12:30",
-     "text": "Lunch in Yingge",
-     "place": "fugui_taoyuan",
+     "time": "11:45",
+     "text": "Return tuk-tuks; car to Aodi (~10 min)",
+     "place": "fulong_station",
+     "kind": "travel",
+     "transport": "Private car"
+    },
+    {
+     "time": "12:15",
+     "text": "Seafood lunch by the sea",
+     "place": "aodi_eat_see_sea",
      "kind": "meal",
      "meal": {
-      "main": "fugui_taoyuan",
-      "b1": "chajia",
-      "b2": "apo_sushi"
+      "main": "aodi_eat_see_sea",
+      "b1": "aodi_maoqilai",
+      "b2": "fulong_bento",
+      "note": "Book the window table"
      }
     },
     {
      "time": "13:45",
-     "text": "Sanxia Zushi Temple + Sanxia Old Street, tea break",
-     "place": "zushi_temple",
+     "text": "Optional: Dali Tiangong Temple + coast view (main hall at road level)",
+     "place": "dali_temple",
      "kind": "visit",
-     "transport": "Car ~15 min"
+     "transport": "Car ~25 min"
+    },
+    {
+     "time": "15:00",
+     "text": "Optional: Fulong Beach boardwalk, short look",
+     "place": "fulong_beach",
+     "kind": "visit",
+     "transport": "Car ~20 min"
     },
     {
      "time": "15:30",
      "text": "Drive back; rest at the hotel",
      "place": "hotel",
      "kind": "rest",
-     "transport": "Car ~40–50 min"
+     "transport": "Car ~1 h 15"
     },
     {
      "time": "18:00",
@@ -1521,7 +1703,7 @@
      }
     }
    ],
-   "rain_backup": "Museum and pottery class are indoor; shorten the old streets.",
+   "rain_backup": "Tunnel is covered, but the north-east coast is windy and wet in January. In heavy rain or strong wind, swap with an Ideas day trip (Yingge + Sanxia, indoor museum) or spare day S2.",
    "mrt": "Not used (private car)."
   },
   {
@@ -1868,6 +2050,139 @@
    ]
   }
  ],
+ "idea_daytrips": [
+  {
+   "id": "IY",
+   "title": "Yingge + Sanxia (was Tue)",
+   "title_zh": "鶯歌・三峽一日遊",
+   "why": "Moved to Ideas 261122 (Old Caoling Tunnel chosen for Tue)",
+   "closed": "Yingge museum: Mon (or 1st Mon)",
+   "items": [
+    {
+     "time": "09:00",
+     "text": "Meet in lobby → Klook 88273 private car, English-speaking driver",
+     "place": "hotel",
+     "kind": "travel",
+     "transport": "Private car (5- or 9-seater), ~40 min"
+    },
+    {
+     "time": "09:45",
+     "text": "Yingge Ceramics Museum",
+     "place": "yingge_museum",
+     "kind": "visit"
+    },
+    {
+     "time": "11:15",
+     "text": "Yingge Old Street pottery shops; optional seated pottery class",
+     "place": "yingge_old_street",
+     "kind": "visit"
+    },
+    {
+     "time": "12:30",
+     "text": "Lunch in Yingge",
+     "place": "fugui_taoyuan",
+     "kind": "meal",
+     "meal": {
+      "main": "fugui_taoyuan",
+      "b1": "chajia",
+      "b2": "apo_sushi"
+     }
+    },
+    {
+     "time": "13:45",
+     "text": "Sanxia Zushi Temple + Sanxia Old Street, tea break",
+     "place": "zushi_temple",
+     "kind": "visit",
+     "transport": "Car ~15 min"
+    },
+    {
+     "time": "15:30",
+     "text": "Drive back; rest at the hotel",
+     "place": "hotel",
+     "kind": "rest",
+     "transport": "Car ~40–50 min"
+    },
+    {
+     "time": "18:00",
+     "text": "Dinner (no booking; arrive early)",
+     "place": "shuang_yue",
+     "kind": "meal",
+     "transport": "Taxi ~5 min",
+     "meal": {
+      "main": "shuang_yue",
+      "b1": "dtf_xinyi",
+      "b2": "kitchen12"
+     }
+    }
+   ]
+  }
+ ],
+ "ideas": {
+  "food_picks": {
+   "title": "Your food picks",
+   "title_zh": "美食口袋名單",
+   "by_area": [
+    {
+     "area": "Dadaocheng 大稻埕",
+     "places": [
+      "pick_linhefa",
+      "pick_tuto",
+      "pick_daifuku",
+      "pick_gongwan",
+      "pick_laoabei",
+      "pick_wagashi"
+     ],
+     "day": "2027-01-04"
+    },
+    {
+     "area": "Zhongshan 中山",
+     "places": [
+      "pick_galerie"
+     ],
+     "day": "2027-01-06"
+    }
+   ],
+   "note": "From your list (22 Nov). 'Tokyo Restaurant' heading had no places yet."
+  },
+  "not_chosen": [
+   {
+    "what": "Ay-Chung Flour-Rice Noodle 阿宗麵線",
+    "why": "Standing only, no seats"
+   },
+   {
+    "what": "Liang Shan Po Soup Dumplings 梁山泊小籠湯包",
+    "why": "Tiny shop, queue, sells out (still in your saved list)"
+   },
+   {
+    "what": "Mazu New Village 馬祖新村",
+    "why": "In Zhongli, Taoyuan — not Ximending"
+   },
+   {
+    "what": "Jiufen 九份",
+    "why": "Steep, crowded stairs"
+   },
+   {
+    "what": "Dadaocheng Wharf 大稻埕碼頭",
+    "why": "Windy riverside in January"
+   },
+   {
+    "what": "Ximending street-food stalls 西門町小吃攤",
+    "why": "Standing only"
+   },
+   {
+    "what": "Beitou / Yangmingshan, North Coast, Tamsui",
+    "why": "Visited before"
+   },
+   {
+    "what": "Yilan Traditional Arts Center 國立傳統藝術中心",
+    "why": "Day-trip option not chosen"
+   },
+   {
+    "what": "Taichung by High Speed Rail 台中",
+    "why": "Day-trip option not chosen"
+   }
+  ]
+ },
  "saved_places": [
   {
    "id": "saved01",
@@ -2508,10 +2823,11 @@
  ],
  "to_book": [
   "Airport van both ways (7-seater, 4 large suitcases): 3 Jan ~17:20 TPE T2; 8 Jan 13:30 hotel",
-  "Klook 88273 private car, Tue 5 Jan, English-speaking driver (5-seater ~S$211 or 9-seater ~S$262 + TWD 500)",
+  "Klook 88273 private car, Tue 5 Jan, Old Caoling Tunnel: English-speaking driver, 5-seater ~S$211 or 9-seater ~S$262 + Gongliao surcharge TWD 1,000 (TWD 1,600 if Dali/Toucheng); confirm 8 h is enough",
+  "Electric tuk-tuks 嘟嘟車 at Fulong (2 × 3-seat, ~NT$700 / 1.5 h each): pay on the day; check weekday walking rule and 08:30–17:00 hours",
+  "Aodi seafood lunch Tue 5 Jan 12:15: book 吃飯看海 window table, 4 pax",
   "Kao Chi: Mon 4 Jan dinner",
   "Mala Hotpot: Wed 6 Jan 17:00, 4 pax",
-  "Optional seated pottery class in Yingge (Tue 5 Jan)",
   "Confirm hours: Di Wang Shibu (Shimao branch), Formosa Chang Huashan store",
   "Confirm lifts/stairs: Wan Nian Building, Mala Hotpot 2F, Fu Gui Tao Yuan, Cha Jia Shi Tang, Fuhang 2F",
   "Check escalator direction at 1-escalator MRT exits (direction not in open data)"

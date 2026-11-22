@@ -22,7 +22,7 @@
     --font-zh: "Noto Sans TC", "Plus Jakarta Sans", sans-serif;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html, body { margin: 0; background: var(--bg); color: var(--ink); font: 500 16px/1.45 var(--font); }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font: 500 17px/1.45 var(--font); }
   body { padding-bottom: calc(var(--tab-h) + env(safe-area-inset-bottom)); overflow-x: hidden; }
   .zh { font-family: var(--font-zh); }
   .wrap { max-width: 560px; margin: 0 auto; padding: 0 16px; }
@@ -33,64 +33,64 @@
   .top { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.94); backdrop-filter: blur(10px);
          border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top); }
   .top .wrap { display: flex; align-items: center; gap: 12px; height: 60px; }
-  .brand { font-weight: 800; font-size: 19px; letter-spacing: -.01em; }
-  .brand small { display: block; font-weight: 600; font-size: 15px; color: var(--muted); letter-spacing: 0; }
+  .brand { font-weight: 800; font-size: 20px; letter-spacing: -.01em; }
+  .brand small { display: block; font-weight: 600; font-size: 16px; color: var(--muted); letter-spacing: 0; }
   .top .spacer { flex: 1; }
   .pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: #fff;
-          border-radius: 999px; padding: 7px 12px; font-size: 15px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+          border-radius: 999px; padding: 7px 12px; font-size: 16px; font-weight: 600; cursor: pointer; white-space: nowrap; }
 
   /* ---------- preview-day strip (mock only) ---------- */
   .preview { background: var(--violet-soft); border-bottom: 1px solid #e3dbfd; }
   .preview .wrap { display: flex; gap: 8px; align-items: center; overflow-x: auto; padding-top: 8px; padding-bottom: 8px; scrollbar-width: none; }
   .preview .wrap::-webkit-scrollbar { display: none; }
-  .preview b { color: var(--violet); font-size: 15px; white-space: nowrap; }
+  .preview b { color: var(--violet); font-size: 16px; white-space: nowrap; }
   .chip { flex: none; border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 6px 12px;
-          font-size: 15px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+          font-size: 16px; font-weight: 600; cursor: pointer; white-space: nowrap; }
   .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
 
   /* ---------- cards ---------- */
   .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; }
   .section { margin-top: 18px; }
-  .section h2 { font-size: 19px; font-weight: 800; margin: 0 0 10px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 8px; }
-  .section h2 .zh { font-size: 16px; color: var(--muted); font-weight: 700; }
+  .section h2 { font-size: 20px; font-weight: 800; margin: 0 0 10px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 8px; }
+  .section h2 .zh { font-size: 17px; color: var(--muted); font-weight: 700; }
   .muted { color: var(--muted); }
-  .small { font-size: 15px; }
+  .small { font-size: 16px; }
 
   /* ---------- hero ---------- */
   .hero { margin-top: 14px; border-radius: 22px; padding: 18px; color: #fff; position: relative; overflow: hidden;
           background: radial-gradient(120% 140% at 100% 0%, #ffb26b 0%, #ff6a2b 45%, #e5432c 100%); box-shadow: var(--shadow); }
   .hero::after { content: ""; position: absolute; right: -40px; bottom: -60px; width: 220px; height: 220px; border-radius: 50%;
                  background: rgba(255,255,255,.12); }
-  .hero .kicker { font-size: 15px; font-weight: 700; opacity: .92; }
-  .hero h1 { margin: 4px 0 2px; font-size: 26px; line-height: 1.15; letter-spacing: -.02em; font-weight: 800; }
-  .hero .sub { font-size: 16px; opacity: .95; }
+  .hero .kicker { font-size: 16px; font-weight: 700; opacity: .92; }
+  .hero h1 { margin: 4px 0 2px; font-size: 27px; line-height: 1.15; letter-spacing: -.02em; font-weight: 800; }
+  .hero .sub { font-size: 17px; opacity: .95; }
   .hero .stats { display: flex; gap: 10px; margin-top: 14px; position: relative; z-index: 1; flex-wrap: wrap; }
-  .hero .stat { background: rgba(255,255,255,.18); border-radius: 12px; padding: 8px 12px; font-size: 15px; font-weight: 700; }
+  .hero .stat { background: rgba(255,255,255,.18); border-radius: 12px; padding: 8px 12px; font-size: 16px; font-weight: 700; }
 
   /* ---------- icon row ---------- */
   .icons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
   .ic { display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: 0; padding: 6px 0; cursor: pointer; }
   .ic .tile { width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; }
   .ic svg { width: 28px; height: 28px; }
-  .ic span { font-size: 15px; font-weight: 700; }
+  .ic span { font-size: 16px; font-weight: 700; }
   .t-orange { background: var(--accent-soft); color: var(--accent); } .t-teal { background: var(--teal-soft); color: var(--teal); }
   .t-blue { background: var(--blue-soft); color: var(--blue); } .t-violet { background: var(--violet-soft); color: var(--violet); }
   .t-amber { background: var(--amber-soft); color: var(--amber); } .t-rose { background: var(--rose-soft); color: var(--rose); }
 
   /* ---------- next-up ---------- */
-  .next .label { font-size: 15px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }
-  .next .time { font-size: 30px; font-weight: 800; letter-spacing: -.02em; }
-  .next .what { font-size: 18px; font-weight: 700; margin-top: 2px; }
+  .next .label { font-size: 16px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }
+  .next .time { font-size: 31px; font-weight: 800; letter-spacing: -.02em; }
+  .next .what { font-size: 19px; font-weight: 700; margin-top: 2px; }
   .names { margin-top: 6px; }
-  .names .en { font-weight: 700; font-size: 16px; }
-  .names .zh { font-size: 16px; color: var(--muted); }
+  .names .en { font-weight: 700; font-size: 17px; }
+  .names .zh { font-size: 17px; color: var(--muted); }
   .actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 14px;
-         border-radius: 12px; border: 1px solid var(--line); background: #fff; font-weight: 700; font-size: 15px; cursor: pointer; text-decoration: none; }
+         border-radius: 12px; border: 1px solid var(--line); background: #fff; font-weight: 700; font-size: 16px; cursor: pointer; text-decoration: none; }
   .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
   .btn svg { width: 18px; height: 18px; }
 
-  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 700; border-radius: 8px; padding: 2px 8px; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 16px; font-weight: 700; border-radius: 8px; padding: 2px 8px; }
   .b-warn { background: var(--warn-soft); color: var(--warn); } .b-ok { background: var(--ok-soft); color: var(--ok); }
   .b-bad { background: var(--bad-soft); color: var(--bad); } .b-info { background: var(--blue-soft); color: var(--blue); }
 
@@ -98,21 +98,21 @@
   .hscroll { display: flex; gap: 10px; overflow-x: auto; padding: 2px 16px 6px; margin: 0 -16px; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .hscroll::-webkit-scrollbar { display: none; }
   .mini { flex: none; width: 70%; max-width: 260px; scroll-snap-align: start; }
-  .mini .t { font-weight: 800; font-size: 16px; }
-  .mini .d { font-size: 15px; color: var(--muted); margin-top: 2px; }
+  .mini .t { font-weight: 800; font-size: 17px; }
+  .mini .d { font-size: 16px; color: var(--muted); margin-top: 2px; }
 
   /* ---------- plan ---------- */
   .daytabs { display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px 4px; margin: 0 -16px; scrollbar-width: none; }
   .daytabs::-webkit-scrollbar { display: none; }
   .dt { flex: none; min-width: 64px; text-align: center; border-radius: 14px; background: #fff; border: 1px solid var(--line);
         padding: 8px 10px; cursor: pointer; }
-  .dt .dw { font-size: 15px; font-weight: 700; color: var(--muted); }
-  .dt .dd { font-size: 20px; font-weight: 800; }
+  .dt .dw { font-size: 16px; font-weight: 700; color: var(--muted); }
+  .dt .dd { font-size: 21px; font-weight: 800; }
   .dt.on { background: var(--ink); border-color: var(--ink); color: #fff; } .dt.on .dw { color: #d7dbe2; }
   .dt.spare { border-style: dashed; }
-  .dayhead h2 { margin: 0; font-size: 21px; font-weight: 800; letter-spacing: -.01em; }
-  .dayhead .zh { font-size: 17px; color: var(--muted); font-weight: 700; }
-  .note { display: flex; gap: 10px; align-items: flex-start; border-radius: 14px; padding: 12px; font-size: 15px; margin-top: 10px; }
+  .dayhead h2 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -.01em; }
+  .dayhead .zh { font-size: 18px; color: var(--muted); font-weight: 700; }
+  .note { display: flex; gap: 10px; align-items: flex-start; border-radius: 14px; padding: 12px; font-size: 16px; margin-top: 10px; }
   .note svg { flex: none; width: 20px; height: 20px; margin-top: 1px; }
   .n-rain { background: var(--blue-soft); color: #1d4ed8; } .n-mrt { background: var(--teal-soft); color: #0b6b5d; }
   .n-why { background: var(--amber-soft); color: #8a5a00; }
@@ -120,36 +120,36 @@
   .timeline { position: relative; margin-top: 14px; }
   .item { display: grid; grid-template-columns: 56px 1fr; gap: 10px; position: relative; }
   .item + .item { margin-top: 10px; }
-  .item .tm { font-weight: 800; font-size: 16px; padding-top: 14px; text-align: right; }
+  .item .tm { font-weight: 800; font-size: 17px; padding-top: 14px; text-align: right; }
   .item .card { padding: 14px; }
-  .kind { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 800; }
+  .kind { display: inline-flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 800; }
   .kind svg { width: 18px; height: 18px; }
   .k-visit { color: var(--blue); } .k-meal { color: var(--accent); } .k-travel { color: var(--teal); } .k-rest { color: var(--violet); }
   .k-hotel { color: var(--violet); } .k-flight { color: var(--ink); }
-  .item .txt { font-weight: 700; font-size: 16px; margin-top: 4px; }
-  .item .tr { font-size: 15px; color: var(--muted); margin-top: 4px; }
+  .item .txt { font-weight: 700; font-size: 17px; margin-top: 4px; }
+  .item .tr { font-size: 16px; color: var(--muted); margin-top: 4px; }
 
   .meal-opts { display: grid; gap: 8px; margin-top: 10px; }
   .opt { border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; }
-  .opt .tag { font-size: 15px; font-weight: 800; border-radius: 8px; padding: 2px 8px; }
+  .opt .tag { font-size: 16px; font-weight: 800; border-radius: 8px; padding: 2px 8px; }
   .opt.main { border-color: #ffd2bf; background: var(--accent-soft); }
   .opt.main .tag { background: var(--accent); color: #fff; } .opt .tag { background: #eef0f3; color: var(--muted); }
-  .opt .nm .en { font-weight: 700; font-size: 15px; } .opt .nm .zh { font-size: 15px; color: var(--muted); }
+  .opt .nm .en { font-weight: 700; font-size: 16px; } .opt .nm .zh { font-size: 16px; color: var(--muted); }
   .iconbtn { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: #fff; display: grid; place-items: center; cursor: pointer; }
   .iconbtn svg { width: 20px; height: 20px; }
 
   details.picks { margin-top: 14px; }
-  details.picks summary { list-style: none; cursor: pointer; font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+  details.picks summary { list-style: none; cursor: pointer; font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 8px; }
   details.picks summary::-webkit-details-marker { display: none; }
   .pick { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); }
   .pick:first-of-type { border-top: 0; }
   .pick .grow { flex: 1; min-width: 0; }
-  .pick .en { font-weight: 700; font-size: 15px; } .pick .zh { font-size: 15px; color: var(--muted); }
+  .pick .en { font-weight: 700; font-size: 16px; } .pick .zh { font-size: 16px; color: var(--muted); }
 
   /* ---------- placeholder tabs ---------- */
   .soon { text-align: center; padding: 40px 18px; }
   .soon svg { width: 54px; height: 54px; color: var(--muted); }
-  .soon h2 { margin: 10px 0 6px; font-size: 21px; }
+  .soon h2 { margin: 10px 0 6px; font-size: 22px; }
 
   /* ---------- tab bar ---------- */
   .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; background: #fff; border-top: 1px solid var(--line);
@@ -157,7 +157,7 @@
   .tabbar .wrap { display: grid; grid-template-columns: repeat(5, 1fr); height: var(--tab-h); padding: 0 4px; }
   .tab { border: 0; background: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: #8a909b; }
   .tab svg { width: 26px; height: 26px; }
-  .tab span { font-size: 15px; font-weight: 700; }
+  .tab span { font-size: 16px; font-weight: 700; }
   .tab.on { color: var(--accent); }
 
   /* ---------- sheets (taxi / mrt / info) ---------- */
@@ -166,17 +166,36 @@
            max-height: 88vh; overflow-y: auto; padding: 10px 0 calc(18px + env(safe-area-inset-bottom)); transform: translateY(110%); transition: transform .25s ease; }
   .sheet.open { transform: none; } .scrim.open { display: block; }
   .grab { width: 44px; height: 5px; border-radius: 3px; background: #d9dce2; margin: 4px auto 10px; }
-  .taxi-zh { font-family: var(--font-zh); font-size: 32px; font-weight: 700; line-height: 1.3; margin: 8px 0; word-break: break-word; }
-  .taxi-say { font-family: var(--font-zh); font-size: 22px; font-weight: 700; color: var(--accent); }
+  .taxi-zh { font-family: var(--font-zh); font-size: 33px; font-weight: 700; line-height: 1.3; margin: 8px 0; word-break: break-word; }
+  .taxi-say { font-family: var(--font-zh); font-size: 23px; font-weight: 700; color: var(--accent); }
   .exit { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); }
-  .exit .no { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-weight: 800; font-size: 17px; flex: none; }
+  .exit .no { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-weight: 800; font-size: 18px; flex: none; }
   .exit.ok .no { background: var(--ok-soft); color: var(--ok); } .exit.bad .no { background: var(--bad-soft); color: var(--bad); }
   .exit.rec .no { background: var(--ok); color: #fff; }
   .toast { position: fixed; left: 50%; bottom: calc(var(--tab-h) + 16px + env(safe-area-inset-bottom)); transform: translateX(-50%);
-           background: var(--ink); color: #fff; border-radius: 12px; padding: 10px 14px; font-size: 15px; font-weight: 600; z-index: 50;
+           background: var(--ink); color: #fff; border-radius: 12px; padding: 10px 14px; font-size: 16px; font-weight: 600; z-index: 50;
            opacity: 0; transition: opacity .2s; pointer-events: none; max-width: calc(100% - 32px); }
   .toast.on { opacity: 1; }
   .loading { padding: 60px 16px; text-align: center; color: var(--muted); }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; background: #e9ebf0; border-radius: 14px; padding: 4px; margin-top: 14px; }
+  .seg button { border: 0; background: none; border-radius: 11px; min-height: 42px; font-weight: 800; font-size: 17px; cursor: pointer; color: var(--muted); }
+  .seg button.on { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(16,24,40,.12); }
+  .mi { display: inline-flex; align-items: center; gap: 3px; font-weight: 800; font-size: 16px; border-radius: 8px; padding: 2px 7px; }
+  .mi svg { width: 17px; height: 17px; }
+  .mi.lift { background: var(--blue-soft); color: var(--blue); } .mi.esc { background: var(--teal-soft); color: var(--teal); }
+  .mi.stairs { background: var(--bad-soft); color: var(--bad); }
+  .exitchips { display: inline-flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .idea { margin-top: 10px; }
+  .idea summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+  .idea summary::-webkit-details-marker { display: none; }
+  .idea summary .t { font-weight: 800; font-size: 18px; } .idea summary .s { font-size: 16px; color: var(--muted); }
+  .idea[open] summary { margin-bottom: 8px; }
+  .lock { display: flex; align-items: center; gap: 12px; }
+  .lock .n { font-size: 23px; font-weight: 800; letter-spacing: .04em; }
+  .hero .now { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.22); border-radius: 999px; padding: 4px 10px; font-size: 16px; font-weight: 800; }
+  .hero .dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgba(255,255,255,.3); }
+  .hero .bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,.25); margin-top: 12px; overflow: hidden; position: relative; z-index: 1; }
+  .hero .bar i { display: block; height: 100%; background: #fff; border-radius: 3px; }
 </style>
 </head>
 <body>
@@ -230,11 +249,15 @@
     travel: I('<path d="M5 11 6.5 6.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><rect x="3" y="11" width="18" height="6" rx="2"/><path d="M6 17v2M18 17v2"/>'),
     rest: I('<path d="M3 18V8M3 13h18v5M21 13a3 3 0 0 0-3-3h-6v3"/>'),
     star: I('<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3Z"/>'),
-    swap: I('<path d="M7 4 3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/>')
+    swap: I('<path d="M7 4 3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/>'),
+    lift: I('<rect x="5" y="3" width="14" height="18" rx="2"/><path d="m9 9 3-3 3 3M9 15l3 3 3-3"/>'),
+    esc: I('<path d="M3 19h4l9-11h5"/><path d="M3 15h2.5l9-11"/>'),
+    stairs: I('<path d="M3 20h5v-5h5v-5h5V5h3"/>'),
+    lock: I('<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>')
   };
   ICON.hotelk = ICON.rest;
 
-  var T = null, state = { tab: "home", day: 0, previewIdx: 1, previewTime: "10:00" };
+  var T = null, state = { tab: "home", day: 0, planMode: "itin", previewIdx: 1, previewTime: "10:00" };
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
 
@@ -258,6 +281,19 @@
   function dayLabel(d) { var x = new Date(d.date + "T00:00:00"); return { dw: d.dow, dd: x.getDate() }; }
   function toast(msg) { var t = $("toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(toast._t); toast._t = setTimeout(function () { t.classList.remove("on"); }, 2200); }
 
+  function exitChip(e) {
+    if (!e) return "";
+    var h = '<span class="exitchips"><b>Exit ' + esc(e.no) + '</b>';
+    if (e.lift) h += '<span class="mi lift" title="Lift">' + ICON.lift + '</span>';
+    if (e.escalators) h += '<span class="mi esc" title="Escalator">' + ICON.esc + (e.escalators > 1 ? "×" + e.escalators : "") + '</span>';
+    if (!e.ok) h += '<span class="mi stairs" title="Stairs only">' + ICON.stairs + '</span>';
+    return h + '</span>';
+  }
+  function recChips(sid) {
+    var s = T.stations[sid]; if (!s) return "";
+    var by = {}; s.exits.forEach(function (e) { by[e.no] = e; });
+    return s.recommended.slice(0, 2).map(function (no) { return exitChip(by[no]); }).join(" ");
+  }
   // ---------- sheets ----------
   function openSheet(html) { $("sheetBody").innerHTML = html; $("sheet").classList.add("open"); $("scrim").classList.add("open"); }
   function closeSheet() { $("sheet").classList.remove("open"); $("scrim").classList.remove("open"); }
@@ -269,7 +305,7 @@
     openSheet('<div class="small muted">Show this to the taxi driver</div>' +
       '<div class="taxi-say">請載我到這裡</div>' +
       '<div class="taxi-zh">' + esc(p.zh || p.en) + '</div>' +
-      (zhAddr && zhAddr !== p.zh ? '<div class="taxi-zh" style="font-size:24px">' + esc(zhAddr) + '</div>' : '') +
+      (zhAddr && zhAddr !== p.zh ? '<div class="taxi-zh" style="font-size:25px">' + esc(zhAddr) + '</div>' : '') +
       '<div class="names"><div class="en">' + esc(p.en || "") + '</div><div class="muted small">' + esc(enAddr) + '</div></div>' +
       '<div class="actions"><a class="btn primary" href="' + gmaps(p) + '" target="_blank" rel="noopener">' + ICON.go + 'Google Maps</a>' +
       '<a class="btn" href="' + amaps(p) + '" target="_blank" rel="noopener">Apple Maps</a>' +
@@ -279,24 +315,25 @@
     var s = T.stations[sid]; if (!s) return;
     var rows = s.exits.map(function (e) {
       var rec = s.recommended.indexOf(e.no) >= 0, bad = !e.ok;
-      var what = (e.lift ? "Lift" : "") + (e.lift && e.escalators ? " + " : "") + (e.escalators ? e.escalators + " escalator" + (e.escalators > 1 ? "s" : "") : "") + (bad ? "Stairs only" : "");
+      var what = (e.lift ? '<span class="mi lift">' + ICON.lift + 'Lift</span> ' : "") + (e.escalators ? '<span class="mi esc">' + ICON.esc + e.escalators + '</span> ' : "") + (bad ? '<span class="mi stairs">' + ICON.stairs + 'Stairs only</span>' : "");
       return '<div class="exit ' + (bad ? "bad" : "ok") + (rec ? " rec" : "") + '"><div class="no">' + esc(e.no) + '</div><div style="flex:1;min-width:0">' +
-        '<div style="font-weight:700">' + esc(what) + (rec ? ' <span class="badge b-ok">Recommended</span>' : "") + (bad ? ' <span class="badge b-bad">Avoid</span>' : "") + '</div>' +
+        '<div style="font-weight:700">' + what + (rec ? ' <span class="badge b-ok">Recommended</span>' : "") + (bad ? ' <span class="badge b-bad">Avoid</span>' : "") + '</div>' +
         '<div class="small muted zh">' + esc(e.where_zh || "") + '</div></div>' +
         (e.lat ? '<a class="iconbtn" aria-label="Exit ' + esc(e.no) + ' on Google Maps" href="https://www.google.com/maps/search/?api=1&query=' + e.lat + ',' + e.lng + '" target="_blank" rel="noopener">' + ICON.go + '</a>' : '') + '</div>';
     }).join("");
-    openSheet('<div class="kind k-travel">' + ICON.train + 'MRT station</div><h2 style="margin:6px 0 0;font-size:22px">' + esc(s.en) +
-      ' <span class="zh muted" style="font-size:18px">' + esc(s.zh) + '</span></h2><div class="small muted">' + esc(s.note) + '</div>' +
-      '<div style="margin-top:10px">' + rows + '</div><div class="small muted" style="margin-top:8px">Source: Taipei Metro open data (Sep 2026). Escalator direction not listed — check on arrival.</div>' +
+    openSheet('<div class="kind k-travel">' + ICON.train + 'MRT station</div><h2 style="margin:6px 0 0;font-size:23px">' + esc(s.en) +
+      ' <span class="zh muted" style="font-size:19px">' + esc(s.zh) + '</span></h2><div class="small muted">' + esc(s.note) + '</div>' +
+      '<div class="exitchips small" style="margin-top:10px"><span class="mi lift">' + ICON.lift + 'Lift</span><span class="mi esc">' + ICON.esc + 'Escalator</span><span class="mi stairs">' + ICON.stairs + 'Stairs only</span></div>' +
+      '<div style="margin-top:6px">' + rows + '</div><div class="small muted" style="margin-top:8px">Source: Taipei Metro open data (Sep 2026). Escalator direction not listed — check on arrival.</div>' +
       '<div class="actions"><button class="btn" data-close>Close</button></div>');
   }
-  function infoSheet(title, html) { openSheet('<h2 style="margin:4px 0 8px;font-size:22px">' + title + '</h2>' + html + '<div class="actions"><button class="btn" data-close>Close</button></div>'); }
+  function infoSheet(title, html) { openSheet('<h2 style="margin:4px 0 8px;font-size:23px">' + title + '</h2>' + html + '<div class="actions"><button class="btn" data-close>Close</button></div>'); }
   $("sheetBody").addEventListener("click", function (e) { if (e.target.closest("[data-close]")) closeSheet(); });
 
   // ---------- shared bits ----------
   function placeActions(p, compact) {
     if (!p) return "";
-    var mrt = p.mrt ? '<button class="btn" data-mrt="' + p.mrt + '">' + ICON.train + esc(T.stations[p.mrt].en) + '</button>' : "";
+    var mrt = p.mrt ? '<button class="btn" data-mrt="' + p.mrt + '">' + ICON.train + esc(T.stations[p.mrt].en) + ' · ' + recChips(p.mrt) + '</button>' : "";
     return '<div class="actions"><a class="btn primary" href="' + gmaps(p) + '" target="_blank" rel="noopener">' + ICON.go + 'Go</a>' +
       '<button class="btn" data-taxi="' + p.id + '">' + ICON.taxi + 'Taxi card</button>' + (compact ? "" : mrt) + '</div>';
   }
@@ -331,20 +368,47 @@
   }
 
   // ---------- HOME ----------
+  function nowInfo() {
+    // On the trip (Taipei time) use the real clock; before/after the trip, use the preview strip.
+    var tp = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Taipei" }));
+    var iso = tp.getFullYear() + "-" + String(tp.getMonth() + 1).padStart(2, "0") + "-" + String(tp.getDate()).padStart(2, "0");
+    var idx = T.days.map(function (d) { return d.date; }).indexOf(iso);
+    if (idx >= 0) return { idx: idx, time: String(tp.getHours()).padStart(2, "0") + ":" + String(tp.getMinutes()).padStart(2, "0"), live: true };
+    return { idx: state.previewIdx, time: state.previewTime, live: false };
+  }
+  function blockAt(d, now) {
+    var items = d.items, cur = null, nxt = null;
+    for (var i = 0; i < items.length; i++) { if (items[i].time <= now) cur = i; else { nxt = i; break; } }
+    return { cur: cur == null ? null : items[cur], next: nxt == null ? null : items[nxt] };
+  }
+  function toMin(t) { var p = t.split(":"); return +p[0] * 60 + +p[1]; }
   function renderHome() {
-    var d = T.days[state.previewIdx], now = state.previewTime;
-    var items = d.items, next = items.filter(function (it) { return it.time >= now; })[0] || items[items.length - 1];
-    var p = place(next.place);
-    var nextMeal = items.filter(function (it) { return it.kind === "meal" && it.time >= now; })[0];
+    var ni = nowInfo(), d = T.days[ni.idx], now = ni.time, B = blockAt(d, now);
+    var focus = B.cur || B.next, p = place(focus.place);
+    var nextMeal = d.items.filter(function (it) { return it.kind === "meal" && it.time > now; })[0];
     var here = p || place("hotel");
     var near = T.saved_places.filter(function (s) { return s.in_trip; })
       .map(function (s) { return { s: s, m: dist(here, s) }; }).filter(function (x) { return x.m < 1200; })
       .sort(function (a, b) { return a.m - b.m; }).slice(0, 8);
-    var dayNo = state.previewIdx + 1;
+    var pct = 0, win = "";
+    if (B.cur) {
+      var st = toMin(B.cur.time), en = B.next ? toMin(B.next.time) : st + 60;
+      pct = Math.max(0, Math.min(100, Math.round((toMin(now) - st) / Math.max(1, en - st) * 100)));
+      win = B.cur.time + (B.next ? "–" + B.next.time : "");
+    }
+    var label = B.cur ? (ni.live ? "Now" : "At " + now) + " · " + win : "Starts " + B.next.time;
+    var showPlace = p && focus.kind !== "flight" && !(focus.place === "hotel" && focus.kind === "travel");
 
-    var html = '<section class="hero"><div class="kicker">Day ' + dayNo + ' of 6 · ' + esc(d.dow) + ' ' + dayLabel(d).dd + ' Jan</div>' +
-      '<h1>' + esc(d.title) + '</h1><div class="sub zh">' + esc(d.title_zh || "") + '</div>' +
-      '<div class="stats"><span class="stat">☁ ~17–21°C · drizzle likely</span><span class="stat">4 travellers</span></div></section>';
+    var html = '<section class="hero"><div class="kicker">Day ' + (ni.idx + 1) + ' of 6 · ' + esc(d.dow) + ' ' + dayLabel(d).dd + ' Jan · ' + esc(d.title) + '</div>' +
+      '<div style="margin-top:8px"><span class="now"><span class="dot"></span>' + esc(label) + '</span></div>' +
+      '<h1>' + esc(focus.text) + '</h1>' + (showPlace ? '<div class="sub">' + esc(p.en || "") + (p.zh ? ' · <span class="zh">' + esc(p.zh) + '</span>' : "") + '</div>' : "") +
+      (B.cur ? '<div class="bar"><i style="width:' + pct + '%"></i></div>' : "") +
+      '<div class="stats">' + (B.next ? '<span class="stat">Next ' + esc(B.next.time) + ' · ' + esc(B.next.text.length > 34 ? B.next.text.slice(0, 32) + "…" : B.next.text) + '</span>' : '<span class="stat">Last stop of the day</span>') +
+      '<span class="stat">☁ ~17–21°C · drizzle likely</span></div></section>';
+
+    html += '<section class="section card lock"><span style="width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none">' + ICON.lock + '</span>' +
+      '<div style="flex:1;min-width:0"><div class="small muted">Group booking no.</div><div class="n">' + esc(T.booking_masked || "••••") + '</div></div>' +
+      '<button class="btn" data-home="bookings">Unlock</button></section>';
 
     html += '<section class="section"><div class="icons">' +
       [["flight", "Flights", "t-blue", "flights"], ["hotel", "Hotel", "t-violet", "hotel"], ["doc", "Bookings", "t-orange", "bookings"],
@@ -353,14 +417,14 @@
         .map(function (x) { return '<button class="ic" data-home="' + x[3] + '"><span class="tile ' + x[2] + '">' + ICON[x[0]] + '</span><span>' + x[1] + '</span></button>'; }).join("") +
       '</div></section>';
 
-    html += '<section class="section card next"><div class="label">Next up · ' + esc(next.time) + '</div>' +
-      '<div class="what">' + esc(next.text) + '</div>' + (p ? names(p) : "") + (next.transport ? '<div class="small muted" style="margin-top:6px">' + esc(next.transport) + '</div>' : "") +
-      badges(p) + placeActions(p) + '</section>';
+    html += '<section class="section card next"><div class="label">' + (B.cur ? "Now · " + esc(B.cur.time) : "Next up · " + esc(focus.time)) + '</div>' +
+      '<div class="what">' + esc(focus.text) + '</div>' + (showPlace ? names(p) : "") + (focus.transport ? '<div class="small muted" style="margin-top:6px">' + esc(focus.transport) + '</div>' : "") +
+      (focus.kind === "meal" ? mealBlock(focus.meal) : (showPlace ? badges(p) + placeActions(p) : "")) + '</section>';
 
-    if (nextMeal) html += '<section class="section card">' + mealBlock(nextMeal.meal, "Next meal · " + nextMeal.time) + '</section>';
+    if (nextMeal && nextMeal !== focus) html += '<section class="section card">' + mealBlock(nextMeal.meal, "Next meal · " + nextMeal.time) + '</section>';
 
     html += '<section class="section"><h2>Nearby picks <span class="zh">附近推薦</span></h2>' +
-      '<div class="small muted" style="margin:-4px 0 10px">From your Google Maps lists · within 1.2 km of ' + esc(here.en) + ' (on the trip: your GPS)</div>' +
+      '<div class="small muted" style="margin:-4px 0 10px">From your Google Maps lists · within 1.2 km of ' + esc(here.en) + (ni.live ? "" : " (on the trip: your GPS)") + '</div>' +
       '<div class="hscroll">' + (near.length ? near.map(function (x) {
         var s = x.s;
         return '<div class="card mini"><div class="t">' + esc(s.en || s.zh) + '</div>' + (s.en && s.zh ? '<div class="d zh">' + esc(s.zh) + '</div>' : '') +
@@ -369,31 +433,17 @@
       }).join("") : '<div class="card mini"><div class="d">No saved places within 1.2 km.</div></div>') + '</div></section>';
 
     html += '<section class="section"><h2>Today <span class="zh">今日行程</span></h2><div class="card">' +
-      items.map(function (it) {
-        var q = place(it.place);
-        return '<div class="pick"><b style="width:52px;flex:none">' + esc(it.time) + '</b><div class="grow"><div class="en">' + esc(it.text) + '</div>' +
-          (q && q.zh ? '<div class="zh">' + esc(q.zh) + '</div>' : '') + '</div></div>';
-      }).join("") + '<div class="actions"><button class="btn" data-goplan="' + state.previewIdx + '">Open full plan</button></div></div></section>';
+      d.items.map(function (it) {
+        var q = place(it.place), on = it === B.cur;
+        return '<div class="pick"' + (on ? ' style="background:var(--accent-soft);border-radius:12px;padding-left:8px"' : '') + '><b style="width:52px;flex:none">' + esc(it.time) + '</b><div class="grow"><div class="en">' + esc(it.text) + '</div>' +
+          (q && q.zh && it.kind !== "flight" ? '<div class="zh">' + esc(q.zh) + '</div>' : '') + '</div>' + (on ? '<span class="badge b-ok">Now</span>' : '') + '</div>';
+      }).join("") + '<div class="actions"><button class="btn" data-goplan="' + ni.idx + '">Open full plan</button></div></div></section>';
     $("view").innerHTML = html;
   }
 
   // ---------- PLAN ----------
-  function renderPlan() {
-    var all = T.days.map(function (d, i) { var l = dayLabel(d); return '<button class="dt ' + (state.day === i ? "on" : "") + '" data-day="' + i + '"><div class="dw">' + l.dw + '</div><div class="dd">' + l.dd + '</div></button>'; }).join("") +
-      T.spare_days.map(function (s, i) { var k = 100 + i; return '<button class="dt spare ' + (state.day === k ? "on" : "") + '" data-day="' + k + '"><div class="dw">Spare</div><div class="dd">' + esc(s.id) + '</div></button>'; }).join("");
-    var html = '<div class="daytabs">' + all + '</div>';
-    var d = state.day >= 100 ? T.spare_days[state.day - 100] : T.days[state.day];
-    var spare = state.day >= 100;
-
-    html += '<section class="section dayhead"><h2>' + esc(d.title) + '</h2><div class="zh">' + esc(d.title_zh || "") + '</div>';
-    if (spare) html += '<div class="note n-why">' + ICON.swap + '<div>Swap into ' + d.swap_into.map(function (x) { return esc(x.slice(8)) + " Jan"; }).join(", ") + ' · Closed: ' + esc(d.closed) + '</div></div>' +
-      '<div class="actions"><button class="btn primary" data-swap="' + esc(d.id) + '">' + ICON.swap + 'Swap into a day</button></div>';
-    if (d.why) html += '<div class="note n-why">' + ICON.info + '<div>' + esc(d.why) + '</div></div>';
-    if (d.rain_backup) html += '<div class="note n-rain">' + ICON.rain + '<div><b>If it rains:</b> ' + esc(d.rain_backup) + '</div></div>';
-    if (d.mrt) html += '<div class="note n-mrt">' + ICON.train + '<div><b>MRT:</b> ' + esc(d.mrt) + '</div></div>';
-    html += '</section>';
-
-    html += '<div class="timeline">';
+  function timelineHtml(d) {
+    var html = '<div class="timeline">';
     if (d.breakfast) html += '<div class="item"><div class="tm">AM</div><div class="card">' + mealBlock(d.breakfast, "Breakfast 早餐") + '</div></div>';
     d.items.forEach(function (it) {
       var p = place(it.place), k = it.kind || "visit";
@@ -405,16 +455,66 @@
         (k === "meal" ? mealBlock(it.meal) : (p && k !== "flight" && !(it.place === "hotel" && k !== "hotel") ? names(p) + badges(p) + placeActions(p) : "")) +
         (it.note ? '<div class="small muted" style="margin-top:6px">' + esc(it.note) + '</div>' : "") + '</div></div>';
     });
-    html += '</div>';
-
-    var areas = d.areas || [];
-    var picks = savedNear(areas, 30);
+    return html + '</div>';
+  }
+  function notesHtml(d) {
+    var html = "";
+    if (d.why) html += '<div class="note n-why">' + ICON.info + '<div>' + esc(d.why) + '</div></div>';
+    if (d.rain_backup) html += '<div class="note n-rain">' + ICON.rain + '<div><b>If it rains:</b> ' + esc(d.rain_backup) + '</div></div>';
+    if (d.mrt) html += '<div class="note n-mrt">' + ICON.train + '<div><b>MRT:</b> ' + esc(d.mrt) + '</div></div>';
+    return html;
+  }
+  function foodPicksFor(date) {
+    var out = [];
+    (((T.ideas || {}).food_picks || {}).by_area || []).forEach(function (g) { if (g.day === date) out = out.concat(g.places); });
+    return out;
+  }
+  function renderPlan() {
+    var html = '<div class="seg"><button class="' + (state.planMode === "itin" ? "on" : "") + '" data-mode="itin">Itinerary 行程</button>' +
+      '<button class="' + (state.planMode === "ideas" ? "on" : "") + '" data-mode="ideas">Ideas 備選</button></div>';
+    if (state.planMode === "ideas") { $("view").innerHTML = html + ideasHtml(); return; }
+    html += '<div class="daytabs">' + T.days.map(function (d, i) { var l = dayLabel(d); return '<button class="dt ' + (state.day === i ? "on" : "") + '" data-day="' + i + '"><div class="dw">' + l.dw + '</div><div class="dd">' + l.dd + '</div></button>'; }).join("") + '</div>';
+    var d = T.days[state.day];
+    html += '<section class="section dayhead"><h2>' + esc(d.title) + '</h2><div class="zh">' + esc(d.title_zh || "") + '</div>' + notesHtml(d) + '</section>';
+    html += timelineHtml(d);
+    var fp = foodPicksFor(d.date);
+    if (fp.length) html += '<details class="picks card section" open><summary>' + ICON.meal + 'Your food picks here (' + fp.length + ')</summary>' +
+      fp.map(function (id) { var p = place(id); return pickRow({ en: p.en, zh: p.zh, lat: p.lat, lng: p.lng, note: p.access || "" }, null); }).join("") + '</details>';
+    var picks = savedNear(d.areas || [], 30);
     if (picks.length) html += '<details class="picks card section"><summary>' + ICON.star + 'Your saved places in this area (' + picks.length + ')</summary>' +
       picks.map(function (s) { return pickRow(s, null); }).join("") + '</details>';
     if (d.near_hotel) html += '<details class="picks card section"><summary>' + ICON.hotel + 'Near the hotel (' + d.near_hotel.length + ')</summary>' +
       d.near_hotel.map(function (id) { var p = place(id); return pickRow({ en: p.en, zh: p.zh, lat: p.lat, lng: p.lng, note: "" }, place("hotel")); }).join("") + '</details>';
-    html += '<div style="height:16px"></div>';
-    $("view").innerHTML = html;
+    $("view").innerHTML = html + '<div style="height:16px"></div>';
+  }
+  function ideaCard(s, tone, icon, sub) {
+    return '<details class="card idea"><summary><span class="tile ' + tone + '" style="width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none">' + icon + '</span>' +
+      '<div style="flex:1;min-width:0"><div class="t">' + esc(s.title) + '</div><div class="s zh">' + esc(s.title_zh || "") + '</div><div class="s">' + esc(sub) + '</div></div></summary>' +
+      '<div class="actions"><button class="btn primary" data-swap="' + esc(s.id) + '">' + ICON.swap + 'Swap into a day</button></div>' + timelineHtml(s) + '</details>';
+  }
+  function ideasHtml() {
+    var html = '<div class="small muted" style="margin-top:12px">Backups and things we discussed. Swap a spare day or day trip into the plan if the weather or plans change.</div>';
+    html += '<section class="section"><h2>Spare days <span class="zh">備用日</span></h2>' + T.spare_days.map(function (s) {
+      return ideaCard(s, "t-violet", ICON.swap, "Closed: " + s.closed + " · swap into " + s.swap_into.map(function (x) { return +x.slice(8); }).join(", ") + " Jan");
+    }).join("") + '</section>';
+    html += '<section class="section"><h2>Day-trip alternatives <span class="zh">其他一日遊</span></h2>' + (T.idea_daytrips || []).map(function (s) {
+      return ideaCard(s, "t-teal", ICON.travel, s.why + (s.closed ? " · Closed: " + s.closed : ""));
+    }).join("") + '</section>';
+    var fp = (T.ideas || {}).food_picks;
+    if (fp) html += '<section class="section"><h2>' + esc(fp.title) + ' <span class="zh">' + esc(fp.title_zh) + '</span></h2>' + fp.by_area.map(function (g) {
+      return '<div class="card" style="margin-bottom:10px"><div class="kind k-meal">' + ICON.meal + esc(g.area) + ' · ' + (+g.day.slice(8)) + ' Jan</div>' +
+        g.places.map(function (id) { var p = place(id); return pickRow({ en: p.en, zh: p.zh, lat: p.lat, lng: p.lng, note: (p.access || "") + (p.verify ? " ⚠ check" : "") }, null); }).join("") + '</div>';
+    }).join("") + '<div class="small muted">' + esc(fp.note || "") + '</div></section>';
+    var groups = {};
+    T.saved_places.filter(function (s) { return s.in_trip; }).forEach(function (s) { (groups[s.area] = groups[s.area] || []).push(s); });
+    html += '<section class="section"><h2>Saved places by area <span class="zh">收藏地點</span></h2>' + Object.keys(groups).map(function (a) {
+      return '<details class="card idea"><summary><div style="flex:1"><div class="t">' + esc(a) + '</div><div class="s">' + groups[a].length + ' places</div></div></summary>' +
+        groups[a].map(function (s) { return pickRow(s, null); }).join("") + '</details>';
+    }).join("") + '</section>';
+    var nc = (T.ideas || {}).not_chosen || [];
+    if (nc.length) html += '<section class="section"><h2>Not chosen, and why <span class="zh">未採用</span></h2><div class="card">' +
+      nc.map(function (x) { return '<div class="pick"><div class="grow"><div class="en">' + esc(x.what) + '</div><div class="small muted">' + esc(x.why) + '</div></div></div>'; }).join("") + '</div></section>';
+    return html + '<div style="height:16px"></div>';
   }
 
   function renderSoon(tab) {
@@ -429,16 +529,20 @@
   function homeShortcut(k) {
     if (k === "flights") return infoSheet("Flights 航班", T.flights.map(function (f) {
       return '<div class="card" style="margin-bottom:10px"><div class="kind k-flight">' + ICON.flight + esc(f.no) + ' · ' + esc(f.date) + '</div>' +
-        '<div style="font-size:22px;font-weight:800;margin-top:6px">' + esc(f.dep) + ' → ' + esc(f.arr) + '</div><div class="muted">' + esc(f.from) + ' → ' + esc(f.to) + '</div></div>';
+        '<div style="font-size:23px;font-weight:800;margin-top:6px">' + esc(f.dep) + ' → ' + esc(f.arr) + '</div><div class="muted">' + esc(f.from) + ' → ' + esc(f.to) + '</div></div>';
     }).join("") + '<div class="small muted">Booking reference and the full confirmation load from Bookings after the group code (B4).</div>');
-    if (k === "hotel") { var h = place("hotel"); return infoSheet("Hotel 飯店", names(h) + '<div class="small muted" style="margin-top:6px">' + esc(h.address) + '</div><div class="small" style="margin-top:6px">' + esc(h.hours) + ' · 3–8 Jan · 5 nights · 2 rooms</div>' + placeActions(h)); }
-    if (k === "bookings") return infoSheet("Bookings 訂單", '<div class="card"><div class="muted">Enter the group code to see booking cards (flights, hotel) and open the full confirmation images.</div><div class="actions"><button class="btn primary" data-close>Enter group code (B4)</button></div></div>');
-    if (k === "transport") return infoSheet("Transport 交通", '<div class="card" style="margin-bottom:10px"><b>Airport van</b><div class="small muted">3 Jan ~17:20 TPE T2 · 8 Jan 13:30 hotel · paid 7-seater</div></div>' +
-      '<div class="card" style="margin-bottom:10px"><b>Taxi / Uber</b><div class="small muted">4 people fit one taxi. Every place has a “Taxi card” with the Chinese address.</div><div class="actions"><a class="btn" href="https://m.uber.com/" target="_blank" rel="noopener">Uber</a><a class="btn" href="https://www.taiwantaxi.com.tw/" target="_blank" rel="noopener">55688 Taiwan Taxi</a></div></div>' +
-      '<div class="card"><b>Hotel MRT</b><div class="small muted">Shandao Temple 善導寺 · Exit 6 (escalators) or Exit 3 (lift)</div><div class="actions"><button class="btn" data-mrt="shandao">' + ICON.train + 'Exits</button></div></div>');
+    if (k === "hotel") { var h = place("hotel"); return infoSheet("Hotel 飯店", names(h) + '<div class="small muted" style="margin-top:6px">' + esc(h.address) + '</div><div class="small" style="margin-top:6px">' + esc(h.hours) + ' · 3–8 Jan · 5 nights · 2 rooms · Breakfast ' + esc(T.hotel_breakfast || "") + '</div>' + placeActions(h)); }
+    if (k === "bookings") return infoSheet("Bookings 訂單", '<div class="card lock"><span style="color:var(--accent)">' + ICON.lock + '</span><div><div class="small muted">Group booking no.</div><div class="n">' + esc(T.booking_masked) + '</div></div></div>' +
+      '<div class="card" style="margin-top:10px"><div class="muted">' + esc(T.booking_note) + '</div><div class="small muted" style="margin-top:6px">Behind the code: flight PNRs and e-tickets for the 4 travellers, hotel confirmation, and the full voucher and screenshots.</div><div class="actions"><button class="btn primary" data-close>Enter group code (B4)</button></div></div>');
+    if (k === "transport") return infoSheet("Transport 交通",
+      '<div class="card" style="margin-bottom:10px"><div class="kind k-travel">' + ICON.train + '1 · MRT 捷運</div><div style="margin-top:6px"><b>Hotel station:</b> Shandao Temple 善導寺</div>' +
+        '<div class="actions" style="margin-top:6px">' + recChips("shandao") + '</div><div class="small muted" style="margin-top:6px">Exit 6 escalators (hotel side) · Exit 3 lift (across Zhongxiao E. Rd) · Avoid 2, 5</div>' +
+        '<div class="actions"><button class="btn" data-mrt="shandao">' + ICON.train + 'All exits</button></div></div>' +
+      '<div class="card" style="margin-bottom:10px"><div class="kind k-travel">' + ICON.taxi + '2 · Taxi / Uber 計程車</div><div class="small muted" style="margin-top:6px">4 people fit one taxi. Every place has a “Taxi card” with the Chinese address.</div><div class="actions"><a class="btn" href="https://m.uber.com/" target="_blank" rel="noopener">Uber</a><a class="btn" href="https://www.taiwantaxi.com.tw/" target="_blank" rel="noopener">55688 Taiwan Taxi</a></div></div>' +
+      '<div class="card"><div class="kind k-travel">' + ICON.flight + '3 · Airport transport 機場接送</div><div class="small muted" style="margin-top:6px">Paid 7-seater van · 3 Jan meet at TPE T2 arrivals ~17:20 · 8 Jan pick-up at the hotel 13:30 (~50–60 min)</div></div>');
     if (k === "weather") return infoSheet("Weather 天氣", '<div class="card">' + esc(T.weather_note) + '<div class="small muted" style="margin-top:8px">Live forecast for each day’s area arrives in B5 (from ~19 Dec).</div></div>');
     if (k === "messages") return infoSheet("Messages 公告", '<div class="card"><div class="muted">Group noticeboard: post once, everyone sees it as a banner (B4).</div></div>');
-    if (k === "help") return infoSheet("Help 求助", '<div class="card"><div style="font-size:20px;font-weight:800">Police 110 · Ambulance/Fire 119</div><div class="small muted">Tourist hotline 0800-011-765</div><div class="actions"><a class="btn primary" href="tel:110">Call 110</a><a class="btn primary" href="tel:119">Call 119</a></div></div>');
+    if (k === "help") return infoSheet("Help 求助", '<div class="card"><div style="font-size:21px;font-weight:800">Police 110 · Ambulance/Fire 119</div><div class="small muted">Tourist hotline 0800-011-765</div><div class="actions"><a class="btn primary" href="tel:110">Call 110</a><a class="btn primary" href="tel:119">Call 119</a></div></div>');
     if (k === "tobook") return infoSheet("To book / confirm", '<div class="card">' + T.to_book.map(function (x) { return '<div class="pick"><div class="grow small">' + esc(x) + '</div></div>'; }).join("") + '</div>');
   }
 
@@ -459,11 +563,12 @@
     var b = e.target.closest("button,[data-tab]"); if (!b) return;
     if (b.dataset.tab) { state.tab = b.dataset.tab; render(); }
     else if (b.dataset.day) { state.day = +b.dataset.day; renderPlan(); }
+    else if (b.dataset.mode) { state.planMode = b.dataset.mode; renderPlan(); window.scrollTo(0, 0); }
     else if (b.dataset.taxi) taxiSheet(b.dataset.taxi);
     else if (b.dataset.mrt) mrtSheet(b.dataset.mrt);
     else if (b.dataset.home) homeShortcut(b.dataset.home);
-    else if (b.dataset.goplan) { state.tab = "plan"; state.day = +b.dataset.goplan; render(); }
-    else if (b.dataset.swap) toast("Swap: pick Tue, Wed or Thu — works in B3");
+    else if (b.dataset.goplan) { state.tab = "plan"; state.planMode = "itin"; state.day = +b.dataset.goplan; render(); }
+    else if (b.dataset.swap) toast("Swap " + b.dataset.swap + " into a day — works in B3");
     else if (b.dataset.pday) { state.previewIdx = +b.dataset.pday; renderPreview(); if (state.tab === "home") renderHome(); }
     else if (b.dataset.ptime) { state.previewTime = b.dataset.ptime; renderPreview(); if (state.tab === "home") renderHome(); }
     else if (b.id === "langBtn") toast("Names always show English first, then 中文");
