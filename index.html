@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Taipei 台北">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Taipei Trip 台北</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -235,6 +242,14 @@
   .ticker .track b { font-weight: 800; }
   @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-100%); } }
   @media (prefers-reduced-motion: reduce) { .ticker .track { animation: none; padding-left: 0; white-space: normal; } }
+  .offline { display: none; background: #141a26; color: #fff; font-size: 16px; font-weight: 700; text-align: center; padding: 8px 16px; }
+  .offline.on { display: block; }
+  .wx { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); }
+  .wx:first-of-type { border-top: 0; }
+  .wx .ico { font-size: 26px; width: 34px; text-align: center; }
+  .wx b { font-size: 18px; }
+  .install { display: flex; gap: 12px; align-items: flex-start; }
+  .install img { width: 48px; height: 48px; border-radius: 12px; flex: none; }
   .seg { display: grid; grid-template-columns: 1fr 1fr; background: #e9ebf0; border-radius: 14px; padding: 4px; margin-top: 14px; }
   .seg button { border: 0; background: none; border-radius: 11px; min-height: 42px; font-weight: 800; font-size: 17px; cursor: pointer; color: var(--muted); }
   .seg button.on { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(16,24,40,.12); }
@@ -267,6 +282,7 @@
     <button class="pill" id="langBtn" title="Mock only">EN · 中文</button>
   </div>
 </header>
+<div class="offline" id="offline">Offline — showing the trip saved on this phone. Log, Spend and Messages sync when you are back online.</div>
 <div class="preview">
   <div class="wrap" id="previewStrip"><b>Mock · preview as</b></div>
 </div>
@@ -322,6 +338,54 @@
 
   var T = null, state = { tab: "home", day: -1, planMode: "itin", ideaCat: "all", previewIdx: 1, mapFilter: "all", gps: null };
   var MAP = null;
+  var WX = { days: null, fetched: 0, note: "" };
+  var WMO = function (c) {
+    c = +c;
+    if (c === 0) return ["☀️", "Clear 晴"]; if (c <= 2) return ["🌤️", "Mostly sunny 晴時多雲"]; if (c === 3) return ["☁️", "Cloudy 陰"];
+    if (c === 45 || c === 48) return ["🌫️", "Fog 霧"]; if (c >= 51 && c <= 57) return ["🌦️", "Drizzle 毛毛雨"];
+    if (c >= 61 && c <= 67) return ["🌧️", "Rain 雨"]; if (c >= 80 && c <= 82) return ["🌧️", "Showers 陣雨"]; if (c >= 95) return ["⛈️", "Thunder 雷雨"];
+    return ["⛅", "Mixed"];
+  };
+  function dayPoint(d) {
+    var it = d.items.filter(function (x) { return x.kind === "visit" && x.place && x.place !== "hotel"; })[0];
+    var p = it && T.places[it.place] || T.places.hotel; return { lat: p.lat, lng: p.lng };
+  }
+  function loadWeather() {
+    try { var c = JSON.parse(localStorage.getItem("trip.wx") || "null"); if (c && c.days) { WX = c; } } catch (e) {}
+    var start = new Date(T.dates.start + "T00:00:00+08:00"), now = new Date(), daysAhead = (start - now) / 864e5;
+    if (daysAhead > 15) { WX.note = "Live forecast from " + new Date(start - 15 * 864e5).toLocaleDateString("en-GB", { day: "numeric", month: "short" }) + " (16-day range)."; return; }
+    if (WX.fetched && Date.now() - WX.fetched < 3 * 3600e3) return;
+    var pts = T.days.map(dayPoint);
+    var url = "https://api.open-meteo.com/v1/forecast?latitude=" + pts.map(function (q) { return q.lat.toFixed(3); }).join(",") +
+      "&longitude=" + pts.map(function (q) { return q.lng.toFixed(3); }).join(",") +
+      "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max&timezone=Asia%2FTaipei" +
+      "&start_date=" + T.dates.start + "&end_date=" + T.dates.end;
+    fetch(url).then(function (r) { return r.json(); }).then(function (j) {
+      var arr = Array.isArray(j) ? j : [j], days = {};
+      T.days.forEach(function (d, i) {
+        var dd = arr[i] && arr[i].daily; if (!dd) return; var k = dd.time.indexOf(d.date); if (k < 0) return;
+        days[d.date] = { code: dd.weather_code[k], max: dd.temperature_2m_max[k], min: dd.temperature_2m_min[k], pop: dd.precipitation_probability_max[k], wind: dd.wind_speed_10m_max[k] };
+      });
+      if (Object.keys(days).length) { WX = { days: days, fetched: Date.now(), note: "" }; try { localStorage.setItem("trip.wx", JSON.stringify(WX)); } catch (e) {} if (state.tab === "home") renderHome(); if (state.tab === "plan") renderPlan(); }
+    }).catch(function () {});
+  }
+  function wxFor(date) { return WX.days && WX.days[date] || null; }
+  function wxShort(date) {
+    var w = wxFor(date); if (!w) return "☁ " + (T.weather_short || "");
+    var c = WMO(w.code); return c[0] + " " + Math.round(w.min) + "–" + Math.round(w.max) + "°C" + (w.pop != null ? " · rain " + w.pop + "%" : "");
+  }
+  function wxCard(d) {
+    var w = wxFor(d.date);
+    if (!w) return '<div class="note n-rain">' + ICON.cloud + '<div><b>Weather:</b> ' + esc(T.weather_short || "") + ' (January average). ' + esc(WX.note || "") + '</div></div>';
+    var c = WMO(w.code);
+    return '<div class="note n-rain"><span style="font-size:22px">' + c[0] + '</span><div><b>' + esc(c[1]) + ' · ' + Math.round(w.min) + '–' + Math.round(w.max) + '°C</b> · rain chance ' + w.pop + '% · wind ' + Math.round(w.wind) + ' km/h' +
+      (w.pop >= 60 ? '<div style="margin-top:4px">Likely wet: consider the rain backup or a spare day.</div>' : '') + '<div class="small" style="margin-top:4px">Open-Meteo forecast · ' + esc(new Date(WX.fetched).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })) + '</div></div></div>';
+  }
+  var INSTALL = { prompt: null };
+  window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); INSTALL.prompt = e; if (T && state.tab === "home") renderHome(); });
+  function isStandalone() { return (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true; }
+  function setOffline() { var el = document.getElementById("offline"); if (el) el.classList.toggle("on", !navigator.onLine); }
+  window.addEventListener("online", setOffline); window.addEventListener("offline", setOffline);
   var API = "https://script.google.com/macros/s/AKfycbwg_J1yqqBhmAftE-BZ3JYdlI5zvEXVf1PZoj4bzNaJqXSPh36vEXiMWyAVwMBtVWSu/exec";
   function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k) || ""; if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { return ""; } }
   var AUTH = { code: ls("trip.groupCode"), owner: ls("trip.ownerCode"), ok: false, isOwner: false, bookings: null };
@@ -539,7 +603,13 @@
       '<h1>' + esc(focus.text) + '</h1>' + (showPlace ? '<div class="sub">' + esc(p.en || "") + (p.zh ? ' · <span class="zh">' + esc(p.zh) + '</span>' : "") + '</div>' : "") +
       (B.cur ? '<div class="bar"><i style="width:' + pct + '%"></i></div>' : "") +
       '<div class="stats">' + (B.next ? '<span class="stat">Next ' + esc(B.next.time) + ' · ' + esc(B.next.text.length > 34 ? B.next.text.slice(0, 32) + "…" : B.next.text) + '</span>' : '<span class="stat">Last stop of the day</span>') +
-      '<span class="stat" title="' + esc(T.weather_source || "") + '">☁ ' + esc(T.weather_short || "") + '</span></div></section>';
+      '<span class="stat" title="' + esc(T.weather_source || "") + '">' + esc(wxShort(d.date)) + '</span></div></section>';
+    if (!isStandalone() && ls("trip.installHide") !== "1") {
+      var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      html += '<section class="section card install"><img src="icons/icon-192.png" alt=""><div style="flex:1;min-width:0"><b>Install the app</b>' +
+        '<div class="small muted" style="margin-top:4px">' + (ios ? 'In Safari tap Share <b>⬆︎</b> → <b>Add to Home Screen</b>. It then opens full-screen and works offline.' : 'Install it to open from your Home Screen and use it offline.') + '</div>' +
+        '<div class="actions">' + (INSTALL.prompt ? '<button class="btn primary" data-install="1">Install</button>' : '') + '<button class="btn" data-installhide="1">Hide</button></div></div></section>';
+    }
 
     html += '<section class="section card lock"><span style="width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none">' + ICON.lock + '</span>' +
       '<div style="flex:1;min-width:0"><div class="small muted">Group booking no.</div><div class="n">' + esc(groupNo() || T.booking_masked || "••••") + '</div></div>' +
@@ -620,7 +690,7 @@
     if (state.day === -1) { $("view").innerHTML = html + overviewHtml(); return; }
     var d = dayView(state.day);
     if (d.swapped) html += '<div class="swapbar">' + ICON.swap + '<div style="flex:1">Swapped in: ' + esc(d.title) + '<div class="small" style="font-weight:600">Original: ' + esc(d.original) + ' · on this phone</div></div><button class="btn" data-unswap="' + d.date + '">Undo</button></div>';
-    html += '<section class="section dayhead"><div class="small muted" style="font-weight:700">' + esc(d.dow) + ' ' + dayLabel(d).dd + ' Jan 2027</div><h2>' + esc(d.title) + '</h2><div class="zh">' + esc(d.title_zh || "") + '</div>' + notesHtml(d) + '</section>';
+    html += '<section class="section dayhead"><div class="small muted" style="font-weight:700">' + esc(d.dow) + ' ' + dayLabel(d).dd + ' Jan 2027</div><h2>' + esc(d.title) + '</h2><div class="zh">' + esc(d.title_zh || "") + '</div>' + wxCard(d) + notesHtml(d) + '</section>';
     html += timelineHtml(d);
     var fp = d.swapped ? [] : foodPicksFor(d.date);
     if (fp.length) html += '<details class="picks card section" open><summary>' + ICON.meal + 'Your food picks here (' + fp.length + ')</summary>' +
@@ -878,7 +948,9 @@
         '<div class="actions"><button class="btn" data-mrt="shandao">' + ICON.train + 'All exits</button></div></div>' +
       '<div class="card" style="margin-bottom:10px"><div class="kind k-travel">' + ICON.taxi + '2 · Taxi / Uber 計程車</div><div class="small muted" style="margin-top:6px">4 people fit one taxi. Every place has a “Taxi card” with the Chinese address.</div><div class="actions"><a class="btn" href="https://m.uber.com/" target="_blank" rel="noopener">Uber</a><a class="btn" href="https://www.taiwantaxi.com.tw/" target="_blank" rel="noopener">55688 Taiwan Taxi</a></div></div>' +
       '<div class="card"><div class="kind k-travel">' + ICON.flight + '3 · Airport transport 機場接送</div><div class="small muted" style="margin-top:6px">Paid 7-seater van · 3 Jan meet at TPE T2 arrivals ~17:20 · 8 Jan pick-up at the hotel 13:30 (~50–60 min)</div></div>');
-    if (k === "weather") return infoSheet("Weather 天氣", '<div class="card">' + esc(T.weather_note) + '<div class="small muted" style="margin-top:8px">Source: ' + esc(T.weather_source || "") + '</div></div>');
+    if (k === "weather") return infoSheet("Weather 天氣", '<div class="card">' + T.days.map(function (d) { var w = wxFor(d.date), c = w ? WMO(w.code) : ["☁️", "Jan average"];
+        return '<div class="wx"><span class="ico">' + c[0] + '</span><div><b>' + esc(d.dow) + ' ' + (+d.date.slice(8)) + ' Jan</b><div class="small muted">' + esc(c[1]) + ' · ' + esc((d.areas || [])[0] || "") + '</div></div><b>' + (w ? Math.round(w.min) + '–' + Math.round(w.max) + '°C<div class="small muted">rain ' + w.pop + '%</div>' : '~17–21°C') + '</b></div>'; }).join("") +
+      '</div><div class="card" style="margin-top:10px">' + esc(T.weather_note) + '<div class="small muted" style="margin-top:8px">' + esc(WX.note || ("Forecast: Open-Meteo, updated " + (WX.fetched ? new Date(WX.fetched).toLocaleString("en-GB") : "—"))) + '</div></div>');
     if (k === "messages") { state.tab = "messages"; return render(); }
     if (k === "messages_old") return infoSheet("Messages 公告", '<div class="card"><div class="muted">Group noticeboard: post once, everyone sees it as a banner (B4).</div></div>');
     if (k === "help") { state.tab = "help"; return render(); }
@@ -969,6 +1041,8 @@
     }
     else if (b.dataset.srate) { ls("trip.rate", String(parseFloat($("srate").value) || "")); renderSpend(); }
     else if (b.dataset.sdel) { api("spend_del", { id: b.dataset.sdel }).then(function (j) { if (j.ok) { SPEND.rows = null; renderSpend(); } else toast(j.error); }); }
+    else if (b.dataset.install) { if (INSTALL.prompt) { INSTALL.prompt.prompt(); INSTALL.prompt.userChoice.then(function () { INSTALL.prompt = null; renderHome(); }); } }
+    else if (b.dataset.installhide) { ls("trip.installHide", "1"); renderHome(); }
     else if (b.dataset.mdel) {
       if (!b.dataset.armed) { b.dataset.armed = "1"; b.textContent = "Tap again to delete"; b.style.borderColor = "var(--bad)"; b.style.color = "var(--bad)"; setTimeout(function () { if (b.isConnected) { delete b.dataset.armed; b.textContent = "Delete"; b.style.cssText = ""; } }, 4000); return; }
       b.disabled = true; b.textContent = "Deleting…";
@@ -1001,7 +1075,8 @@
   });
 
   fetch("data/trip.json", { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (j) {
-    T = j; renderPreview(); render();
+    T = j; setOffline(); loadWeather(); renderPreview(); render();
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function () {});
     if (AUTH.code) api("unlock").then(function (k) { if (k.ok) { AUTH.ok = true; AUTH.bookings = k.rows; if (AUTH.owner) api("check").then(function (c) { AUTH.isOwner = !!(c.ok && c.owner); if (state.tab === "spend") renderSpend(); }); pollMessages(); if (state.tab === "home") renderHome(); } }, function () { AUTH.ok = !!AUTH.code; });
     setInterval(function () { if (document.visibilityState === "visible") pollMessages(); }, 60000);
     window.addEventListener("online", flushQueue);
