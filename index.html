@@ -196,7 +196,7 @@
   .ovday .dd b { display: block; font-size: 23px; line-height: 1.1; } .ovday .dd span { font-size: 16px; color: var(--muted); font-weight: 700; }
   .ovday .t { font-weight: 800; font-size: 18px; } .ovday .s { font-size: 16px; color: var(--muted); }
   .codebox { width: 100%; min-height: 50px; border: 1.5px solid #d6d9df; border-radius: 12px; padding: 0 14px; font: 700 20px var(--font); letter-spacing: .12em; margin-top: 10px; }
-  .mapwrap { position: relative; margin: 10px -16px 0; }
+  .mapwrap { position: relative; margin: 10px -16px 0; isolation: isolate; z-index: 0; }
   #map { height: calc(100vh - 230px - env(safe-area-inset-bottom)); min-height: 380px; background: #e8ecef; }
   .mapbtn { position: absolute; right: 12px; bottom: 16px; z-index: 500; }
   .leaflet-popup-content { font: 600 16px/1.4 var(--font); margin: 12px 14px; }
@@ -303,7 +303,8 @@
   function dayView(i) {
     var d = T.days[i], sw = loadSwaps()[d.date], alt = sw ? ideaById(sw) : null;
     if (!alt) return d;
-    return Object.assign({}, alt, { date: d.date, dow: d.dow, breakfast: d.breakfast, swapped: alt.id, original: d.title, areas: alt.areas || [], near_hotel: d.near_hotel });
+    var areas = alt.areas || alt.items.map(function (it) { var p = T.places[it.place]; return p && it.place !== "hotel" ? p.area : null; }).filter(function (a, i, arr) { return a && arr.indexOf(a) === i; });
+    return Object.assign({}, alt, { date: d.date, dow: d.dow, breakfast: d.breakfast, swapped: alt.id, original: d.title, originalId: i, areas: areas, near_hotel: d.near_hotel });
   }
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
@@ -381,7 +382,7 @@
   function placeActions(p, compact) {
     if (!p) return "";
     var mrt = p.mrt ? '<button class="btn mrtbtn" data-mrt="' + p.mrt + '"><span class="mrtname">' + ICON.train + esc(T.stations[p.mrt].en) + ' <span class="zh muted">' + esc(T.stations[p.mrt].zh) + '</span></span>' + recChips(p.mrt) + '</button>' : "";
-    return '<div class="actions"><a class="btn primary" href="' + gmaps(p) + '" target="_blank" rel="noopener">' + ICON.go + 'Go</a>' +
+    return '<div class="actions"><a class="btn primary" href="' + gmaps(p) + '" target="_blank" rel="noopener">' + ICON.go + 'Go</a><a class="btn" href="' + amaps(p) + '" target="_blank" rel="noopener">Apple Maps</a>' +
       '<button class="btn" data-taxi="' + p.id + '">' + ICON.taxi + 'Taxi card</button>' + (compact ? "" : mrt) + '</div>';
   }
   function badges(p, date) {
@@ -453,7 +454,7 @@
       '<h1>' + esc(focus.text) + '</h1>' + (showPlace ? '<div class="sub">' + esc(p.en || "") + (p.zh ? ' · <span class="zh">' + esc(p.zh) + '</span>' : "") + '</div>' : "") +
       (B.cur ? '<div class="bar"><i style="width:' + pct + '%"></i></div>' : "") +
       '<div class="stats">' + (B.next ? '<span class="stat">Next ' + esc(B.next.time) + ' · ' + esc(B.next.text.length > 34 ? B.next.text.slice(0, 32) + "…" : B.next.text) + '</span>' : '<span class="stat">Last stop of the day</span>') +
-      '<span class="stat">☁ ~17–21°C · drizzle likely</span></div></section>';
+      '<span class="stat" title="' + esc(T.weather_source || "") + '">☁ ' + esc(T.weather_short || "") + '</span></div></section>';
 
     html += '<section class="section card lock"><span style="width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none">' + ICON.lock + '</span>' +
       '<div style="flex:1;min-width:0"><div class="small muted">Group booking no.</div><div class="n">' + esc(T.booking_masked || "••••") + '</div></div>' +
@@ -531,7 +532,7 @@
     if (d.swapped) html += '<div class="swapbar">' + ICON.swap + '<div style="flex:1">Swapped in: ' + esc(d.title) + '<div class="small" style="font-weight:600">Original: ' + esc(d.original) + ' · on this phone</div></div><button class="btn" data-unswap="' + d.date + '">Undo</button></div>';
     html += '<section class="section dayhead"><div class="small muted" style="font-weight:700">' + esc(d.dow) + ' ' + dayLabel(d).dd + ' Jan 2027</div><h2>' + esc(d.title) + '</h2><div class="zh">' + esc(d.title_zh || "") + '</div>' + notesHtml(d) + '</section>';
     html += timelineHtml(d);
-    var fp = foodPicksFor(d.date);
+    var fp = d.swapped ? [] : foodPicksFor(d.date);
     if (fp.length) html += '<details class="picks card section" open><summary>' + ICON.meal + 'Your food picks here (' + fp.length + ')</summary>' +
       fp.map(function (id) { var p = place(id); return pickRow({ en: p.en, zh: p.zh, lat: p.lat, lng: p.lng, note: p.access || "" }, null); }).join("") + '</details>';
     var picks = savedNear(d.areas || [], 30);
@@ -641,7 +642,7 @@
     toast("Finding you…");
     navigator.geolocation.getCurrentPosition(function (pos) {
       state.gps = { lat: pos.coords.latitude, lng: pos.coords.longitude, acc: Math.round(pos.coords.accuracy), en: "you" };
-      if (where === "map") { renderMap(); MAP.setView([state.gps.lat, state.gps.lng], 16); } else renderHome();
+      if (where === "map") { renderMap(); if (MAP) MAP.setView([state.gps.lat, state.gps.lng], 16); } else renderHome();
     }, function (err) { toast(err.code === 1 ? "Location is off for this browser — see Help" : "Could not get location"); }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
   }
 
@@ -655,7 +656,8 @@
   ];
   function renderHelp() {
     var e = T.emergency;
-    $("view").innerHTML = '<section class="section card"><div class="kind k-meal">' + ICON.help + 'Emergency 緊急</div>' +
+    $("view").innerHTML = '<div class="actions" style="margin-top:12px"><button class="btn" data-tab="home">← Home</button></div><h2 style="margin:10px 0 0;font-size:23px">Help 求助</h2>' +
+      '<section class="section card"><div class="kind k-meal">' + ICON.help + 'Emergency 緊急</div>' +
       '<div style="font-size:23px;font-weight:800;margin-top:6px">Police 110 · Ambulance / Fire 119</div>' +
       '<div class="actions"><a class="btn primary" href="tel:110">Call 110</a><a class="btn primary" href="tel:119">Call 119</a><a class="btn" href="tel:' + esc(e.tourist_hotline) + '">Tourist hotline</a></div></section>' +
       '<section class="section card"><div class="kind k-visit">' + ICON.info + 'Singapore Trade Office 新加坡駐台北商務辦事處</div>' +
@@ -693,14 +695,13 @@
     }
     if (k === "transport") return infoSheet("Transport 交通",
       '<div class="card" style="margin-bottom:10px"><div class="kind k-travel">' + ICON.train + '1 · MRT 捷運</div><div style="margin-top:6px"><b>Hotel station:</b> Shandao Temple 善導寺</div>' +
-        '<div class="actions" style="margin-top:6px">' + recChips("shandao") + '</div><div class="small muted" style="margin-top:6px">Exit 6 escalators (hotel side) · Exit 3 lift (across Zhongxiao E. Rd) · Avoid 2, 5</div>' +
+        '<div class="actions" style="margin-top:6px">' + recChips("shandao") + '</div><div class="small muted" style="margin-top:6px">' + esc(T.stations.shandao.note) + ' · Avoid ' + esc(T.stations.shandao.avoid.join(", ")) + '</div>' +
         '<div class="actions"><button class="btn" data-mrt="shandao">' + ICON.train + 'All exits</button></div></div>' +
       '<div class="card" style="margin-bottom:10px"><div class="kind k-travel">' + ICON.taxi + '2 · Taxi / Uber 計程車</div><div class="small muted" style="margin-top:6px">4 people fit one taxi. Every place has a “Taxi card” with the Chinese address.</div><div class="actions"><a class="btn" href="https://m.uber.com/" target="_blank" rel="noopener">Uber</a><a class="btn" href="https://www.taiwantaxi.com.tw/" target="_blank" rel="noopener">55688 Taiwan Taxi</a></div></div>' +
       '<div class="card"><div class="kind k-travel">' + ICON.flight + '3 · Airport transport 機場接送</div><div class="small muted" style="margin-top:6px">Paid 7-seater van · 3 Jan meet at TPE T2 arrivals ~17:20 · 8 Jan pick-up at the hotel 13:30 (~50–60 min)</div></div>');
-    if (k === "weather") return infoSheet("Weather 天氣", '<div class="card">' + esc(T.weather_note) + '<div class="small muted" style="margin-top:8px">Live forecast for each day’s area arrives in B5 (from ~19 Dec).</div></div>');
+    if (k === "weather") return infoSheet("Weather 天氣", '<div class="card">' + esc(T.weather_note) + '<div class="small muted" style="margin-top:8px">Source: ' + esc(T.weather_source || "") + '</div></div>');
     if (k === "messages") return infoSheet("Messages 公告", '<div class="card"><div class="muted">Group noticeboard: post once, everyone sees it as a banner (B4).</div></div>');
     if (k === "help") { state.tab = "help"; return render(); }
-    if (k === "help_old") return infoSheet("Help 求助", '<div class="card"><div style="font-size:21px;font-weight:800">Police 110 · Ambulance/Fire 119</div><div class="small muted">Tourist hotline 0800-011-765</div><div class="actions"><a class="btn primary" href="tel:110">Call 110</a><a class="btn primary" href="tel:119">Call 119</a></div></div>');
     if (k === "tobook") return infoSheet("To book / confirm", '<div class="card">' + T.to_book.map(function (x) { return '<div class="pick"><div class="grow small">' + esc(x) + '</div></div>'; }).join("") + '</div>');
   }
 
@@ -721,7 +722,7 @@
     if (b.dataset.tab) { state.tab = b.dataset.tab; render(); }
     else if (b.dataset.day) { state.day = +b.dataset.day; renderPlan(); }
     else if (b.dataset.icat) { state.ideaCat = b.dataset.icat; renderPlan(); }
-    else if (b.dataset.plus) infoSheet("Add to the trip", '<div class="card"><div class="muted">Swap a spare day or a day trip from Ideas into one of the days.</div><div class="actions"><button class="btn primary" data-mode="ideas" data-close>Open Ideas</button></div><div class="small muted" style="margin-top:8px">The actual swap is built in B3.</div></div>');
+    else if (b.dataset.plus) infoSheet("Add to the trip", '<div class="card"><div class="muted">Swap a spare day or a day trip from Ideas into one of the days.</div><div class="actions"><button class="btn primary" data-mode="ideas" data-close>Open Ideas</button></div><div class="small muted" style="margin-top:8px">In Ideas, open a spare day or day trip and tap “Swap into a day”.</div></div>');
     else if (b.dataset.unlock) { var v = ($("gcode") || {}).value || ""; try { if (v) localStorage.setItem("trip.groupCode", v); } catch (e) {} closeSheet(); toast(v ? "Code saved on this phone — booking details connect in B4" : "Enter the group code first"); }
     else if (b.dataset.mode) { state.planMode = b.dataset.mode; renderPlan(); window.scrollTo(0, 0); }
     else if (b.dataset.taxi) taxiSheet(b.dataset.taxi);
@@ -730,10 +731,10 @@
     else if (b.dataset.goplan) { state.tab = "plan"; state.planMode = "itin"; state.day = +b.dataset.goplan; render(); }
     else if (b.dataset.swap) {
       var idea = ideaById(b.dataset.swap), allowed = idea.swap_into || ["2027-01-05", "2027-01-06", "2027-01-07"];
-      infoSheet("Swap “" + esc(idea.title) + "” into…", '<div class="small muted">Replaces that day\'s plan on this phone (shared with the group in B4). You can undo it.</div>' +
+      infoSheet("Swap “" + esc(idea.title) + "” into…", '<div class="small muted">Replaces that day\'s plan on this phone (shared with the group in B4). The original plan stays saved — tap Undo on that day to restore it. An idea can be in one day at a time.</div>' +
         allowed.map(function (dt) { var i = T.days.map(function (d) { return d.date; }).indexOf(dt), d = T.days[i]; return '<button class="phr" data-swapto="' + dt + '" data-swapid="' + idea.id + '"><div class="zh" style="font-size:19px">' + esc(d.dow) + ' ' + (+dt.slice(8)) + ' Jan</div><div class="en">Now: ' + esc(d.title) + '</div></button>'; }).join(""));
     }
-    else if (b.dataset.swapto) { var sw = loadSwaps(); sw[b.dataset.swapto] = b.dataset.swapid; saveSwaps(sw); closeSheet(); state.tab = "plan"; state.planMode = "itin"; state.day = T.days.map(function (d) { return d.date; }).indexOf(b.dataset.swapto); render(); toast("Swapped — Undo is at the top of the day"); }
+    else if (b.dataset.swapto) { var sw = loadSwaps(); Object.keys(sw).forEach(function (k) { if (sw[k] === b.dataset.swapid) delete sw[k]; }); sw[b.dataset.swapto] = b.dataset.swapid; saveSwaps(sw); closeSheet(); state.tab = "plan"; state.planMode = "itin"; state.day = T.days.map(function (d) { return d.date; }).indexOf(b.dataset.swapto); render(); toast("Swapped — Undo is at the top of the day"); }
     else if (b.dataset.unswap) { var sw2 = loadSwaps(); delete sw2[b.dataset.unswap]; saveSwaps(sw2); renderPlan(); toast("Back to the original plan"); }
     else if (b.dataset.mapf) { state.mapFilter = b.dataset.mapf; renderMap(); }
     else if (b.dataset.gps) locate(b.dataset.gps);
