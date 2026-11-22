@@ -184,6 +184,8 @@
   .mi svg { width: 17px; height: 17px; }
   .mi.lift { background: var(--blue-soft); color: var(--blue); } .mi.esc { background: var(--teal-soft); color: var(--teal); }
   .mi.stairs { background: var(--bad-soft); color: var(--bad); }
+  .mrtbtn { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 8px 12px; padding: 8px 12px; text-align: left; }
+  .mrtname { display: inline-flex; align-items: center; gap: 6px; width: 100%; }
   .exitchips { display: inline-flex; gap: 6px; flex-wrap: wrap; align-items: center; }
   .idea { margin-top: 10px; }
   .idea summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; }
@@ -333,7 +335,7 @@
   // ---------- shared bits ----------
   function placeActions(p, compact) {
     if (!p) return "";
-    var mrt = p.mrt ? '<button class="btn" data-mrt="' + p.mrt + '">' + ICON.train + esc(T.stations[p.mrt].en) + ' · ' + recChips(p.mrt) + '</button>' : "";
+    var mrt = p.mrt ? '<button class="btn mrtbtn" data-mrt="' + p.mrt + '"><span class="mrtname">' + ICON.train + esc(T.stations[p.mrt].en) + ' <span class="zh muted">' + esc(T.stations[p.mrt].zh) + '</span></span>' + recChips(p.mrt) + '</button>' : "";
     return '<div class="actions"><a class="btn primary" href="' + gmaps(p) + '" target="_blank" rel="noopener">' + ICON.go + 'Go</a>' +
       '<button class="btn" data-taxi="' + p.id + '">' + ICON.taxi + 'Taxi card</button>' + (compact ? "" : mrt) + '</div>';
   }
