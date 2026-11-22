@@ -210,6 +210,24 @@
   .swapbar svg { width: 22px; height: 22px; flex: none; }
   .lock span svg { width: 26px; height: 26px; }
   .swapbar { display: flex; align-items: center; gap: 10px; background: var(--violet-soft); color: #4c32c7; border-radius: 14px; padding: 12px; margin-top: 10px; font-size: 16px; font-weight: 700; }
+  .field { display: block; margin-top: 12px; }
+  .field > span { display: block; font-weight: 800; font-size: 16px; margin-bottom: 6px; }
+  .inp { width: 100%; min-height: 48px; border: 1.5px solid #d6d9df; border-radius: 12px; padding: 10px 14px; font: 600 18px var(--font); background: #fff; color: var(--ink); }
+  textarea.inp { min-height: 90px; resize: vertical; }
+  .stars button { border: 0; background: none; font-size: 30px; padding: 0 4px; cursor: pointer; color: #d6d9df; }
+  .stars button.on { color: #e8a100; }
+  .thumb { width: 100%; border-radius: 12px; margin-top: 8px; display: block; }
+  .entry { padding: 12px 0; border-top: 1px solid var(--line); }
+  .entry:first-child { border-top: 0; }
+  .entry .who { font-size: 16px; color: var(--muted); }
+  .tot { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font-size: 17px; }
+  .tot b { text-align: right; }
+  .banner { display: flex; gap: 10px; align-items: flex-start; background: var(--rose-soft); color: #9d1b3f; border-radius: 14px; padding: 12px; margin-top: 12px; cursor: pointer; }
+  .banner svg { width: 22px; height: 22px; flex: none; }
+  .bk { border-top: 1px solid var(--line); padding: 10px 0; display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+  .bk:first-of-type { border-top: 0; }
+  .bk .v { font-weight: 800; font-size: 18px; word-break: break-all; }
+  .qnote { background: var(--amber-soft); color: #8a5a00; border-radius: 12px; padding: 10px 12px; font-size: 16px; margin-top: 10px; }
   .seg { display: grid; grid-template-columns: 1fr 1fr; background: #e9ebf0; border-radius: 14px; padding: 4px; margin-top: 14px; }
   .seg button { border: 0; background: none; border-radius: 11px; min-height: 42px; font-weight: 800; font-size: 17px; cursor: pointer; color: var(--muted); }
   .seg button.on { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(16,24,40,.12); }
@@ -297,6 +315,55 @@
 
   var T = null, state = { tab: "home", day: -1, planMode: "itin", ideaCat: "all", previewIdx: 1, mapFilter: "all", gps: null };
   var MAP = null;
+  var API = "https://script.google.com/macros/s/AKfycbwg_J1yqqBhmAftE-BZ3JYdlI5zvEXVf1PZoj4bzNaJqXSPh36vEXiMWyAVwMBtVWSu/exec";
+  function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k) || ""; if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { return ""; } }
+  var AUTH = { code: ls("trip.groupCode"), owner: ls("trip.ownerCode"), ok: false, isOwner: false, bookings: null };
+  function api(action, body) {
+    var payload = Object.assign({ action: action, code: AUTH.code, owner: AUTH.owner }, body || {});
+    return fetch(API, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) })
+      .then(function (r) { return r.json(); });
+  }
+  function cid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+  function queue() { try { return JSON.parse(ls("trip.queue") || "[]"); } catch (e) { return []; } }
+  function setQueue(q) { ls("trip.queue", JSON.stringify(q)); }
+  function send(action, body) {
+    // post now; if offline / network error, keep in the queue and retry later
+    body.client_id = body.client_id || cid();
+    return api(action, body).then(function (j) { return j; }, function () {
+      var q = queue(); q.push({ action: action, body: body }); setQueue(q); return { ok: true, queued: true };
+    });
+  }
+  function flushQueue() {
+    var q = queue(); if (!q.length || !AUTH.code) return Promise.resolve(0);
+    var left = [], sent = 0;
+    return q.reduce(function (pr, item) { return pr.then(function () {
+      return api(item.action, item.body).then(function (j) { if (j && j.ok) sent++; else left.push(item); }, function () { left.push(item); });
+    }); }, Promise.resolve()).then(function () { setQueue(left); if (sent) toast(sent + " saved item(s) synced"); return sent; });
+  }
+  function resizePhoto(file, max) {
+    return new Promise(function (res, rej) {
+      var img = new Image(), url = URL.createObjectURL(file);
+      img.onload = function () {
+        var k = Math.min(1, (max || 1280) / Math.max(img.width, img.height)), c = document.createElement("canvas");
+        c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url); res(c.toDataURL("image/jpeg", 0.8));
+      };
+      img.onerror = function () { rej(new Error("photo")); }; img.src = url;
+    });
+  }
+  function taipeiDate() { var tp = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Taipei" })); return tp.getFullYear() + "-" + String(tp.getMonth() + 1).padStart(2, "0") + "-" + String(tp.getDate()).padStart(2, "0"); }
+  function needCode(what) {
+    return '<div class="card section"><div class="kind k-meal">' + ICON.lock + 'Group code needed</div><div class="muted" style="margin-top:6px">' + what + '</div>' +
+      '<label class="field"><span>Group code</span><input id="gcode" class="inp codebox" type="password" autocomplete="off"></label>' +
+      '<div class="actions"><button class="btn primary" data-unlock="1">' + ICON.lock + 'Unlock</button></div></div>';
+  }
+  function doUnlock(code) {
+    AUTH.code = code;
+    return api("unlock").then(function (j) {
+      if (!j.ok) { AUTH.code = ""; ls("trip.groupCode", null); AUTH.ok = false; toast(j.error === "wrong group code" ? "Wrong group code" : "Could not unlock: " + j.error); return false; }
+      ls("trip.groupCode", code); AUTH.ok = true; AUTH.bookings = j.rows; flushQueue(); pollMessages(); return true;
+    }, function () { toast("No connection — try again"); return false; });
+  }
   function loadSwaps() { try { return JSON.parse(localStorage.getItem("trip.swaps") || "{}"); } catch (e) { return {}; } }
   function saveSwaps(x) { try { localStorage.setItem("trip.swaps", JSON.stringify(x)); } catch (e) {} }
   function ideaById(id) { return T.spare_days.concat(T.idea_daytrips || []).filter(function (x) { return x.id === id; })[0]; }
@@ -431,6 +498,17 @@
     return { cur: cur == null ? null : items[cur], next: nxt == null ? null : items[nxt] };
   }
   function toMin(t) { var p = t.split(":"); return +p[0] * 60 + +p[1]; }
+  function groupNo() { var r = (AUTH.bookings || []).filter(function (x) { return x.card === "group"; })[0]; return r ? r.value : ""; }
+  var MSG = { rows: [], unread: null, timer: null };
+  function pollMessages() {
+    if (!AUTH.ok) return;
+    api("msg_list").then(function (j) {
+      if (!j.ok) return; MSG.rows = j.rows; var top = j.rows[0], seen = ls("trip.msgSeen");
+      MSG.unread = top && top.id !== seen && top.by !== ls("trip.name") ? top : null;
+      if (state.tab === "home") renderHome(); if (state.tab === "messages") renderMessages();
+    }, function () {});
+    flushQueue();
+  }
   function renderHome() {
     var ni = nowInfo(), d = dayView(ni.idx), now = ni.time, B = blockAt(d, now);
     document.querySelector('.preview').style.display = ni.live ? 'none' : '';
@@ -457,8 +535,9 @@
       '<span class="stat" title="' + esc(T.weather_source || "") + '">☁ ' + esc(T.weather_short || "") + '</span></div></section>';
 
     html += '<section class="section card lock"><span style="width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none">' + ICON.lock + '</span>' +
-      '<div style="flex:1;min-width:0"><div class="small muted">Group booking no.</div><div class="n">' + esc(T.booking_masked || "••••") + '</div></div>' +
-      '<button class="btn" data-home="bookings">Unlock</button></section>';
+      '<div style="flex:1;min-width:0"><div class="small muted">Group booking no.</div><div class="n">' + esc(groupNo() || T.booking_masked || "••••") + '</div></div>' +
+      '<button class="btn" data-home="bookings">' + (AUTH.ok ? "Details" : "Unlock") + '</button></section>';
+    if (MSG.unread) html = '<div class="banner" data-home="messages">' + ICON.msg + '<div><b>New message</b> from ' + esc(MSG.unread.by || "someone") + ': ' + esc(MSG.unread.text.slice(0, 90)) + '</div></div>' + html;
 
     html += '<section class="section"><div class="icons">' +
       [["flight", "Flights", "t-blue", "flights"], ["hotel", "Hotel", "t-violet", "hotel"], ["doc", "Bookings", "t-orange", "bookings"],
@@ -595,7 +674,7 @@
   function renderMap() {
     var chips = [["all", "All"], ["saved", "★ Saved"], ["mrt", "MRT exits"]].concat(T.days.map(function (d, i) { return ["d" + i, "Jan " + dayLabel(d).dd]; }));
     $("view").innerHTML = '<div class="crow">' + chips.map(function (c) { return '<button class="cp ' + (state.mapFilter === c[0] ? "on" : "") + '" data-mapf="' + c[0] + '">' + c[1] + '</button>'; }).join("") + '</div>' +
-      '<div class="legend"><span><i style="background:#2f6fec"></i>Sight</span><span><i style="background:#ff5a1f"></i>Food</span><span><i style="background:#7b5cf0"></i>Shop</span><span><i style="background:#141a26"></i>Hotel</span><span><i style="background:#e8a100"></i>Saved</span><span><i style="background:#15803d;border-radius:3px"></i>MRT exit</span></div>' +
+      '<div class="legend"><span><i style="background:#2f6fec"></i>Sight</span><span><i style="background:#ff5a1f"></i>Food</span><span><i style="background:#7b5cf0"></i>Shop</span><span><i style="background:#141a26"></i>Hotel</span><span><i style="background:#e8a100"></i>Saved</span><span><i style="background:#15803d;border-radius:3px"></i>MRT exit</span><span><i style="background:#e2456b"></i>Group log</span></div>' +
       '<div class="mapwrap"><div id="map"></div><button class="btn primary mapbtn" data-gps="map">' + ICON.log + 'Where am I?</button></div>';
     if (!window.L) { $("map").innerHTML = '<div class="loading">Map needs an internet connection.</div>'; return; }
     if (MAP) { MAP.remove(); MAP = null; }
@@ -633,6 +712,7 @@
           '<div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=' + e.lat + ',' + e.lng + '" target="_blank" rel="noopener">Go</a><button class="btn" data-mrt="' + sid + '">All exits</button></div></div>', 0, true);
       });
     });
+    if ((f === "all" || f === "saved") && LOG.rows) LOG.rows.forEach(function (r) { if (r.lat && r.lng) add(+r.lat, +r.lng, "#e2456b", popup({ en: r.name, zh: "", lat: +r.lat, lng: +r.lng, note: (r.by ? r.by + ": " : "") + (r.comment || "") }), 7); });
     if (state.gps) L.circleMarker([state.gps.lat, state.gps.lng], { radius: 9, color: "#fff", weight: 3, fillColor: "#2f6fec", fillOpacity: 1 }).addTo(MAP).bindPopup("You are here");
     if (pts.length && f !== "all") MAP.fitBounds(pts, { padding: [30, 30], maxZoom: 16 });
     setTimeout(function () { MAP && MAP.invalidateSize(); }, 50);
@@ -670,6 +750,87 @@
       '<section class="section card"><div class="kind k-travel">' + ICON.log + 'Location not working on iPhone?</div><div class="small" style="margin-top:6px">Settings → Privacy &amp; Security → Location Services → Safari Websites → While Using the App.</div></section><div style="height:16px"></div>';
   }
 
+  var LOG = { rows: null, draft: { rating: 0, photo: "", gps: null } };
+  function nameField() { return '<label class="field"><span>Your name (shown to the group)</span><input id="who" class="inp" value="' + esc(ls("trip.name")) + '" placeholder="e.g. Jimmy" maxlength="40"></label>'; }
+  function renderLog() {
+    if (!AUTH.ok) { $("view").innerHTML = needCode("Log good food and places for the group: location, photo and comment."); return; }
+    var d = LOG.draft, q = queue().filter(function (x) { return x.action === "log_add"; }).length;
+    var html = '<h2 style="margin:16px 0 0;font-size:23px">Log 記錄 <span class="zh muted" style="font-size:18px">好吃好玩</span></h2>' +
+      '<div class="card section">' + nameField() +
+      '<label class="field"><span>Place or dish</span><input id="lname" class="inp" placeholder="e.g. 胡椒餅 pepper bun" maxlength="120"></label>' +
+      '<div class="field"><span>Location</span><div class="actions" style="margin-top:0"><button class="btn" data-loggps="1">' + ICON.log + (d.gps ? "Location ✓ ±" + d.gps.acc + " m" : "Add my location") + '</button></div></div>' +
+      '<div class="field"><span>Photo</span><label class="btn" for="lphoto">' + ICON.doc + (d.photo ? "Change photo" : "Take / choose photo") + '</label><input id="lphoto" type="file" accept="image/*" capture="environment" hidden>' +
+      (d.photo ? '<img class="thumb" src="' + d.photo + '" alt="">' : '') + '</div>' +
+      '<div class="field"><span>Rating</span><div class="stars">' + [1, 2, 3, 4, 5].map(function (n) { return '<button class="' + (d.rating >= n ? "on" : "") + '" data-star="' + n + '">★</button>'; }).join("") + '</div></div>' +
+      '<label class="field"><span>Comment</span><textarea id="lcomment" class="inp" maxlength="1000" placeholder="What was good? Price? Queue? Seats?"></textarea></label>' +
+      '<div class="actions"><button class="btn primary" data-logsave="1">Save for the group</button></div>' +
+      (q ? '<div class="qnote">' + q + ' entry(ies) waiting for signal — they sync automatically.</div>' : '') + '</div>';
+    html += '<section class="section"><h2>From the group <span class="zh">大家的記錄</span></h2><div class="card" id="loglist">' + (LOG.rows ? logRowsHtml() : '<div class="muted">Loading…</div>') + '</div></section><div style="height:16px"></div>';
+    $("view").innerHTML = html;
+    if (!LOG.rows) api("log_list").then(function (j) { LOG.rows = j.ok ? j.rows : []; if (state.tab === "log") $("loglist").innerHTML = logRowsHtml(); }, function () { LOG.rows = []; });
+  }
+  function logRowsHtml() {
+    if (!LOG.rows.length) return '<div class="muted">No entries yet — be the first.</div>';
+    return LOG.rows.map(function (r) {
+      var has = r.lat && r.lng;
+      return '<div class="entry"><div style="font-weight:800;font-size:18px">' + esc(r.name || "(no name)") + (r.rating ? ' <span style="color:#e8a100">' + "★".repeat(+r.rating) + '</span>' : '') + '</div>' +
+        '<div class="who">' + esc(r.by || "") + ' · ' + esc((r.time || "").replace("T", " ").slice(5, 16)) + '</div>' + (r.comment ? '<div style="margin-top:4px">' + esc(r.comment) + '</div>' : '') +
+        '<div class="actions">' + (has ? '<a class="btn" href="https://www.google.com/maps/search/?api=1&query=' + r.lat + ',' + r.lng + '" target="_blank" rel="noopener">' + ICON.go + 'Go</a>' : '') +
+        (r.photo_id ? '<button class="btn" data-file="' + esc(r.photo_id) + '" data-ftype="image/jpeg">' + ICON.doc + 'Photo</button>' : '') + '</div><div id="f_' + esc(r.photo_id || "") + '"></div></div>';
+    }).join("");
+  }
+
+  var SPEND = { rows: null, draft: { cat: "food", photo: "" } };
+  var CATS = [["food", "Food 餐飲"], ["transport", "Transport 交通"], ["shopping", "Shopping 購物"], ["tickets", "Tickets 門票"], ["other", "Other 其他"]];
+  function renderSpend() {
+    if (!AUTH.ok) { $("view").innerHTML = needCode("Spend is private to the trip organiser."); return; }
+    if (!AUTH.isOwner) {
+      $("view").innerHTML = '<div class="card section"><div class="kind k-meal">' + ICON.lock + 'Owner code</div><div class="muted" style="margin-top:6px">Spending is visible to the organiser only.</div>' +
+        '<label class="field"><span>Owner code</span><input id="ocode" class="inp codebox" type="password" autocomplete="off"></label><div class="actions"><button class="btn primary" data-owner="1">Open Spend</button></div></div>';
+      return;
+    }
+    var d = SPEND.draft, rate = parseFloat(ls("trip.rate")) || 0;
+    var html = '<h2 style="margin:16px 0 0;font-size:23px">Spend 花費 <span class="small muted">(only you)</span></h2>' +
+      '<div class="card section"><label class="field" style="margin-top:0"><span>Amount (TWD)</span><input id="samt" class="inp" type="number" inputmode="decimal" min="0" step="1" placeholder="0"></label>' +
+      '<div class="field"><span>Category</span><div class="crow" style="padding-top:0">' + CATS.map(function (c) { return '<button class="cp ' + (d.cat === c[0] ? "on" : "") + '" data-scat="' + c[0] + '">' + c[1] + '</button>'; }).join("") + '</div></div>' +
+      '<label class="field"><span>Note</span><input id="snote" class="inp" maxlength="300" placeholder="e.g. lunch at 吃飯看海"></label>' +
+      '<div class="field"><span>Receipt photo</span><label class="btn" for="sphoto">' + ICON.doc + (d.photo ? "Change receipt" : "Snap receipt") + '</label><input id="sphoto" type="file" accept="image/*" capture="environment" hidden>' +
+      (d.photo ? '<img class="thumb" src="' + d.photo + '" alt="">' : '') + '</div>' +
+      '<div class="actions"><button class="btn primary" data-ssave="1">Save</button></div></div>';
+    html += '<section class="section card" id="stot">' + (SPEND.rows ? spendTotals(rate) : '<div class="muted">Loading…</div>') + '</section>';
+    html += '<section class="section"><h2>Entries</h2><div class="card" id="slist">' + (SPEND.rows ? spendRows() : '') + '</div></section><div style="height:16px"></div>';
+    $("view").innerHTML = html;
+    if (!SPEND.rows) api("spend_list").then(function (j) { SPEND.rows = j.ok ? j.rows : []; if (state.tab === "spend") renderSpend(); }, function () { SPEND.rows = []; });
+  }
+  function spendTotals(rate) {
+    var all = 0, byDay = {}, byCat = {};
+    SPEND.rows.forEach(function (r) { var a = +r.amount || 0; all += a; byDay[r.date] = (byDay[r.date] || 0) + a; byCat[r.category] = (byCat[r.category] || 0) + a; });
+    var sgd = function (x) { return rate ? ' <span class="muted">≈ S$' + (x / rate).toFixed(2) + '</span>' : ''; };
+    return '<div class="kind k-meal">' + ICON.spend + 'Totals</div><div style="font-size:27px;font-weight:800;margin:6px 0">NT$' + all.toLocaleString() + sgd(all) + '</div>' +
+      '<div class="tot">' + Object.keys(byDay).sort().map(function (k) { return '<span>' + esc(k) + '</span><b>NT$' + byDay[k].toLocaleString() + '</b>'; }).join("") + '</div>' +
+      '<div class="tot" style="margin-top:10px">' + CATS.filter(function (c) { return byCat[c[0]]; }).map(function (c) { return '<span>' + c[1] + '</span><b>NT$' + byCat[c[0]].toLocaleString() + '</b>'; }).join("") + '</div>' +
+      '<label class="field"><span>Exchange rate: TWD per 1 SGD (set it yourself)</span><input id="srate" class="inp" type="number" inputmode="decimal" step="0.01" value="' + (rate || "") + '" placeholder="e.g. 23.5"></label>' +
+      '<div class="actions"><button class="btn" data-srate="1">Set rate</button></div>';
+  }
+  function spendRows() {
+    if (!SPEND.rows.length) return '<div class="muted">No entries yet.</div>';
+    return SPEND.rows.map(function (r) {
+      return '<div class="entry"><div style="display:flex;justify-content:space-between;gap:8px"><b style="font-size:18px">NT$' + (+r.amount).toLocaleString() + '</b><span class="who">' + esc(r.date) + '</span></div>' +
+        '<div class="who">' + esc((CATS.filter(function (c) { return c[0] === r.category; })[0] || ["", r.category])[1]) + (r.note ? ' · ' + esc(r.note) : '') + '</div>' +
+        '<div class="actions">' + (r.photo_id ? '<button class="btn" data-file="' + esc(r.photo_id) + '" data-ftype="image/jpeg">' + ICON.doc + 'Receipt</button>' : '') +
+        '<button class="btn" data-sdel="' + esc(r.id) + '">Delete</button></div><div id="f_' + esc(r.photo_id || "") + '"></div></div>';
+    }).join("");
+  }
+
+  function renderMessages() {
+    if (!AUTH.ok) { $("view").innerHTML = '<div class="actions" style="margin-top:12px"><button class="btn" data-tab="home">← Home</button></div>' + needCode("Group noticeboard: post once, everyone sees it."); return; }
+    var top = MSG.rows[0]; if (top) { ls("trip.msgSeen", top.id); MSG.unread = null; }
+    $("view").innerHTML = '<div class="actions" style="margin-top:12px"><button class="btn" data-tab="home">← Home</button></div><h2 style="margin:10px 0 0;font-size:23px">Messages 公告</h2>' +
+      '<div class="card section">' + nameField() + '<label class="field"><span>Message to everyone</span><textarea id="mtext" class="inp" maxlength="500" placeholder="e.g. Meet at the lobby 10:30 大廳集合"></textarea></label>' +
+      '<div class="actions"><button class="btn primary" data-msend="1">' + ICON.msg + 'Send to the group</button></div><div class="small muted" style="margin-top:6px">Shows as a banner when anyone opens the app (checks every minute).</div></div>' +
+      '<section class="section card">' + (MSG.rows.length ? MSG.rows.map(function (r) { return '<div class="entry"><div class="who">' + esc(r.by || "") + ' · ' + esc((r.time || "").replace("T", " ").slice(5, 16)) + '</div><div style="font-size:18px;margin-top:2px">' + esc(r.text) + '</div></div>'; }).join("") : '<div class="muted">No messages yet.</div>') + '</section><div style="height:16px"></div>';
+  }
+
   function renderSoon(tab) {
     var what = { map: ["map", "Map", "All planned places and your saved places as pins, with “you are here”.", "B3"],
                  log: ["log", "Log", "Found something good? GPS fills the location; add a photo and comment for the group.", "B4"],
@@ -686,12 +847,19 @@
     }).join("") + '<div class="small muted">Booking reference and the full confirmation load from Bookings after the group code (B4).</div>');
     if (k === "hotel") { var h = place("hotel"); return infoSheet("Hotel 飯店", names(h) + '<div class="small muted" style="margin-top:6px">' + esc(h.address) + '</div><div class="small" style="margin-top:6px">Check-in 3 Jan from 15:00 · Check-out 8 Jan before 11:00 · 5 nights · 2 rooms · Breakfast ' + esc(T.hotel_breakfast || "") + '</div>' + placeActions(h)); }
     if (k === "bookings") {
-      var saved = ""; try { saved = localStorage.getItem("trip.groupCode") || ""; } catch (e) {}
-      return infoSheet("Bookings 訂單", '<div class="card lock"><span style="color:var(--accent)">' + ICON.lock + '</span><div><div class="small muted">Group booking no.</div><div class="n">' + esc(T.booking_masked) + '</div></div></div>' +
-        '<div class="card" style="margin-top:10px"><label class="small" style="font-weight:800" for="gcode">Group code</label>' +
-        '<input id="gcode" class="codebox" type="password" inputmode="text" autocomplete="off" placeholder="Enter the group code" value="' + esc(saved) + '">' +
-        '<div class="actions"><button class="btn primary" data-unlock="1">' + ICON.lock + 'Unlock</button></div>' +
-        '<div class="small muted" style="margin-top:8px">' + (saved ? "Code saved on this phone. " : "") + 'Mock: the code is kept on this phone only. Checking it and showing the full booking number, PNRs, e-tickets and the voucher is connected in B4.</div></div>');
+      if (!AUTH.ok || !AUTH.bookings) return infoSheet("Bookings 訂單", '<div class="card lock"><span style="color:var(--accent)">' + ICON.lock + '</span><div><div class="small muted">Group booking no.</div><div class="n">' + esc(T.booking_masked) + '</div></div></div>' +
+        '<div class="card" style="margin-top:10px"><label class="field" style="margin-top:0"><span>Group code</span><input id="gcode" class="inp codebox" type="password" autocomplete="off" placeholder="Enter the group code"></label>' +
+        '<div class="actions"><button class="btn primary" data-unlock="bookings">' + ICON.lock + 'Unlock</button></div><div class="small muted" style="margin-top:8px">The code is remembered on this phone. Booking details are loaded from the private trip folder, never stored in the public app.</div></div>');
+      var groups = {}, order = [];
+      AUTH.bookings.forEach(function (r) { if (!groups[r.card]) { groups[r.card] = []; order.push(r.card); } groups[r.card].push(r); });
+      var title = { group: "Group booking", flight_out: "Flight out", flight_back: "Flight back", hotel: "Hotel" };
+      return infoSheet("Bookings 訂單", order.map(function (c) {
+        var rows = groups[c], files = rows.filter(function (r) { return r.file; });
+        return '<div class="card" style="margin-bottom:10px"><div class="kind k-' + (c === "hotel" ? "hotel" : c === "group" ? "meal" : "flight") + '">' + (c === "hotel" ? ICON.hotel : c === "group" ? ICON.doc : ICON.flight) + esc(title[c] || c) + '</div>' +
+          rows.map(function (r) { return '<div class="bk"><div><div class="small muted">' + esc(r.label) + '</div><div class="v">' + esc(r.value) + '</div></div>' +
+            '<button class="iconbtn" data-copy="' + esc(String(r.value).replace(/^(PNR|E-ticket|Hotel confirmation)\s*/, "")) + '" aria-label="Copy">⧉</button></div>'; }).join("") +
+          files.map(function (r) { return '<div class="actions"><button class="btn primary" data-file="' + esc(r.file.id) + '" data-ftype="' + esc(r.file.type) + '">' + ICON.doc + 'View full ' + (/pdf/.test(r.file.type) ? "PDF" : "image") + '</button></div><div id="f_' + esc(r.file.id) + '"></div>'; }).join("") + '</div>';
+      }).join("") + '<div class="actions"><button class="btn" data-lock="1">Lock on this phone</button></div>');
     }
     if (k === "transport") return infoSheet("Transport 交通",
       '<div class="card" style="margin-bottom:10px"><div class="kind k-travel">' + ICON.train + '1 · MRT 捷運</div><div style="margin-top:6px"><b>Hotel station:</b> Shandao Temple 善導寺</div>' +
@@ -700,16 +868,30 @@
       '<div class="card" style="margin-bottom:10px"><div class="kind k-travel">' + ICON.taxi + '2 · Taxi / Uber 計程車</div><div class="small muted" style="margin-top:6px">4 people fit one taxi. Every place has a “Taxi card” with the Chinese address.</div><div class="actions"><a class="btn" href="https://m.uber.com/" target="_blank" rel="noopener">Uber</a><a class="btn" href="https://www.taiwantaxi.com.tw/" target="_blank" rel="noopener">55688 Taiwan Taxi</a></div></div>' +
       '<div class="card"><div class="kind k-travel">' + ICON.flight + '3 · Airport transport 機場接送</div><div class="small muted" style="margin-top:6px">Paid 7-seater van · 3 Jan meet at TPE T2 arrivals ~17:20 · 8 Jan pick-up at the hotel 13:30 (~50–60 min)</div></div>');
     if (k === "weather") return infoSheet("Weather 天氣", '<div class="card">' + esc(T.weather_note) + '<div class="small muted" style="margin-top:8px">Source: ' + esc(T.weather_source || "") + '</div></div>');
-    if (k === "messages") return infoSheet("Messages 公告", '<div class="card"><div class="muted">Group noticeboard: post once, everyone sees it as a banner (B4).</div></div>');
+    if (k === "messages") { state.tab = "messages"; return render(); }
+    if (k === "messages_old") return infoSheet("Messages 公告", '<div class="card"><div class="muted">Group noticeboard: post once, everyone sees it as a banner (B4).</div></div>');
     if (k === "help") { state.tab = "help"; return render(); }
     if (k === "tobook") return infoSheet("To book / confirm", '<div class="card">' + T.to_book.map(function (x) { return '<div class="pick"><div class="grow small">' + esc(x) + '</div></div>'; }).join("") + '</div>');
   }
 
+  var FORM = {};
+  function keepForm() { ["who", "lname", "lcomment", "samt", "snote"].forEach(function (id) { var el = $(id); if (el) FORM[id] = el.value; }); }
+  function restoreForm() { Object.keys(FORM).forEach(function (id) { var el = $(id); if (el) el.value = FORM[id]; }); }
+  document.addEventListener("change", function (e) {
+    var t = e.target; if (!t.files || !t.files[0]) return;
+    if (t.id !== "lphoto" && t.id !== "sphoto") return;
+    keepForm();
+    resizePhoto(t.files[0], 1280).then(function (url) {
+      if (t.id === "lphoto") { LOG.draft.photo = url; renderLog(); } else { SPEND.draft.photo = url; renderSpend(); }
+      restoreForm();
+    }, function () { toast("Could not read the photo"); });
+  });
   // ---------- frame ----------
   var TABS = [["home", "Home"], ["plan", "Plan"], ["map", "Map"], ["log", "Log"], ["spend", "Spend"]];
   function render() {
     $("tabs").innerHTML = TABS.map(function (t) { return '<button class="tab ' + (state.tab === t[0] ? "on" : "") + '" data-tab="' + t[0] + '">' + ICON[t[0]] + '<span>' + t[1] + '</span></button>'; }).join("");
-    if (state.tab === "home") renderHome(); else if (state.tab === "plan") renderPlan(); else if (state.tab === "map") renderMap(); else if (state.tab === "help") renderHelp(); else renderSoon(state.tab);
+    if (state.tab === "home") renderHome(); else if (state.tab === "plan") renderPlan(); else if (state.tab === "map") renderMap(); else if (state.tab === "help") renderHelp();
+    else if (state.tab === "log") renderLog(); else if (state.tab === "spend") renderSpend(); else if (state.tab === "messages") renderMessages(); else renderSoon(state.tab);
     window.scrollTo(0, 0);
   }
   function renderPreview() {
@@ -718,12 +900,70 @@
     }).join("");
   }
   document.addEventListener("click", function (e) {
-    var b = e.target.closest("button,[data-tab],[data-day]"); if (!b) return;
+    var b = e.target.closest("button,[data-tab],[data-day],[data-home]"); if (!b) return;
     if (b.dataset.tab) { state.tab = b.dataset.tab; render(); }
     else if (b.dataset.day) { state.day = +b.dataset.day; renderPlan(); }
     else if (b.dataset.icat) { state.ideaCat = b.dataset.icat; renderPlan(); }
     else if (b.dataset.plus) infoSheet("Add to the trip", '<div class="card"><div class="muted">Swap a spare day or a day trip from Ideas into one of the days.</div><div class="actions"><button class="btn primary" data-mode="ideas" data-close>Open Ideas</button></div><div class="small muted" style="margin-top:8px">In Ideas, open a spare day or day trip and tap “Swap into a day”.</div></div>');
-    else if (b.dataset.unlock) { var v = ($("gcode") || {}).value || ""; try { if (v) localStorage.setItem("trip.groupCode", v); } catch (e) {} closeSheet(); toast(v ? "Code saved on this phone — booking details connect in B4" : "Enter the group code first"); }
+    else if (b.dataset.unlock) {
+      var v = (($("gcode") || {}).value || "").trim(); if (!v) return toast("Enter the group code first");
+      b.disabled = true; b.textContent = "Checking…";
+      doUnlock(v).then(function (ok) { if (!ok) { b.disabled = false; b.textContent = "Unlock"; return; } toast("Unlocked on this phone");
+        if (b.dataset.unlock === "bookings") homeShortcut("bookings"); else { closeSheet(); render(); } });
+    }
+    else if (b.dataset.lock) { ls("trip.groupCode", null); ls("trip.ownerCode", null); AUTH = { code: "", owner: "", ok: false, isOwner: false, bookings: null }; closeSheet(); render(); toast("Locked on this phone"); }
+    else if (b.dataset.copy) { (navigator.clipboard ? navigator.clipboard.writeText(b.dataset.copy) : Promise.reject()).then(function () { toast("Copied"); }, function () { toast(b.dataset.copy); }); }
+    else if (b.dataset.file) {
+      var box = $("f_" + b.dataset.file); b.disabled = true; b.textContent = "Loading…";
+      api("file", { id: b.dataset.file }).then(function (j) {
+        b.disabled = false; b.textContent = "Loaded";
+        if (!j.ok) return toast("Could not load: " + j.error);
+        var bin = atob(j.data), arr = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+        var url = URL.createObjectURL(new Blob([arr], { type: j.type }));
+        if (box) box.innerHTML = /pdf/.test(j.type) ? '<div class="actions"><a class="btn primary" href="' + url + '" target="_blank" rel="noopener">Open PDF</a></div>' : '<a href="' + url + '" target="_blank" rel="noopener"><img class="thumb" src="' + url + '" alt="' + esc(j.name) + '"></a>';
+      }, function () { b.disabled = false; b.textContent = "Try again"; toast("No connection"); });
+    }
+    else if (b.dataset.star) { LOG.draft.rating = +b.dataset.star; keepForm(); renderLog(); restoreForm(); }
+    else if (b.dataset.loggps) {
+      if (!("geolocation" in navigator)) return toast("No location support");
+      keepForm(); toast("Finding you…");
+      navigator.geolocation.getCurrentPosition(function (pos) { LOG.draft.gps = { lat: pos.coords.latitude, lng: pos.coords.longitude, acc: Math.round(pos.coords.accuracy) }; renderLog(); restoreForm(); },
+        function () { toast("Location is off — see Help"); }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 30000 });
+    }
+    else if (b.dataset.logsave) {
+      var nm = ($("lname").value || "").trim(), who = ($("who").value || "").trim();
+      if (!nm && !LOG.draft.photo) return toast("Add a name or a photo");
+      if (who) ls("trip.name", who);
+      b.disabled = true; b.textContent = "Saving…";
+      send("log_add", { by: who, name: nm, comment: $("lcomment").value, rating: LOG.draft.rating, gps: LOG.draft.gps, photo: LOG.draft.photo }).then(function (j) {
+        b.disabled = false; b.textContent = "Save for the group";
+        if (!j.ok) return toast("Not saved: " + j.error);
+        toast(j.queued ? "No signal — saved on the phone, will sync" : "Saved for the group");
+        LOG.draft = { rating: 0, photo: "", gps: null }; LOG.rows = null; FORM = {}; renderLog();
+      });
+    }
+    else if (b.dataset.scat) { SPEND.draft.cat = b.dataset.scat; keepForm(); renderSpend(); restoreForm(); }
+    else if (b.dataset.owner) {
+      var oc = (($("ocode") || {}).value || "").trim(); if (!oc) return toast("Enter the owner code");
+      AUTH.owner = oc; api("check").then(function (j) { if (j.ok && j.owner) { AUTH.isOwner = true; ls("trip.ownerCode", oc); renderSpend(); } else { AUTH.owner = ""; toast("Wrong owner code"); } }, function () { toast("No connection"); });
+    }
+    else if (b.dataset.ssave) {
+      var amt = parseFloat($("samt").value); if (!(amt > 0)) return toast("Enter the amount");
+      b.disabled = true; b.textContent = "Saving…";
+      send("spend_add", { amount: amt, currency: "TWD", category: SPEND.draft.cat, note: $("snote").value, date: taipeiDate(), photo: SPEND.draft.photo }).then(function (j) {
+        b.disabled = false; b.textContent = "Save";
+        if (!j.ok) return toast("Not saved: " + j.error);
+        toast(j.queued ? "No signal — saved on the phone, will sync" : "Saved"); SPEND.draft = { cat: SPEND.draft.cat, photo: "" }; SPEND.rows = null; FORM = {}; renderSpend();
+      });
+    }
+    else if (b.dataset.srate) { ls("trip.rate", String(parseFloat($("srate").value) || "")); renderSpend(); }
+    else if (b.dataset.sdel) { api("spend_del", { id: b.dataset.sdel }).then(function (j) { if (j.ok) { SPEND.rows = null; renderSpend(); } else toast(j.error); }); }
+    else if (b.dataset.msend) {
+      var tx = ($("mtext").value || "").trim(), wh = ($("who").value || "").trim(); if (!tx) return toast("Write a message");
+      if (wh) ls("trip.name", wh);
+      b.disabled = true;
+      send("msg_add", { by: wh, text: tx }).then(function (j) { b.disabled = false; if (!j.ok) return toast(j.error); toast(j.queued ? "No signal — will send later" : "Sent to the group"); pollMessages(); $("mtext").value = ""; });
+    }
     else if (b.dataset.mode) { state.planMode = b.dataset.mode; renderPlan(); window.scrollTo(0, 0); }
     else if (b.dataset.taxi) taxiSheet(b.dataset.taxi);
     else if (b.dataset.mrt) mrtSheet(b.dataset.mrt);
@@ -745,6 +985,9 @@
 
   fetch("data/trip.json", { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (j) {
     T = j; renderPreview(); render();
+    if (AUTH.code) api("unlock").then(function (k) { if (k.ok) { AUTH.ok = true; AUTH.bookings = k.rows; if (AUTH.owner) api("check").then(function (c) { AUTH.isOwner = !!(c.ok && c.owner); if (state.tab === "spend") renderSpend(); }); pollMessages(); if (state.tab === "home") renderHome(); } }, function () { AUTH.ok = !!AUTH.code; });
+    setInterval(function () { if (document.visibilityState === "visible") pollMessages(); }, 60000);
+    window.addEventListener("online", flushQueue);
   }).catch(function (err) { $("view").innerHTML = '<div class="loading">Could not load trip data: ' + esc(err.message) + '</div>'; });
 })();
 </script>
