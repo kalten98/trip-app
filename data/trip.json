@@ -35,6 +35,8 @@
  "booking_masked": "•••• 4454",
  "booking_note": "Group booking number shown masked; full number, PNRs, e-tickets and vouchers load after the group code (private Sheet).",
  "weather_note": "January: highs ~17–21 °C, lows ~12–16 °C, frequent drizzle and wind. Layers, light rain jacket, umbrella, non-slip shoes.",
+ "weather_short": "Jan avg ~17–21 °C · drizzle likely",
+ "weather_source": "Taipei Jan averages (WeatherSpark; ERA5 2017–2026), unverified for 2027 — live forecast in B5",
  "emergency": {
   "police": "110",
   "ambulance_fire": "119",
@@ -1566,14 +1568,14 @@
      "text": "Ri Xing Type Foundry (avoid 12:00–13:30 break)",
      "place": "rixing",
      "kind": "visit",
-     "transport": "MRT alt: Beimen Exit 2/3"
+     "transport": "Taxi ~10 min · MRT alt: Shandao Temple 善導寺 Exit 6 → Beimen 北門 Exit 2/3 (lift + escalators)"
     },
     {
      "time": "10:45",
      "text": "Dihua Street short loop + Xiahai City God Temple",
      "place": "xiahai",
      "kind": "visit",
-     "transport": "Taxi ~5 min; MRT alt: Daqiaotou Exit 1"
+     "transport": "Taxi ~5 min · MRT alt: Beimen 北門 Exit 2/3 → Daqiaotou 大橋頭 Exit 1 (lift)"
     },
     {
      "time": "12:00",
@@ -1599,14 +1601,14 @@
      "text": "Huashan 1914 Creative Park",
      "place": "huashan1914",
      "kind": "visit",
-     "transport": "Walk 5–10 min or taxi; MRT alt: Zhongxiao Xinsheng Exit 2"
+     "transport": "Walk 5–10 min or taxi · MRT alt: Shandao Temple 善導寺 Exit 6 → Zhongxiao Xinsheng 忠孝新生 Exit 2 (lift)"
     },
     {
      "time": "18:00",
      "text": "Dinner",
      "place": "kao_chi",
      "kind": "meal",
-     "transport": "Taxi ~5 min; MRT alt: Dongmen Exit 5/8",
+     "transport": "Taxi ~5 min (taxi recommended) · MRT alt: Zhongxiao Xinsheng 忠孝新生 Exit 2 → Dongmen 東門 Exit 5 (escalator) / 8 (lift)",
      "meal": {
       "main": "kao_chi",
       "b1": "dtf_xinyi",
@@ -1614,8 +1616,8 @@
      }
     }
    ],
-   "rain_backup": "Skip Dihua Street; Ri Xing (indoor) then straight to Huashan's indoor halls.",
-   "why": "Red House, Palace Museum, Maokong and likely Yingge museum are closed on Mondays.",
+   "rain_backup": "Skip Dihua Street 迪化街; Ri Xing 日星鑄字行 (indoor) then straight to Huashan 華山's indoor halls.",
+   "why": "Red House 西門紅樓, Palace Museum 故宮, Maokong 貓空 and likely Yingge museum 鶯歌陶瓷博物館 are closed on Mondays.",
    "mrt": "Taxi is the plan. MRT alt: Beimen 北門 Exit 2/3 (Ri Xing); Daqiaotou 大橋頭 Exit 1 (Dihua St); Zhongxiao Xinsheng 忠孝新生 Exit 2 (Huashan); Dongmen 東門 Exit 5/8 (dinner)"
   },
   {
@@ -1738,7 +1740,7 @@
      "text": "Zhongshan lanes + Eslite Spectrum Nanxi 5F bookstore",
      "place": "eslite_nanxi",
      "kind": "visit",
-     "transport": "MRT alt: Zhongshan Exit 6/4/5 (lift) or 1 (esc)"
+     "transport": "Taxi ~10 min · MRT alt: Shandao Temple 善導寺 Exit 6 → Zhongshan 中山 Exit 6/4/5 (lift) or 1 (escalators)"
     },
     {
      "time": "12:30",
@@ -1756,7 +1758,7 @@
      "text": "Red House + Rainbow Six photo stop",
      "place": "red_house",
      "kind": "visit",
-     "transport": "Taxi ~10 min; MRT alt: Ximen Exit 6/4"
+     "transport": "Taxi ~10 min · MRT alt: Zhongshan 中山 Exit 6/4 (lift) → Ximen 西門 Exit 6/4 (lift)"
     },
     {
      "time": "14:45",
@@ -1812,7 +1814,7 @@
    "items": [
     {
      "time": "10:30",
-     "text": "MRT: Shandao Temple Exit 6 → Blue Line (direct) → Nangang Exhibition Center Exit 2A/2",
+     "text": "MRT: Shandao Temple 善導寺 Exit 6 (escalators) or 3 (lift) → Blue Line 板南線 direct → Nangang Exhibition Center 南港展覽館 Exit 2A/2 (lift)",
      "place": "hotel",
      "kind": "travel",
      "transport": "MRT direct, no transfer; or taxi ~25 min"
@@ -1839,7 +1841,7 @@
      "text": "Dinner: ginger duck hotpot",
      "place": "diwang",
      "kind": "meal",
-     "transport": "Short taxi, or ~3 min walk from Nangang Exhibition Center Exit 5 (lift + escalator)",
+     "transport": "Short taxi, or ~3 min walk from Nangang Exhibition Center 南港展覽館 Exit 5 (lift + escalator)",
      "meal": {
       "main": "diwang",
       "b1": "han_mei_shan",
@@ -2826,14 +2828,14 @@
   }
  ],
  "to_book": [
-  "Airport van both ways (7-seater, 4 large suitcases): 3 Jan ~17:20 TPE T2; 8 Jan 13:30 hotel",
-  "Klook 88273 private car, Tue 5 Jan, Old Caoling Tunnel: English-speaking driver, 5-seater ~S$211 or 9-seater ~S$262 + Gongliao surcharge TWD 1,000 (TWD 1,600 if Dali/Toucheng); confirm 8 h is enough",
-  "Electric tuk-tuks 嘟嘟車 at Fulong (2 × 3-seat, ~NT$700 / 1.5 h each): pay on the day; check weekday walking rule and 08:30–17:00 hours",
-  "Aodi seafood lunch Tue 5 Jan 12:15: book 吃飯看海 window table, 4 pax",
-  "Kao Chi: Mon 4 Jan dinner",
-  "Mala Hotpot: Wed 6 Jan 17:00, 4 pax",
-  "Confirm hours: Di Wang Shibu (Shimao branch), Formosa Chang Huashan store",
-  "Confirm lifts/stairs: Wan Nian Building, Mala Hotpot 2F, Fu Gui Tao Yuan, Cha Jia Shi Tang, Fuhang 2F",
+  "Airport van 機場接送 both ways (7-seater, 4 large suitcases): 3 Jan ~17:20 Taoyuan T2 桃園機場第二航廈; 8 Jan 13:30 HOTEL COZZI 和逸飯店",
+  "Klook 88273 private car, Tue 5 Jan, Old Caoling Tunnel 舊草嶺隧道: English-speaking driver, 5-seater ~S$211 or 9-seater ~S$262 + Gongliao 貢寮 surcharge TWD 1,000 (TWD 1,600 if Dali 大里/Toucheng 頭城); confirm 8 h is enough",
+  "Electric tuk-tuks 嘟嘟車 at Fulong 福隆 (2 × 3-seat, ~NT$700 / 1.5 h each): pay on the day; check weekday walking rule and 08:30–17:00 hours",
+  "Aodi 澳底 seafood lunch Tue 5 Jan 12:15: book Chi Fan Kan Hai 吃飯看海 window table, 4 pax",
+  "Kao Chi 高記: Mon 4 Jan dinner",
+  "Mala Hotpot 馬辣 (Ximen 西門店): Wed 6 Jan 17:00, 4 pax",
+  "Confirm hours: Di Wang Shibu 帝王食補 (Shimao 世貿店), Formosa Chang 鬍鬚張 (Huashan 華山店)",
+  "Confirm lifts/stairs: Wan Nian Building 萬年大樓, Mala Hotpot 馬辣 2F, Fuhang Soy Milk 阜杭豆漿 2F",
   "Check escalator direction at 1-escalator MRT exits (direction not in open data)"
  ],
  "sources": [
