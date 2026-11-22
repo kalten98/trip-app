@@ -402,7 +402,7 @@
       html += '<div class="item"><div class="tm">' + esc(it.time) + '</div><div class="card">' +
         '<div class="kind k-' + k + '">' + icon + kindName + '</div><div class="txt">' + esc(it.text) + '</div>' +
         (it.transport ? '<div class="tr">' + esc(it.transport) + '</div>' : "") +
-        (k === "meal" ? mealBlock(it.meal) : (p && k !== "flight" ? names(p) + badges(p) + placeActions(p) : "")) +
+        (k === "meal" ? mealBlock(it.meal) : (p && k !== "flight" && !(it.place === "hotel" && k !== "hotel") ? names(p) + badges(p) + placeActions(p) : "")) +
         (it.note ? '<div class="small muted" style="margin-top:6px">' + esc(it.note) + '</div>' : "") + '</div></div>';
     });
     html += '</div>';
