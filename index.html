@@ -228,6 +228,13 @@
   .bk:first-of-type { border-top: 0; }
   .bk .v { font-weight: 800; font-size: 18px; word-break: break-all; }
   .qnote { background: var(--amber-soft); color: #8a5a00; border-radius: 12px; padding: 10px 12px; font-size: 16px; margin-top: 10px; }
+  .ticker { display: flex; align-items: center; gap: 10px; margin: 12px 0 0; background: var(--rose-soft); color: #9d1b3f; border-radius: 14px; padding: 10px 12px; overflow: hidden; cursor: pointer; }
+  .ticker > svg { width: 22px; height: 22px; flex: none; }
+  .ticker .win { overflow: hidden; flex: 1; min-width: 0; }
+  .ticker .track { display: inline-block; white-space: nowrap; padding-left: 100%; font-size: 17px; font-weight: 700; animation: tick var(--dur, 18s) linear infinite; }
+  .ticker .track b { font-weight: 800; }
+  @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+  @media (prefers-reduced-motion: reduce) { .ticker .track { animation: none; padding-left: 0; white-space: normal; } }
   .seg { display: grid; grid-template-columns: 1fr 1fr; background: #e9ebf0; border-radius: 14px; padding: 4px; margin-top: 14px; }
   .seg button { border: 0; background: none; border-radius: 11px; min-height: 42px; font-weight: 800; font-size: 17px; cursor: pointer; color: var(--muted); }
   .seg button.on { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(16,24,40,.12); }
@@ -498,14 +505,14 @@
     return { cur: cur == null ? null : items[cur], next: nxt == null ? null : items[nxt] };
   }
   function toMin(t) { var p = t.split(":"); return +p[0] * 60 + +p[1]; }
+  function fmtTime(t) { t = String(t || ""); var m = t.match(/(\d{4})-(\d\d)-(\d\d)[T ](\d\d):(\d\d)/); if (!m) return t; return (+m[3]) + " " + ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+m[2] - 1] + " " + m[4] + ":" + m[5]; }
   function groupNo() { var r = (AUTH.bookings || []).filter(function (x) { return x.card === "group"; })[0]; return r ? r.value : ""; }
   var MSG = { rows: [], unread: null, timer: null };
   function pollMessages() {
     if (!AUTH.ok) return;
     api("msg_list").then(function (j) {
-      if (!j.ok) return; MSG.rows = j.rows; var top = j.rows[0], seen = ls("trip.msgSeen");
-      MSG.unread = top && top.id !== seen && top.by !== ls("trip.name") ? top : null;
-      if (state.tab === "home") renderHome(); if (state.tab === "messages") renderMessages();
+      if (!j.ok) return; var sig = j.rows.map(function (r) { return r.id; }).join(","), changed = sig !== MSG.sig; MSG.rows = j.rows; MSG.sig = sig;
+      if (changed && state.tab === "home") renderHome(); if (changed && state.tab === "messages") renderMessages();
     }, function () {});
     flushQueue();
   }
@@ -537,7 +544,11 @@
     html += '<section class="section card lock"><span style="width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none">' + ICON.lock + '</span>' +
       '<div style="flex:1;min-width:0"><div class="small muted">Group booking no.</div><div class="n">' + esc(groupNo() || T.booking_masked || "••••") + '</div></div>' +
       '<button class="btn" data-home="bookings">' + (AUTH.ok ? "Details" : "Unlock") + '</button></section>';
-    if (MSG.unread) html = '<div class="banner" data-home="messages">' + ICON.msg + '<div><b>New message</b> from ' + esc(MSG.unread.by || "someone") + ': ' + esc(MSG.unread.text.slice(0, 90)) + '</div></div>' + html;
+    if (MSG.rows.length) {
+      var txt = MSG.rows.slice().reverse().map(function (r) { return '<b>' + esc(r.by || "Someone") + ' · ' + esc(fmtTime(r.time)) + '</b> — ' + esc(r.text); }).join(' &nbsp;&nbsp;•&nbsp;&nbsp; ');
+      var plain = MSG.rows.map(function (r) { return (r.by || "") + r.text; }).join("").length;
+      html = '<div class="ticker" data-home="messages" aria-label="Group messages">' + ICON.msg + '<div class="win"><span class="track" style="--dur:' + Math.max(12, Math.round(plain * 0.28 + 8)) + 's">' + txt + '</span></div></div>' + html;
+    }
 
     html += '<section class="section"><div class="icons">' +
       [["flight", "Flights", "t-blue", "flights"], ["hotel", "Hotel", "t-violet", "hotel"], ["doc", "Bookings", "t-orange", "bookings"],
@@ -824,11 +835,11 @@
 
   function renderMessages() {
     if (!AUTH.ok) { $("view").innerHTML = '<div class="actions" style="margin-top:12px"><button class="btn" data-tab="home">← Home</button></div>' + needCode("Group noticeboard: post once, everyone sees it."); return; }
-    var top = MSG.rows[0]; if (top) { ls("trip.msgSeen", top.id); MSG.unread = null; }
     $("view").innerHTML = '<div class="actions" style="margin-top:12px"><button class="btn" data-tab="home">← Home</button></div><h2 style="margin:10px 0 0;font-size:23px">Messages 公告</h2>' +
       '<div class="card section">' + nameField() + '<label class="field"><span>Message to everyone</span><textarea id="mtext" class="inp" maxlength="500" placeholder="e.g. Meet at the lobby 10:30 大廳集合"></textarea></label>' +
       '<div class="actions"><button class="btn primary" data-msend="1">' + ICON.msg + 'Send to the group</button></div><div class="small muted" style="margin-top:6px">Shows as a banner when anyone opens the app (checks every minute).</div></div>' +
-      '<section class="section card">' + (MSG.rows.length ? MSG.rows.map(function (r) { return '<div class="entry"><div class="who">' + esc(r.by || "") + ' · ' + esc((r.time || "").replace("T", " ").slice(5, 16)) + '</div><div style="font-size:18px;margin-top:2px">' + esc(r.text) + '</div></div>'; }).join("") : '<div class="muted">No messages yet.</div>') + '</section><div style="height:16px"></div>';
+      '<section class="section card">' + (MSG.rows.length ? '<div class="small muted">Messages scroll on Home until deleted.</div>' + MSG.rows.map(function (r) { return '<div class="entry"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><div style="min-width:0"><div class="who">' + esc(r.by || "") + ' · ' + esc(fmtTime(r.time)) + '</div><div style="font-size:18px;margin-top:2px">' + esc(r.text) + '</div></div>' +
+        '<button class="btn" data-mdel="' + esc(r.id) + '">Delete</button></div></div>'; }).join("") : '<div class="muted">No messages yet.</div>') + '</section><div style="height:16px"></div>';
   }
 
   function renderSoon(tab) {
@@ -958,6 +969,12 @@
     }
     else if (b.dataset.srate) { ls("trip.rate", String(parseFloat($("srate").value) || "")); renderSpend(); }
     else if (b.dataset.sdel) { api("spend_del", { id: b.dataset.sdel }).then(function (j) { if (j.ok) { SPEND.rows = null; renderSpend(); } else toast(j.error); }); }
+    else if (b.dataset.mdel) {
+      if (!b.dataset.armed) { b.dataset.armed = "1"; b.textContent = "Tap again to delete"; b.style.borderColor = "var(--bad)"; b.style.color = "var(--bad)"; setTimeout(function () { if (b.isConnected) { delete b.dataset.armed; b.textContent = "Delete"; b.style.cssText = ""; } }, 4000); return; }
+      b.disabled = true; b.textContent = "Deleting…";
+      api("msg_del", { id: b.dataset.mdel }).then(function (j) { if (!j.ok) { b.disabled = false; b.textContent = "Delete"; return toast(j.error === "unknown action" ? "Delete needs the backend update (pending)" : "Not deleted: " + j.error); }
+        MSG.rows = MSG.rows.filter(function (r) { return r.id !== b.dataset.mdel; }); MSG.sig = ""; renderMessages(); toast("Message deleted"); pollMessages(); }, function () { b.disabled = false; b.textContent = "Delete"; toast("No connection"); });
+    }
     else if (b.dataset.msend) {
       var tx = ($("mtext").value || "").trim(), wh = ($("who").value || "").trim(); if (!tx) return toast("Write a message");
       if (wh) ls("trip.name", wh);
