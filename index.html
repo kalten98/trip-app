@@ -2,25 +2,748 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Trip App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Taipei Trip 台北</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Noto+Sans+TC:wght@500;700&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#f6f7f9; --card:#fff; --ink:#1d1d1f; --muted:#6b7280; --accent:#ff5b00; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#111214; --card:#1c1d20; --ink:#f3f4f6; --muted:#9ca3af; } }
-  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-  main { max-width:560px; margin:0 auto; padding:32px 16px; }
-  .card { background:var(--card); border-radius:16px; padding:20px; }
-  a { color:var(--accent); font-weight:600; }
-  p { color:var(--muted); }
+  :root {
+    color-scheme: light;
+    --bg: #f4f5f7; --card: #ffffff; --ink: #1b1d21; --muted: #5f6672; --line: #e7e9ee;
+    --accent: #ff5a1f; --accent-soft: #fff1ea; --teal: #0e9f8a; --teal-soft: #e6f6f3;
+    --blue: #2f6fec; --blue-soft: #eaf1fe; --violet: #7b5cf0; --violet-soft: #f1edfe;
+    --amber: #e8a100; --amber-soft: #fff6dd; --rose: #e2456b; --rose-soft: #fdebf0;
+    --warn: #b45309; --warn-soft: #fff4e0; --ok: #15803d; --ok-soft: #e8f7ee; --bad: #b91c1c; --bad-soft: #fdecec;
+    --radius: 18px; --shadow: 0 1px 2px rgba(16,24,40,.05), 0 4px 14px rgba(16,24,40,.06);
+    --tab-h: 74px;
+    --font: "Plus Jakarta Sans", "Noto Sans TC", sans-serif;
+    --font-zh: "Noto Sans TC", "Plus Jakarta Sans", sans-serif;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font: 500 17px/1.45 var(--font); }
+  body { padding-bottom: calc(var(--tab-h) + env(safe-area-inset-bottom)); overflow-x: hidden; }
+  .zh { font-family: var(--font-zh); }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 0 16px; }
+  button { font: inherit; color: inherit; }
+  a { color: inherit; }
+
+  /* ---------- top bar ---------- */
+  .top { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.94); backdrop-filter: blur(10px);
+         border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top); }
+  .top .wrap { display: flex; align-items: center; gap: 12px; height: 60px; }
+  .brand { font-weight: 800; font-size: 20px; letter-spacing: -.01em; }
+  .brand small { display: block; font-weight: 600; font-size: 16px; color: var(--muted); letter-spacing: 0; }
+  .top .spacer { flex: 1; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: #fff;
+          border-radius: 999px; padding: 7px 12px; font-size: 16px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+
+  /* ---------- preview-day strip (mock only) ---------- */
+  .preview { background: var(--violet-soft); border-bottom: 1px solid #e3dbfd; }
+  .preview .wrap { display: flex; gap: 8px; align-items: center; overflow-x: auto; padding-top: 8px; padding-bottom: 8px; scrollbar-width: none; }
+  .preview .wrap::-webkit-scrollbar { display: none; }
+  .preview b { color: var(--violet); font-size: 16px; white-space: nowrap; }
+  .chip { flex: none; border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 6px 12px;
+          font-size: 16px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+  /* ---------- cards ---------- */
+  .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; }
+  .section { margin-top: 18px; }
+  .section h2 { font-size: 20px; font-weight: 800; margin: 0 0 10px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 8px; }
+  .section h2 .zh { font-size: 17px; color: var(--muted); font-weight: 700; }
+  .muted { color: var(--muted); }
+  .small { font-size: 16px; }
+
+  /* ---------- hero ---------- */
+  .hero { margin-top: 14px; border-radius: 22px; padding: 18px; color: #fff; position: relative; overflow: hidden;
+          background: radial-gradient(120% 140% at 100% 0%, #ffb26b 0%, #ff6a2b 45%, #e5432c 100%); box-shadow: var(--shadow); }
+  .hero::after { content: ""; position: absolute; right: -40px; bottom: -60px; width: 220px; height: 220px; border-radius: 50%;
+                 background: rgba(255,255,255,.12); }
+  .hero .kicker { font-size: 16px; font-weight: 700; opacity: .92; }
+  .hero h1 { margin: 4px 0 2px; font-size: 27px; line-height: 1.15; letter-spacing: -.02em; font-weight: 800; }
+  .hero .sub { font-size: 17px; opacity: .95; }
+  .hero .stats { display: flex; gap: 10px; margin-top: 14px; position: relative; z-index: 1; flex-wrap: wrap; }
+  .hero .stat { background: rgba(255,255,255,.18); border-radius: 12px; padding: 8px 12px; font-size: 16px; font-weight: 700; }
+
+  /* ---------- icon row ---------- */
+  .icons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .ic { display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: 0; padding: 6px 0; cursor: pointer; }
+  .ic .tile { width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; }
+  .ic svg { width: 28px; height: 28px; }
+  .ic span { font-size: 16px; font-weight: 700; }
+  .t-orange { background: var(--accent-soft); color: var(--accent); } .t-teal { background: var(--teal-soft); color: var(--teal); }
+  .t-blue { background: var(--blue-soft); color: var(--blue); } .t-violet { background: var(--violet-soft); color: var(--violet); }
+  .t-amber { background: var(--amber-soft); color: var(--amber); } .t-rose { background: var(--rose-soft); color: var(--rose); }
+
+  /* ---------- next-up ---------- */
+  .next .label { font-size: 16px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }
+  .next .time { font-size: 31px; font-weight: 800; letter-spacing: -.02em; }
+  .next .what { font-size: 19px; font-weight: 700; margin-top: 2px; }
+  .names { margin-top: 6px; }
+  .names .en { font-weight: 700; font-size: 17px; }
+  .names .zh { font-size: 17px; color: var(--muted); }
+  .actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 14px;
+         border-radius: 12px; border: 1px solid var(--line); background: #fff; font-weight: 700; font-size: 16px; cursor: pointer; text-decoration: none; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn svg { width: 18px; height: 18px; }
+
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 16px; font-weight: 700; border-radius: 8px; padding: 2px 8px; }
+  .b-warn { background: var(--warn-soft); color: var(--warn); } .b-ok { background: var(--ok-soft); color: var(--ok); }
+  .b-bad { background: var(--bad-soft); color: var(--bad); } .b-info { background: var(--blue-soft); color: var(--blue); }
+
+  /* ---------- horizontal cards ---------- */
+  .hscroll { display: flex; gap: 10px; overflow-x: auto; padding: 2px 16px 6px; margin: 0 -16px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .hscroll::-webkit-scrollbar { display: none; }
+  .mini { flex: none; width: 70%; max-width: 260px; scroll-snap-align: start; }
+  .mini .t { font-weight: 800; font-size: 17px; }
+  .mini .d { font-size: 16px; color: var(--muted); margin-top: 2px; }
+
+  /* ---------- plan ---------- */
+  .daytabs { display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px 4px; margin: 0 -16px; scrollbar-width: none; }
+  .daytabs::-webkit-scrollbar { display: none; }
+  .dt { flex: none; min-width: 64px; text-align: center; border-radius: 14px; background: #fff; border: 1px solid var(--line);
+        padding: 8px 10px; cursor: pointer; }
+  .dt .dw { font-size: 16px; font-weight: 700; color: var(--muted); }
+  .dt .dd { font-size: 21px; font-weight: 800; }
+  .dt.on { background: var(--ink); border-color: var(--ink); color: #fff; } .dt.on .dw { color: #d7dbe2; }
+  .dt.spare { border-style: dashed; }
+  .dayhead h2 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -.01em; }
+  .dayhead .zh { font-size: 18px; color: var(--muted); font-weight: 700; }
+  .note { display: flex; gap: 10px; align-items: flex-start; border-radius: 14px; padding: 12px; font-size: 16px; margin-top: 10px; }
+  .note svg { flex: none; width: 20px; height: 20px; margin-top: 1px; }
+  .n-rain { background: var(--blue-soft); color: #1d4ed8; } .n-mrt { background: var(--teal-soft); color: #0b6b5d; }
+  .n-why { background: var(--amber-soft); color: #8a5a00; }
+
+  .timeline { position: relative; margin-top: 14px; }
+  .item { display: grid; grid-template-columns: 56px 1fr; gap: 10px; position: relative; }
+  .item + .item { margin-top: 10px; }
+  .item .tm { font-weight: 800; font-size: 17px; padding-top: 14px; text-align: right; }
+  .item .card { padding: 14px; }
+  .kind { display: inline-flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 800; }
+  .kind svg { width: 18px; height: 18px; }
+  .k-visit { color: var(--blue); } .k-meal { color: var(--accent); } .k-travel { color: var(--teal); } .k-rest { color: var(--violet); }
+  .k-hotel { color: var(--violet); } .k-flight { color: var(--ink); }
+  .item .txt { font-weight: 700; font-size: 17px; margin-top: 4px; }
+  .item .tr { font-size: 16px; color: var(--muted); margin-top: 4px; }
+
+  .meal-opts { display: grid; gap: 8px; margin-top: 10px; }
+  .opt { border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; }
+  .opt .tag { font-size: 16px; font-weight: 800; border-radius: 8px; padding: 2px 8px; }
+  .opt.main { border-color: #ffd2bf; background: var(--accent-soft); }
+  .opt.main .tag { background: var(--accent); color: #fff; } .opt .tag { background: #eef0f3; color: var(--muted); }
+  .opt .nm .en { font-weight: 700; font-size: 16px; } .opt .nm .zh { font-size: 16px; color: var(--muted); }
+  .iconbtn { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: #fff; display: grid; place-items: center; cursor: pointer; }
+  .iconbtn svg { width: 20px; height: 20px; }
+
+  details.picks { margin-top: 14px; }
+  details.picks summary { list-style: none; cursor: pointer; font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+  details.picks summary::-webkit-details-marker { display: none; }
+  .pick { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); }
+  .pick:first-of-type { border-top: 0; }
+  .pick .grow { flex: 1; min-width: 0; }
+  .pick .en { font-weight: 700; font-size: 16px; } .pick .zh { font-size: 16px; color: var(--muted); }
+
+  /* ---------- placeholder tabs ---------- */
+  .soon { text-align: center; padding: 40px 18px; }
+  .soon svg { width: 54px; height: 54px; color: var(--muted); }
+  .soon h2 { margin: 10px 0 6px; font-size: 22px; }
+
+  /* ---------- tab bar ---------- */
+  .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; background: #fff; border-top: 1px solid var(--line);
+            padding-bottom: env(safe-area-inset-bottom); }
+  .tabbar .wrap { display: grid; grid-template-columns: repeat(5, 1fr); height: var(--tab-h); padding: 0 4px; }
+  .tab { border: 0; background: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: #8a909b; }
+  .tab svg { width: 26px; height: 26px; }
+  .tab span { font-size: 16px; font-weight: 700; }
+  .tab.on { color: var(--accent); }
+
+  /* ---------- sheets (taxi / mrt / info) ---------- */
+  .scrim { position: fixed; inset: 0; background: rgba(15,18,25,.45); z-index: 40; display: none; }
+  .sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 41; background: #fff; border-radius: 22px 22px 0 0;
+           max-height: 88vh; overflow-y: auto; padding: 10px 0 calc(18px + env(safe-area-inset-bottom)); transform: translateY(110%); transition: transform .25s ease; }
+  .sheet.open { transform: none; } .scrim.open { display: block; }
+  .grab { width: 44px; height: 5px; border-radius: 3px; background: #d9dce2; margin: 4px auto 10px; }
+  .taxi-zh { font-family: var(--font-zh); font-size: 33px; font-weight: 700; line-height: 1.3; margin: 8px 0; word-break: break-word; }
+  .taxi-say { font-family: var(--font-zh); font-size: 23px; font-weight: 700; color: var(--accent); }
+  .exit { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); }
+  .exit .no { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-weight: 800; font-size: 18px; flex: none; }
+  .exit.ok .no { background: var(--ok-soft); color: var(--ok); } .exit.bad .no { background: var(--bad-soft); color: var(--bad); }
+  .exit.rec .no { background: var(--ok); color: #fff; }
+  .toast { position: fixed; left: 50%; bottom: calc(var(--tab-h) + 16px + env(safe-area-inset-bottom)); transform: translateX(-50%);
+           background: var(--ink); color: #fff; border-radius: 12px; padding: 10px 14px; font-size: 16px; font-weight: 600; z-index: 50;
+           opacity: 0; transition: opacity .2s; pointer-events: none; max-width: calc(100% - 32px); }
+  .toast.on { opacity: 1; }
+  .loading { padding: 60px 16px; text-align: center; color: var(--muted); }
+  .mtabs { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line); margin: 6px -16px 0; padding: 0 16px; background: #fff; }
+  .mtabs button { border: 0; background: none; min-height: 52px; font-size: 19px; font-weight: 600; color: var(--ink); cursor: pointer; position: relative; }
+  .mtabs button.on { font-weight: 800; }
+  .mtabs button.on::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 4px; border-radius: 2px; background: var(--ink); }
+  .crow { display: flex; gap: 10px; align-items: center; overflow-x: auto; padding: 14px 16px 6px; margin: 0 -16px; scrollbar-width: none; }
+  .crow::-webkit-scrollbar { display: none; }
+  .cp { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #d6d9df;
+        background: #fff; font-size: 18px; font-weight: 600; cursor: pointer; white-space: nowrap; color: var(--ink); }
+  .cp svg { width: 20px; height: 20px; }
+  .cp.on { background: #141a26; border-color: #141a26; color: #fff; }
+  .cplus { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #e9ebf0; display: grid; place-items: center; cursor: pointer; }
+  .cplus svg { width: 22px; height: 22px; }
+  .ovday { display: grid; grid-template-columns: 58px 1fr auto; gap: 12px; align-items: center; cursor: pointer; }
+  .ovday .dd { text-align: center; border-radius: 14px; background: var(--bg); padding: 6px 0; }
+  .ovday .dd b { display: block; font-size: 23px; line-height: 1.1; } .ovday .dd span { font-size: 16px; color: var(--muted); font-weight: 700; }
+  .ovday .t { font-weight: 800; font-size: 18px; } .ovday .s { font-size: 16px; color: var(--muted); }
+  .codebox { width: 100%; min-height: 50px; border: 1.5px solid #d6d9df; border-radius: 12px; padding: 0 14px; font: 700 20px var(--font); letter-spacing: .12em; margin-top: 10px; }
+  .mapwrap { position: relative; margin: 10px -16px 0; }
+  #map { height: calc(100vh - 230px - env(safe-area-inset-bottom)); min-height: 380px; background: #e8ecef; }
+  .mapbtn { position: absolute; right: 12px; bottom: 16px; z-index: 500; }
+  .leaflet-popup-content { font: 600 16px/1.4 var(--font); margin: 12px 14px; }
+  .leaflet-popup-content .zh { color: var(--muted); }
+  .leaflet-popup-content .btn { min-height: 40px; padding: 0 10px; font-size: 16px; }
+  .legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 16px; margin-top: 8px; }
+  .legend i { display: inline-block; width: 14px; height: 14px; border-radius: 50%; margin-right: 4px; vertical-align: -2px; }
+  .phr { display: block; width: 100%; text-align: left; border: 1px solid var(--line); background: #fff; border-radius: 14px; padding: 12px 14px; margin-top: 8px; cursor: pointer; }
+  .phr .zh { font-size: 21px; font-weight: 700; color: var(--ink); } .phr .en { font-size: 16px; color: var(--muted); }
+  .bigsay { font-family: var(--font-zh); font-size: 40px; font-weight: 700; line-height: 1.3; margin: 10px 0; }
+  .swapbar { display: flex; align-items: center; gap: 10px; background: var(--violet-soft); color: #4c32c7; border-radius: 14px; padding: 12px; margin-top: 10px; font-size: 16px; font-weight: 700; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; background: #e9ebf0; border-radius: 14px; padding: 4px; margin-top: 14px; }
+  .seg button { border: 0; background: none; border-radius: 11px; min-height: 42px; font-weight: 800; font-size: 17px; cursor: pointer; color: var(--muted); }
+  .seg button.on { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(16,24,40,.12); }
+  .mi { display: inline-flex; align-items: center; gap: 3px; font-weight: 800; font-size: 16px; border-radius: 8px; padding: 2px 7px; }
+  .mi svg { width: 17px; height: 17px; }
+  .mi.lift { background: var(--blue-soft); color: var(--blue); } .mi.esc { background: var(--teal-soft); color: var(--teal); }
+  .mi.stairs { background: var(--bad-soft); color: var(--bad); }
+  .mrtbtn { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 8px 12px; padding: 8px 12px; text-align: left; }
+  .mrtname { display: inline-flex; align-items: center; gap: 6px; width: 100%; }
+  .exitchips { display: inline-flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .idea { margin-top: 10px; }
+  .idea summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+  .idea summary::-webkit-details-marker { display: none; }
+  .idea summary .t { font-weight: 800; font-size: 18px; } .idea summary .s { font-size: 16px; color: var(--muted); }
+  .idea[open] summary { margin-bottom: 8px; }
+  .lock { display: flex; align-items: center; gap: 12px; }
+  .lock .n { font-size: 23px; font-weight: 800; letter-spacing: .04em; }
+  .hero .now { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.22); border-radius: 999px; padding: 4px 10px; font-size: 16px; font-weight: 800; }
+  .hero .dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgba(255,255,255,.3); }
+  .hero .bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,.25); margin-top: 12px; overflow: hidden; position: relative; z-index: 1; }
+  .hero .bar i { display: block; height: 100%; background: #fff; border-radius: 3px; }
 </style>
 </head>
 <body>
-<main>
-  <div class="card">
-    <h1>Trip App</h1>
-    <p>Under construction. Phone test page:</p>
-    <a href="probe/">Open the phone test (B0)</a>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">Taipei 台北<small>3–8 Jan 2027</small></div>
+    <div class="spacer"></div>
+    <button class="pill" id="langBtn" title="Mock only">EN · 中文</button>
   </div>
-</main>
+</header>
+<div class="preview">
+  <div class="wrap" id="previewStrip"><b>Mock · preview as</b></div>
+</div>
+
+<main class="wrap" id="view"><div class="loading">Loading trip…</div></main>
+
+<nav class="tabbar">
+  <div class="wrap" id="tabs"></div>
+</nav>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet"><div class="grab"></div><div class="wrap" id="sheetBody"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  "use strict";
+  // ---------- icons (inline, stroke) ----------
+  var I = function (d) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>'; };
+  var ICON = {
+    home: I('<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/>'),
+    plan: I('<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4M16 2v4M7.5 13h3M7.5 17h6"/>'),
+    map: I('<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/>'),
+    log: I('<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/>'),
+    spend: I('<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M7 15h4"/>'),
+    flight: I('<path d="M2.5 13.5 21 7.5c.9-.3 1.6.8.9 1.5L13 17l-2.5 4-1.5-.5.8-4.3-4.3 1-1.5 2-1.3-.4.6-3.5L2 14.6l.5-1.1Z"/>'),
+    hotel: I('<path d="M3 20V6M3 13h18v7M21 13a3 3 0 0 0-3-3h-7v3"/><circle cx="7" cy="10" r="2"/>'),
+    doc: I('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>'),
+    taxi: I('<path d="M5 11 6.5 6.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><rect x="3" y="11" width="18" height="6" rx="2"/><path d="M6 17v2M18 17v2M7 14h.01M17 14h.01M10 3h4"/>'),
+    cloud: I('<path d="M7 18a4.5 4.5 0 1 1 .9-8.9A6 6 0 0 1 19.5 11 3.5 3.5 0 0 1 18 18H7Z"/><path d="M8 21l1-2M12 21l1-2M16 21l1-2"/>'),
+    msg: I('<path d="M4 5h16v11H8l-4 4V5Z"/><path d="M8 9h8M8 12h5"/>'),
+    help: I('<circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 17h.01"/>'),
+    list: I('<path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/>'),
+    go: I('<path d="M3 11 21 3l-8 18-2-8-8-2Z"/>'),
+    train: I('<rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l-2-4M15 21l2-4M9 14h.01M15 14h.01"/>'),
+    rain: I('<path d="M7 15a4.5 4.5 0 1 1 .9-8.9A6 6 0 0 1 19.5 8 3.5 3.5 0 0 1 18 15H7Z"/><path d="M9 19l-1 2M13 19l-1 2M17 19l-1 2"/>'),
+    info: I('<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/>'),
+    meal: I('<path d="M4 3v8a3 3 0 0 0 3 3v7M7 3v8M10 3v8M17 21V3c-2 0-4 2-4 6v5h4"/>'),
+    visit: I('<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/>'),
+    travel: I('<path d="M5 11 6.5 6.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><rect x="3" y="11" width="18" height="6" rx="2"/><path d="M6 17v2M18 17v2"/>'),
+    rest: I('<path d="M3 18V8M3 13h18v5M21 13a3 3 0 0 0-3-3h-6v3"/>'),
+    star: I('<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3Z"/>'),
+    swap: I('<path d="M7 4 3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/>'),
+    lift: I('<rect x="5" y="3" width="14" height="18" rx="2"/><path d="m9 9 3-3 3 3M9 15l3 3 3-3"/>'),
+    esc: I('<path d="M3 19h4l9-11h5"/><path d="M3 15h2.5l9-11"/>'),
+    stairs: I('<path d="M3 20h5v-5h5v-5h5V5h3"/>'),
+    menu: I('<path d="M4 6h16M4 12h16M4 18h16"/>'),
+    plus: I('<path d="M12 5v14M5 12h14"/>'),
+    chev: I('<path d="m9 6 6 6-6 6"/>'),
+    lock: I('<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>')
+  };
+  ICON.hotelk = ICON.rest;
+
+  var T = null, state = { tab: "home", day: -1, planMode: "itin", ideaCat: "all", previewIdx: 1, mapFilter: "all", gps: null };
+  var MAP = null;
+  function loadSwaps() { try { return JSON.parse(localStorage.getItem("trip.swaps") || "{}"); } catch (e) { return {}; } }
+  function saveSwaps(x) { try { localStorage.setItem("trip.swaps", JSON.stringify(x)); } catch (e) {} }
+  function ideaById(id) { return T.spare_days.concat(T.idea_daytrips || []).filter(function (x) { return x.id === id; })[0]; }
+  function dayView(i) {
+    var d = T.days[i], sw = loadSwaps()[d.date], alt = sw ? ideaById(sw) : null;
+    if (!alt) return d;
+    return Object.assign({}, alt, { date: d.date, dow: d.dow, breakfast: d.breakfast, swapped: alt.id, original: d.title, areas: alt.areas || [], near_hotel: d.near_hotel });
+  }
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+
+  function place(id) {
+    if (!id) return null;
+    if (T.places[id]) return Object.assign({ id: id }, T.places[id]);
+    var s = T.saved_places.filter(function (x) { return x.id === id; })[0];
+    return s ? { id: id, en: s.en, zh: s.zh, lat: s.lat, lng: s.lng, note: s.note ? "Your note: " + s.note : "", saved: true, area: s.area } : null;
+  }
+  function gmaps(p) { return "https://www.google.com/maps/search/?api=1&query=" + p.lat + "," + p.lng; }
+  function amaps(p) { return "https://maps.apple.com/?ll=" + p.lat + "," + p.lng + "&q=" + encodeURIComponent(p.zh || p.en); }
+  function names(p) {
+    return '<div class="names">' + (p.en ? '<div class="en">' + esc(p.en) + '</div>' : '') + (p.zh ? '<div class="zh">' + esc(p.zh) + '</div>' : '') + '</div>';
+  }
+  function dist(a, b) {
+    var R = 6371000, r = Math.PI / 180, dLa = (b.lat - a.lat) * r, dLo = (b.lng - a.lng) * r;
+    var h = Math.sin(dLa / 2) * Math.sin(dLa / 2) + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLo / 2) * Math.sin(dLo / 2);
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+  function fmtDist(m) { return m < 1000 ? Math.round(m / 10) * 10 + " m" : (m / 1000).toFixed(1) + " km"; }
+  function dayLabel(d) { var x = new Date(d.date + "T00:00:00"); return { dw: d.dow, dd: x.getDate() }; }
+  function toast(msg) { var t = $("toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(toast._t); toast._t = setTimeout(function () { t.classList.remove("on"); }, 2200); }
+
+  function exitChip(e) {
+    if (!e) return "";
+    var h = '<span class="exitchips"><b>Exit ' + esc(e.no) + '</b>';
+    if (e.lift) h += '<span class="mi lift" title="Lift">' + ICON.lift + '</span>';
+    if (e.escalators) h += '<span class="mi esc" title="Escalator">' + ICON.esc + (e.escalators > 1 ? "×" + e.escalators : "") + '</span>';
+    if (!e.ok) h += '<span class="mi stairs" title="Stairs only">' + ICON.stairs + '</span>';
+    return h + '</span>';
+  }
+  function recChips(sid) {
+    var s = T.stations[sid]; if (!s) return "";
+    var by = {}; s.exits.forEach(function (e) { by[e.no] = e; });
+    return s.recommended.slice(0, 2).map(function (no) { return exitChip(by[no]); }).join(" ");
+  }
+  // ---------- sheets ----------
+  function openSheet(html) { $("sheetBody").innerHTML = html; $("sheet").classList.add("open"); $("scrim").classList.add("open"); }
+  function closeSheet() { $("sheet").classList.remove("open"); $("scrim").classList.remove("open"); }
+  $("scrim").onclick = closeSheet;
+
+  function taxiSheet(id) {
+    var p = place(id); if (!p) return;
+    var parts = (p.address || "").split(" · "), zhAddr = parts[1] || p.zh || "", enAddr = parts[0] || "";
+    openSheet('<div class="small muted">Show this to the taxi driver</div>' +
+      '<div class="taxi-say">請載我到這裡</div>' +
+      '<div class="taxi-zh">' + esc(p.zh || p.en) + '</div>' +
+      (zhAddr && zhAddr !== p.zh ? '<div class="taxi-zh" style="font-size:25px">' + esc(zhAddr) + '</div>' : '') +
+      '<div class="names"><div class="en">' + esc(p.en || "") + '</div><div class="muted small">' + esc(enAddr) + '</div></div>' +
+      '<div class="actions"><a class="btn primary" href="' + gmaps(p) + '" target="_blank" rel="noopener">' + ICON.go + 'Google Maps</a>' +
+      '<a class="btn" href="' + amaps(p) + '" target="_blank" rel="noopener">Apple Maps</a>' +
+      '<button class="btn" data-close>Close</button></div>');
+  }
+  function mrtSheet(sid) {
+    var s = T.stations[sid]; if (!s) return;
+    var rows = s.exits.map(function (e) {
+      var rec = s.recommended.indexOf(e.no) >= 0, bad = !e.ok;
+      var what = (e.lift ? '<span class="mi lift">' + ICON.lift + 'Lift</span> ' : "") + (e.escalators ? '<span class="mi esc">' + ICON.esc + e.escalators + '</span> ' : "") + (bad ? '<span class="mi stairs">' + ICON.stairs + 'Stairs only</span>' : "");
+      return '<div class="exit ' + (bad ? "bad" : "ok") + (rec ? " rec" : "") + '"><div class="no">' + esc(e.no) + '</div><div style="flex:1;min-width:0">' +
+        '<div style="font-weight:700">' + what + (rec ? ' <span class="badge b-ok">Recommended</span>' : "") + (bad ? ' <span class="badge b-bad">Avoid</span>' : "") + '</div>' +
+        '<div class="small muted zh">' + esc(e.where_zh || "") + '</div></div>' +
+        (e.lat ? '<a class="iconbtn" aria-label="Exit ' + esc(e.no) + ' on Google Maps" href="https://www.google.com/maps/search/?api=1&query=' + e.lat + ',' + e.lng + '" target="_blank" rel="noopener">' + ICON.go + '</a>' : '') + '</div>';
+    }).join("");
+    openSheet('<div class="kind k-travel">' + ICON.train + 'MRT station</div><h2 style="margin:6px 0 0;font-size:23px">' + esc(s.en) +
+      ' <span class="zh muted" style="font-size:19px">' + esc(s.zh) + '</span></h2><div class="small muted">' + esc(s.note) + '</div>' +
+      '<div class="exitchips small" style="margin-top:10px"><span class="mi lift">' + ICON.lift + 'Lift</span><span class="mi esc">' + ICON.esc + 'Escalator</span><span class="mi stairs">' + ICON.stairs + 'Stairs only</span></div>' +
+      '<div style="margin-top:6px">' + rows + '</div><div class="small muted" style="margin-top:8px">Source: Taipei Metro open data (Sep 2026). Escalator direction not listed — check on arrival.</div>' +
+      '<div class="actions"><button class="btn" data-close>Close</button></div>');
+  }
+  function infoSheet(title, html) { openSheet('<h2 style="margin:4px 0 8px;font-size:23px">' + title + '</h2>' + html + '<div class="actions"><button class="btn" data-close>Close</button></div>'); }
+  $("sheetBody").addEventListener("click", function (e) { if (e.target.closest("[data-close]")) closeSheet(); });
+
+  // ---------- shared bits ----------
+  function placeActions(p, compact) {
+    if (!p) return "";
+    var mrt = p.mrt ? '<button class="btn mrtbtn" data-mrt="' + p.mrt + '"><span class="mrtname">' + ICON.train + esc(T.stations[p.mrt].en) + ' <span class="zh muted">' + esc(T.stations[p.mrt].zh) + '</span></span>' + recChips(p.mrt) + '</button>' : "";
+    return '<div class="actions"><a class="btn primary" href="' + gmaps(p) + '" target="_blank" rel="noopener">' + ICON.go + 'Go</a>' +
+      '<button class="btn" data-taxi="' + p.id + '">' + ICON.taxi + 'Taxi card</button>' + (compact ? "" : mrt) + '</div>';
+  }
+  function badges(p, date) {
+    if (!p) return "";
+    var b = [], hours = p.hours;
+    if (p.id === "hotel") hours = date === T.dates.start ? "Check-in from 15:00" : date === T.dates.end ? "Check-out before 11:00" : "";
+    if (p.verify) b.push('<span class="badge b-warn">⚠ To recheck</span>');
+    if (hours) b.push('<span class="badge b-info">' + esc(hours) + '</span>');
+    return b.length ? '<div class="actions" style="gap:6px">' + b.join("") + '</div>' : "";
+  }
+  function mealBlock(m, title) {
+    if (!m) return "";
+    var opt = function (k, label) {
+      var p = place(m[k]); if (!p) return "";
+      return '<div class="opt ' + (k === "main" ? "main" : "") + '"><span class="tag">' + label + '</span><div class="nm">' +
+        (p.en ? '<div class="en">' + esc(p.en) + '</div>' : '') + (p.zh ? '<div class="zh">' + esc(p.zh) + '</div>' : '') +
+        (p.verify ? '<div class="small" style="color:var(--warn)">⚠ To recheck</div>' : '') + '</div>' +
+        '<a class="iconbtn" aria-label="Go to ' + esc(p.en || p.zh) + '" href="' + gmaps(p) + '" target="_blank" rel="noopener">' + ICON.go + '</a></div>';
+    };
+    return (title ? '<div class="kind k-meal" style="margin-top:2px">' + ICON.meal + title + '</div>' : '') +
+      '<div class="meal-opts">' + opt("main", "Main") + opt("b1", "B1") + opt("b2", "B2") + '</div>' +
+      (m.note ? '<div class="small muted" style="margin-top:6px">' + esc(m.note) + '</div>' : "");
+  }
+  function savedNear(areas, limit) {
+    return T.saved_places.filter(function (s) { return s.in_trip && areas.indexOf(s.area) >= 0; }).slice(0, limit || 99);
+  }
+  function pickRow(s, from) {
+    var d = from ? '<span class="badge b-info">' + fmtDist(dist(from, s)) + '</span>' : "";
+    return '<div class="pick"><div class="grow">' + (s.en ? '<div class="en">' + esc(s.en) + '</div>' : '') + (s.zh ? '<div class="zh">' + esc(s.zh) + '</div>' : '') +
+      (s.note ? '<div class="small" style="color:var(--accent)">Your note: ' + esc(s.note) + '</div>' : '') + '</div>' + d +
+      '<a class="iconbtn" aria-label="Go" href="' + gmaps(s) + '" target="_blank" rel="noopener">' + ICON.go + '</a></div>';
+  }
+
+  // ---------- HOME ----------
+  function nowInfo() {
+    // On the trip (Taipei time) use the real clock; before/after the trip, use the preview strip.
+    var tp = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Taipei" }));
+    var iso = tp.getFullYear() + "-" + String(tp.getMonth() + 1).padStart(2, "0") + "-" + String(tp.getDate()).padStart(2, "0");
+    var idx = T.days.map(function (d) { return d.date; }).indexOf(iso);
+    if (idx >= 0) return { idx: idx, time: String(tp.getHours()).padStart(2, "0") + ":" + String(tp.getMinutes()).padStart(2, "0"), live: true };
+    return { idx: state.previewIdx, time: String(tp.getHours()).padStart(2, "0") + ":" + String(tp.getMinutes()).padStart(2, "0"), live: false };
+  }
+  function blockAt(d, now) {
+    var items = d.items, cur = null, nxt = null;
+    for (var i = 0; i < items.length; i++) { if (items[i].time <= now) cur = i; else { nxt = i; break; } }
+    return { cur: cur == null ? null : items[cur], next: nxt == null ? null : items[nxt] };
+  }
+  function toMin(t) { var p = t.split(":"); return +p[0] * 60 + +p[1]; }
+  function renderHome() {
+    var ni = nowInfo(), d = dayView(ni.idx), now = ni.time, B = blockAt(d, now);
+    document.querySelector('.preview').style.display = ni.live ? 'none' : '';
+    var focus = B.cur || B.next, p = place(focus.place);
+    var nextMeal = d.items.filter(function (it) { return it.kind === "meal" && it.time > now; })[0];
+    var here = state.gps || p || place("hotel");
+    var near = T.saved_places.filter(function (s) { return s.in_trip; })
+      .map(function (s) { return { s: s, m: dist(here, s) }; }).filter(function (x) { return x.m < 1200; })
+      .sort(function (a, b) { return a.m - b.m; }).slice(0, 8);
+    var pct = 0, win = "";
+    if (B.cur) {
+      var st = toMin(B.cur.time), en = B.next ? toMin(B.next.time) : st + 60;
+      pct = Math.max(0, Math.min(100, Math.round((toMin(now) - st) / Math.max(1, en - st) * 100)));
+      win = B.cur.time + (B.next ? "–" + B.next.time : "");
+    }
+    var label = B.cur ? "Now " + now + " · " + win : "Starts " + B.next.time;
+    var showPlace = p && focus.kind !== "flight" && !(focus.place === "hotel" && focus.kind === "travel");
+
+    var html = '<section class="hero"><div class="kicker">Day ' + (ni.idx + 1) + ' of 6 · ' + esc(d.dow) + ' ' + dayLabel(d).dd + ' Jan · ' + esc(d.title) + '</div>' +
+      '<div style="margin-top:8px"><span class="now"><span class="dot"></span>' + esc(label) + '</span></div>' +
+      '<h1>' + esc(focus.text) + '</h1>' + (showPlace ? '<div class="sub">' + esc(p.en || "") + (p.zh ? ' · <span class="zh">' + esc(p.zh) + '</span>' : "") + '</div>' : "") +
+      (B.cur ? '<div class="bar"><i style="width:' + pct + '%"></i></div>' : "") +
+      '<div class="stats">' + (B.next ? '<span class="stat">Next ' + esc(B.next.time) + ' · ' + esc(B.next.text.length > 34 ? B.next.text.slice(0, 32) + "…" : B.next.text) + '</span>' : '<span class="stat">Last stop of the day</span>') +
+      '<span class="stat">☁ ~17–21°C · drizzle likely</span></div></section>';
+
+    html += '<section class="section card lock"><span style="width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none">' + ICON.lock + '</span>' +
+      '<div style="flex:1;min-width:0"><div class="small muted">Group booking no.</div><div class="n">' + esc(T.booking_masked || "••••") + '</div></div>' +
+      '<button class="btn" data-home="bookings">Unlock</button></section>';
+
+    html += '<section class="section"><div class="icons">' +
+      [["flight", "Flights", "t-blue", "flights"], ["hotel", "Hotel", "t-violet", "hotel"], ["doc", "Bookings", "t-orange", "bookings"],
+       ["taxi", "Transport", "t-teal", "transport"], ["cloud", "Weather", "t-blue", "weather"], ["msg", "Messages", "t-rose", "messages"],
+       ["help", "Help", "t-amber", "help"], ["list", "To book", "t-teal", "tobook"]]
+        .map(function (x) { return '<button class="ic" data-home="' + x[3] + '"><span class="tile ' + x[2] + '">' + ICON[x[0]] + '</span><span>' + x[1] + '</span></button>'; }).join("") +
+      '</div></section>';
+
+    html += '<section class="section card next"><div class="label">' + (B.cur ? "Now · " + esc(B.cur.time) : "Next up · " + esc(focus.time)) + '</div>' +
+      '<div class="what">' + esc(focus.text) + '</div>' + (showPlace ? names(p) : "") + (focus.transport ? '<div class="small muted" style="margin-top:6px">' + esc(focus.transport) + '</div>' : "") +
+      (focus.kind === "meal" ? mealBlock(focus.meal) : (showPlace ? badges(p, d.date) + placeActions(p) : "")) + '</section>';
+
+    if (nextMeal && nextMeal !== focus) html += '<section class="section card">' + mealBlock(nextMeal.meal, "Next meal · " + nextMeal.time) + '</section>';
+
+    html += '<section class="section"><h2>Nearby picks <span class="zh">附近推薦</span></h2>' +
+      '<div class="small muted" style="margin:-4px 0 10px">From your Google Maps lists · within 1.2 km of ' + (state.gps ? "you (GPS ±" + state.gps.acc + " m)" : esc(here.en)) + '</div>' +
+      '<div class="actions" style="margin:0 0 10px"><button class="btn" data-gps="home">' + ICON.log + (state.gps ? "Update my location" : "Use my location") + '</button></div>' +
+      '<div class="hscroll">' + (near.length ? near.map(function (x) {
+        var s = x.s;
+        return '<div class="card mini"><div class="t">' + esc(s.en || s.zh) + '</div>' + (s.en && s.zh ? '<div class="d zh">' + esc(s.zh) + '</div>' : '') +
+          '<div class="d">' + fmtDist(x.m) + (s.note ? ' · <span style="color:var(--accent)">' + esc(s.note) + '</span>' : '') + '</div>' +
+          '<div class="actions"><a class="btn" href="' + gmaps(s) + '" target="_blank" rel="noopener">' + ICON.go + 'Go</a></div></div>';
+      }).join("") : '<div class="card mini"><div class="d">No saved places within 1.2 km.</div></div>') + '</div></section>';
+
+    html += '<section class="section"><h2>Today <span class="zh">今日行程</span></h2><div class="card">' +
+      d.items.map(function (it) {
+        var q = place(it.place), on = it === B.cur;
+        return '<div class="pick"' + (on ? ' style="background:var(--accent-soft);border-radius:12px;padding-left:8px"' : '') + '><b style="width:52px;flex:none">' + esc(it.time) + '</b><div class="grow"><div class="en">' + esc(it.text) + '</div>' +
+          (q && q.zh && it.kind !== "flight" ? '<div class="zh">' + esc(q.zh) + '</div>' : '') + '</div>' + (on ? '<span class="badge b-ok">Now</span>' : '') + '</div>';
+      }).join("") + '<div class="actions"><button class="btn" data-goplan="' + ni.idx + '">Open full plan</button></div></div></section>';
+    $("view").innerHTML = html;
+  }
+
+  // ---------- PLAN ----------
+  function timelineHtml(d) {
+    var html = '<div class="timeline">';
+    if (d.breakfast) html += '<div class="item"><div class="tm">AM</div><div class="card">' + mealBlock(d.breakfast, "Breakfast 早餐") + '</div></div>';
+    d.items.forEach(function (it) {
+      var p = place(it.place), k = it.kind || "visit";
+      var kindName = { visit: "Visit", meal: "Meal", travel: "Getting there", rest: "Rest", hotel: "Hotel", flight: "Flight" }[k] || "Visit";
+      var icon = { visit: ICON.visit, meal: ICON.meal, travel: ICON.travel, rest: ICON.rest, hotel: ICON.hotel, flight: ICON.flight }[k] || ICON.visit;
+      html += '<div class="item"><div class="tm">' + esc(it.time) + '</div><div class="card">' +
+        '<div class="kind k-' + k + '">' + icon + kindName + '</div><div class="txt">' + esc(it.text) + '</div>' +
+        (it.transport ? '<div class="tr">' + esc(it.transport) + '</div>' : "") +
+        (k === "meal" ? mealBlock(it.meal) : (p && k !== "flight" && !(it.place === "hotel" && k !== "hotel") ? names(p) + badges(p, d.date) + placeActions(p) : "")) +
+        (it.note ? '<div class="small muted" style="margin-top:6px">' + esc(it.note) + '</div>' : "") + '</div></div>';
+    });
+    return html + '</div>';
+  }
+  function notesHtml(d) {
+    var html = "";
+    if (d.why) html += '<div class="note n-why">' + ICON.info + '<div>' + esc(d.why) + '</div></div>';
+    if (d.rain_backup) html += '<div class="note n-rain">' + ICON.rain + '<div><b>If it rains:</b> ' + esc(d.rain_backup) + '</div></div>';
+    if (d.mrt) html += '<div class="note n-mrt">' + ICON.train + '<div><b>MRT:</b> ' + esc(d.mrt) + '</div></div>';
+    return html;
+  }
+  function foodPicksFor(date) {
+    var out = [];
+    (((T.ideas || {}).food_picks || {}).by_area || []).forEach(function (g) { if (g.day === date) out = out.concat(g.places); });
+    return out;
+  }
+  function renderPlan() {
+    var html = '<div class="mtabs"><button class="' + (state.planMode === "itin" ? "on" : "") + '" data-mode="itin">Itinerary</button>' +
+      '<button class="' + (state.planMode === "ideas" ? "on" : "") + '" data-mode="ideas">Ideas</button></div>';
+    if (state.planMode === "ideas") { $("view").innerHTML = html + ideasHtml(); return; }
+    html += '<div class="crow"><button class="cp ' + (state.day === -1 ? "on" : "") + '" data-day="-1">' + ICON.menu + 'Overview</button>' +
+      T.days.map(function (d, i) { return '<button class="cp ' + (state.day === i ? "on" : "") + '" data-day="' + i + '">Jan ' + dayLabel(d).dd + '</button>'; }).join("") +
+      '<button class="cplus" data-plus="1" aria-label="Add a spare day or idea">' + ICON.plus + '</button></div>';
+    if (state.day === -1) { $("view").innerHTML = html + overviewHtml(); return; }
+    var d = dayView(state.day);
+    if (d.swapped) html += '<div class="swapbar">' + ICON.swap + '<div style="flex:1">Swapped in: ' + esc(d.title) + '<div class="small" style="font-weight:600">Original: ' + esc(d.original) + ' · on this phone</div></div><button class="btn" data-unswap="' + d.date + '">Undo</button></div>';
+    html += '<section class="section dayhead"><div class="small muted" style="font-weight:700">' + esc(d.dow) + ' ' + dayLabel(d).dd + ' Jan 2027</div><h2>' + esc(d.title) + '</h2><div class="zh">' + esc(d.title_zh || "") + '</div>' + notesHtml(d) + '</section>';
+    html += timelineHtml(d);
+    var fp = foodPicksFor(d.date);
+    if (fp.length) html += '<details class="picks card section" open><summary>' + ICON.meal + 'Your food picks here (' + fp.length + ')</summary>' +
+      fp.map(function (id) { var p = place(id); return pickRow({ en: p.en, zh: p.zh, lat: p.lat, lng: p.lng, note: p.access || "" }, null); }).join("") + '</details>';
+    var picks = savedNear(d.areas || [], 30);
+    if (picks.length) html += '<details class="picks card section"><summary>' + ICON.star + 'Your saved places in this area (' + picks.length + ')</summary>' +
+      picks.map(function (s) { return pickRow(s, null); }).join("") + '</details>';
+    if (d.near_hotel) html += '<details class="picks card section"><summary>' + ICON.hotel + 'Near the hotel (' + d.near_hotel.length + ')</summary>' +
+      d.near_hotel.map(function (id) { var p = place(id); return pickRow({ en: p.en, zh: p.zh, lat: p.lat, lng: p.lng, note: "" }, place("hotel")); }).join("") + '</details>';
+    $("view").innerHTML = html + '<div style="height:16px"></div>';
+  }
+  function overviewHtml() {
+    return '<section class="section"><div class="card">' + T.days.map(function (d, i) {
+      d = dayView(i);
+      var stops = d.items.filter(function (it) { return it.kind === "visit" || it.kind === "meal"; }).map(function (it) { var p = place(it.place); return p ? (p.zh || p.en) : ""; })
+        .filter(Boolean).filter(function (v, j, a) { return a.indexOf(v) === j; }).slice(0, 4).join(" · ");
+      return '<div class="pick ovday" data-day="' + i + '"><div class="dd"><b>' + dayLabel(d).dd + '</b><span>' + esc(d.dow) + '</span></div>' +
+        '<div style="min-width:0"><div class="t">' + (d.swapped ? "⇄ " : "") + esc(d.title) + '</div><div class="s zh">' + esc(d.title_zh || "") + '</div>' + (stops ? '<div class="s zh">' + esc(stops) + '</div>' : '') + '</div>' +
+        '<span style="color:var(--muted)">' + ICON.chev + '</span></div>';
+    }).join("") + '</div></section>' +
+    '<section class="section card"><div class="kind k-visit">' + ICON.info + 'Trip basics</div>' +
+      '<div class="small" style="margin-top:6px">SQ878 Sun 3 Jan 11:40 → 16:20 · SQ879 Fri 8 Jan 17:35 → 22:20</div>' +
+      '<div class="small" style="margin-top:4px">HOTEL COZZI Zhongxiao 和逸飯店・台北忠孝館 · Check-in 3 Jan from 15:00 · Check-out 8 Jan before 11:00 · Breakfast included 4–8 Jan</div></section>' +
+    '<div style="height:16px"></div>';
+  }
+  function ideaCard(s, tone, icon, sub) {
+    return '<details class="card idea"><summary><span class="tile ' + tone + '" style="width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none">' + icon + '</span>' +
+      '<div style="flex:1;min-width:0"><div class="t">' + esc(s.title) + '</div><div class="s zh">' + esc(s.title_zh || "") + '</div><div class="s">' + esc(sub) + '</div></div></summary>' +
+      '<div class="actions"><button class="btn primary" data-swap="' + esc(s.id) + '">' + ICON.swap + 'Swap into a day</button></div>' + timelineHtml(s) + '</details>';
+  }
+  var IDEA_CATS = [["all", "Overview"], ["spare", "Spare days"], ["trips", "Day trips"], ["food", "Food picks"], ["saved", "Saved"], ["no", "Not chosen"]];
+  function ideasHtml() {
+    var c = state.ideaCat, show = function (k) { return c === "all" || c === k; };
+    var html = '<div class="crow">' + IDEA_CATS.map(function (x) { return '<button class="cp ' + (c === x[0] ? "on" : "") + '" data-icat="' + x[0] + '">' + (x[0] === "all" ? ICON.menu : "") + x[1] + '</button>'; }).join("") + '</div>';
+    html += '<div class="small muted" style="margin-top:6px">Backups and things we discussed. Swap a spare day or day trip into the plan if the weather or plans change.</div>';
+    if (show("spare")) html += '<section class="section"><h2>Spare days <span class="zh">備用日</span></h2>' + T.spare_days.map(function (s) {
+      return ideaCard(s, "t-violet", ICON.swap, "Closed: " + s.closed + " · swap into " + s.swap_into.map(function (x) { return +x.slice(8); }).join(", ") + " Jan");
+    }).join("") + '</section>';
+    if (show("trips")) html += '<section class="section"><h2>Day-trip alternatives <span class="zh">其他一日遊</span></h2>' + (T.idea_daytrips || []).map(function (s) {
+      return ideaCard(s, "t-teal", ICON.travel, s.why + (s.closed ? " · Closed: " + s.closed : ""));
+    }).join("") + '</section>';
+    var fp = (T.ideas || {}).food_picks;
+    if (fp && show("food")) html += '<section class="section"><h2>' + esc(fp.title) + ' <span class="zh">' + esc(fp.title_zh) + '</span></h2>' + fp.by_area.map(function (g) {
+      return '<div class="card" style="margin-bottom:10px"><div class="kind k-meal">' + ICON.meal + esc(g.area) + ' · ' + (+g.day.slice(8)) + ' Jan</div>' +
+        g.places.map(function (id) { var p = place(id); return pickRow({ en: p.en, zh: p.zh, lat: p.lat, lng: p.lng, note: (p.access || "") + (p.verify ? " ⚠ check" : "") }, null); }).join("") + '</div>';
+    }).join("") + '<div class="small muted">' + esc(fp.note || "") + '</div></section>';
+    if (show("saved")) {
+      var groups = {};
+      T.saved_places.filter(function (s) { return s.in_trip; }).forEach(function (s) { (groups[s.area] = groups[s.area] || []).push(s); });
+      html += '<section class="section"><h2>Saved places by area <span class="zh">收藏地點</span></h2>' + Object.keys(groups).map(function (a) {
+        return '<details class="card idea"><summary><div style="flex:1"><div class="t">' + esc(a) + '</div><div class="s">' + groups[a].length + ' places</div></div></summary>' +
+          groups[a].map(function (s) { return pickRow(s, null); }).join("") + '</details>';
+      }).join("") + '</section>';
+    }
+    var nc = (T.ideas || {}).not_chosen || [];
+    if (nc.length && show("no")) html += '<section class="section"><h2>Not chosen, and why <span class="zh">未採用</span></h2><div class="card">' +
+      nc.map(function (x) { return '<div class="pick"><div class="grow"><div class="en">' + esc(x.what) + '</div><div class="small muted">' + esc(x.why) + '</div></div></div>'; }).join("") + '</div></section>';
+    return html + '<div style="height:16px"></div>';
+  }
+
+  var TYPE_COL = { sight: "#2f6fec", food: "#ff5a1f", shop: "#7b5cf0", hotel: "#141a26", transport: "#0e9f8a" };
+  function renderMap() {
+    var chips = [["all", "All"], ["saved", "★ Saved"], ["mrt", "MRT exits"]].concat(T.days.map(function (d, i) { return ["d" + i, "Jan " + dayLabel(d).dd]; }));
+    $("view").innerHTML = '<div class="crow">' + chips.map(function (c) { return '<button class="cp ' + (state.mapFilter === c[0] ? "on" : "") + '" data-mapf="' + c[0] + '">' + c[1] + '</button>'; }).join("") + '</div>' +
+      '<div class="legend"><span><i style="background:#2f6fec"></i>Sight</span><span><i style="background:#ff5a1f"></i>Food</span><span><i style="background:#7b5cf0"></i>Shop</span><span><i style="background:#141a26"></i>Hotel</span><span><i style="background:#e8a100"></i>Saved</span><span><i style="background:#15803d;border-radius:3px"></i>MRT exit</span></div>' +
+      '<div class="mapwrap"><div id="map"></div><button class="btn primary mapbtn" data-gps="map">' + ICON.log + 'Where am I?</button></div>';
+    if (!window.L) { $("map").innerHTML = '<div class="loading">Map needs an internet connection.</div>'; return; }
+    if (MAP) { MAP.remove(); MAP = null; }
+    MAP = L.map("map", { zoomControl: true }).setView([25.046, 121.52], 13);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap" }).addTo(MAP);
+    var pts = [], f = state.mapFilter;
+    function popup(p, id) {
+      return '<div><b>' + esc(p.en || "") + '</b>' + (p.zh ? '<div class="zh">' + esc(p.zh) + '</div>' : "") + (p.note ? '<div class="small">' + esc(p.note) + '</div>' : "") +
+        '<div class="actions"><a class="btn primary" href="' + gmaps(p) + '" target="_blank" rel="noopener">Go</a>' + (id ? '<button class="btn" data-taxi="' + id + '">Taxi card</button>' : "") + '</div></div>';
+    }
+    function add(lat, lng, col, html, r, square) {
+      var m = square ? L.marker([lat, lng], { icon: L.divIcon({ className: "", html: '<div style="width:14px;height:14px;background:' + col + ';border:2px solid #fff;border-radius:3px;box-shadow:0 0 0 1px rgba(0,0,0,.2)"></div>', iconSize: [14, 14] }) })
+        : L.circleMarker([lat, lng], { radius: r || 8, color: "#fff", weight: 2, fillColor: col, fillOpacity: 1 });
+      m.addTo(MAP).bindPopup(html); pts.push([lat, lng]);
+    }
+    var ids = null;
+    if (f.charAt(0) === "d") {
+      var d = dayView(+f.slice(1)); ids = {};
+      d.items.forEach(function (it) { if (it.place) ids[it.place] = 1; ["main", "b1", "b2"].forEach(function (k) { if (it.meal && it.meal[k]) ids[it.meal[k]] = 1; }); });
+    }
+    if (f !== "saved" && f !== "mrt") Object.keys(T.places).forEach(function (id) {
+      if (ids && !ids[id]) return;
+      var p = place(id); if (!p || p.lat == null) return;
+      add(p.lat, p.lng, TYPE_COL[p.type] || "#2f6fec", popup(p, id), id === "hotel" ? 10 : 8);
+    });
+    if (f === "all" || f === "saved") T.saved_places.forEach(function (s2) {
+      if (!s2.in_trip && f === "all") return;
+      add(s2.lat, s2.lng, "#e8a100", popup({ en: s2.en, zh: s2.zh, lat: s2.lat, lng: s2.lng, note: s2.note ? "Your note: " + s2.note : "" }), 6);
+    });
+    if (f === "mrt" || f === "all") Object.keys(T.stations).forEach(function (sid) {
+      var st = T.stations[sid];
+      st.exits.forEach(function (e) {
+        if (!e.lat || st.recommended.indexOf(e.no) < 0) return;
+        add(e.lat, e.lng, "#15803d", '<div><b>' + esc(st.en) + ' Exit ' + esc(e.no) + '</b><div class="zh">' + esc(st.zh) + ' ' + esc(e.no) + '號出口</div><div class="exitchips" style="margin-top:6px">' + exitChip(e) + '</div>' +
+          '<div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=' + e.lat + ',' + e.lng + '" target="_blank" rel="noopener">Go</a><button class="btn" data-mrt="' + sid + '">All exits</button></div></div>', 0, true);
+      });
+    });
+    if (state.gps) L.circleMarker([state.gps.lat, state.gps.lng], { radius: 9, color: "#fff", weight: 3, fillColor: "#2f6fec", fillOpacity: 1 }).addTo(MAP).bindPopup("You are here");
+    if (pts.length && f !== "all") MAP.fitBounds(pts, { padding: [30, 30], maxZoom: 16 });
+    setTimeout(function () { MAP && MAP.invalidateSize(); }, 50);
+  }
+  function locate(where) {
+    if (!("geolocation" in navigator)) return toast("This phone has no location support");
+    toast("Finding you…");
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      state.gps = { lat: pos.coords.latitude, lng: pos.coords.longitude, acc: Math.round(pos.coords.accuracy), en: "you" };
+      if (where === "map") { renderMap(); MAP.setView([state.gps.lat, state.gps.lng], 16); } else renderHome();
+    }, function (err) { toast(err.code === 1 ? "Location is off for this browser — see Help" : "Could not get location"); }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
+  }
+
+  // ---------- HELP ----------
+  var PHRASES = [
+    ["電梯在哪裡？", "Where is the lift?"], ["電扶梯在哪裡？", "Where is the escalator?"], ["廁所在哪裡？", "Where is the toilet?"],
+    ["請幫我叫計程車。", "Please call a taxi for me."], ["我們有四位，有座位嗎？", "Four of us — are there seats?"],
+    ["可以給我們靠近門口的座位嗎？", "Could we have a table near the entrance?"], ["家人走路比較慢，請稍等一下。", "My family member walks slowly — please wait a moment."],
+    ["不要辣。", "No chili, please."], ["少油少鹽。", "Less oil and salt, please."], ["可以刷卡嗎？", "Can I pay by card?"],
+    ["請問這個多少錢？", "How much is this?"], ["謝謝！", "Thank you!"]
+  ];
+  function renderHelp() {
+    var e = T.emergency;
+    $("view").innerHTML = '<section class="section card"><div class="kind k-meal">' + ICON.help + 'Emergency 緊急</div>' +
+      '<div style="font-size:23px;font-weight:800;margin-top:6px">Police 110 · Ambulance / Fire 119</div>' +
+      '<div class="actions"><a class="btn primary" href="tel:110">Call 110</a><a class="btn primary" href="tel:119">Call 119</a><a class="btn" href="tel:' + esc(e.tourist_hotline) + '">Tourist hotline</a></div></section>' +
+      '<section class="section card"><div class="kind k-visit">' + ICON.info + 'Singapore Trade Office 新加坡駐台北商務辦事處</div>' +
+      '<div class="small muted" style="margin-top:4px">' + esc(e.sg_office_name) + '</div>' +
+      '<div class="actions"><a class="btn primary" href="tel:' + esc(e.sg_office_emergency.replace(/\s/g, "")) + '">Emergency ' + esc(e.sg_office_emergency) + '</a><a class="btn" href="tel:' + esc(e.sg_office) + '">Office ' + esc(e.sg_office) + '</a></div></section>' +
+      '<section class="section card"><div class="kind k-hotel">' + ICON.hotel + 'Hotel 飯店</div><div class="names"><div class="en">HOTEL COZZI Zhongxiao Taipei</div><div class="zh">和逸飯店・台北忠孝館</div></div>' +
+      '<div class="actions"><a class="btn primary" href="tel:' + esc(e.hotel_phone) + '">Call hotel</a><button class="btn" data-taxi="hotel">' + ICON.taxi + 'Taxi card home</button></div></section>' +
+      '<section class="section"><h2>Show this 給對方看 <span class="zh">常用句</span></h2><div class="small muted">Tap a phrase to show it full-screen.</div>' +
+      PHRASES.map(function (x, i) { return '<button class="phr" data-phr="' + i + '"><div class="zh">' + esc(x[0]) + '</div><div class="en">' + esc(x[1]) + '</div></button>'; }).join("") + '</section>' +
+      '<section class="section card"><div class="kind k-travel">' + ICON.log + 'Location not working on iPhone?</div><div class="small" style="margin-top:6px">Settings → Privacy &amp; Security → Location Services → Safari Websites → While Using the App.</div></section><div style="height:16px"></div>';
+  }
+
+  function renderSoon(tab) {
+    var what = { map: ["map", "Map", "All planned places and your saved places as pins, with “you are here”.", "B3"],
+                 log: ["log", "Log", "Found something good? GPS fills the location; add a photo and comment for the group.", "B4"],
+                 spend: ["spend", "Spend", "Your receipts and totals (owner code only).", "B4"] }[tab];
+    $("view").innerHTML = '<div class="card soon section">' + ICON[what[0]] + '<h2>' + what[1] + '</h2><div class="muted">' + what[2] + '</div>' +
+      '<div class="actions" style="justify-content:center"><span class="badge b-info">Coming in ' + what[3] + '</span></div></div>';
+  }
+
+  // ---------- home shortcuts ----------
+  function homeShortcut(k) {
+    if (k === "flights") return infoSheet("Flights 航班", T.flights.map(function (f) {
+      return '<div class="card" style="margin-bottom:10px"><div class="kind k-flight">' + ICON.flight + esc(f.no) + ' · ' + esc(f.date) + '</div>' +
+        '<div style="font-size:23px;font-weight:800;margin-top:6px">' + esc(f.dep) + ' → ' + esc(f.arr) + '</div><div class="muted">' + esc(f.from) + ' → ' + esc(f.to) + '</div></div>';
+    }).join("") + '<div class="small muted">Booking reference and the full confirmation load from Bookings after the group code (B4).</div>');
+    if (k === "hotel") { var h = place("hotel"); return infoSheet("Hotel 飯店", names(h) + '<div class="small muted" style="margin-top:6px">' + esc(h.address) + '</div><div class="small" style="margin-top:6px">Check-in 3 Jan from 15:00 · Check-out 8 Jan before 11:00 · 5 nights · 2 rooms · Breakfast ' + esc(T.hotel_breakfast || "") + '</div>' + placeActions(h)); }
+    if (k === "bookings") {
+      var saved = ""; try { saved = localStorage.getItem("trip.groupCode") || ""; } catch (e) {}
+      return infoSheet("Bookings 訂單", '<div class="card lock"><span style="color:var(--accent)">' + ICON.lock + '</span><div><div class="small muted">Group booking no.</div><div class="n">' + esc(T.booking_masked) + '</div></div></div>' +
+        '<div class="card" style="margin-top:10px"><label class="small" style="font-weight:800" for="gcode">Group code</label>' +
+        '<input id="gcode" class="codebox" type="password" inputmode="text" autocomplete="off" placeholder="Enter the group code" value="' + esc(saved) + '">' +
+        '<div class="actions"><button class="btn primary" data-unlock="1">' + ICON.lock + 'Unlock</button></div>' +
+        '<div class="small muted" style="margin-top:8px">' + (saved ? "Code saved on this phone. " : "") + 'Mock: the code is kept on this phone only. Checking it and showing the full booking number, PNRs, e-tickets and the voucher is connected in B4.</div></div>');
+    }
+    if (k === "transport") return infoSheet("Transport 交通",
+      '<div class="card" style="margin-bottom:10px"><div class="kind k-travel">' + ICON.train + '1 · MRT 捷運</div><div style="margin-top:6px"><b>Hotel station:</b> Shandao Temple 善導寺</div>' +
+        '<div class="actions" style="margin-top:6px">' + recChips("shandao") + '</div><div class="small muted" style="margin-top:6px">Exit 6 escalators (hotel side) · Exit 3 lift (across Zhongxiao E. Rd) · Avoid 2, 5</div>' +
+        '<div class="actions"><button class="btn" data-mrt="shandao">' + ICON.train + 'All exits</button></div></div>' +
+      '<div class="card" style="margin-bottom:10px"><div class="kind k-travel">' + ICON.taxi + '2 · Taxi / Uber 計程車</div><div class="small muted" style="margin-top:6px">4 people fit one taxi. Every place has a “Taxi card” with the Chinese address.</div><div class="actions"><a class="btn" href="https://m.uber.com/" target="_blank" rel="noopener">Uber</a><a class="btn" href="https://www.taiwantaxi.com.tw/" target="_blank" rel="noopener">55688 Taiwan Taxi</a></div></div>' +
+      '<div class="card"><div class="kind k-travel">' + ICON.flight + '3 · Airport transport 機場接送</div><div class="small muted" style="margin-top:6px">Paid 7-seater van · 3 Jan meet at TPE T2 arrivals ~17:20 · 8 Jan pick-up at the hotel 13:30 (~50–60 min)</div></div>');
+    if (k === "weather") return infoSheet("Weather 天氣", '<div class="card">' + esc(T.weather_note) + '<div class="small muted" style="margin-top:8px">Live forecast for each day’s area arrives in B5 (from ~19 Dec).</div></div>');
+    if (k === "messages") return infoSheet("Messages 公告", '<div class="card"><div class="muted">Group noticeboard: post once, everyone sees it as a banner (B4).</div></div>');
+    if (k === "help") { state.tab = "help"; return render(); }
+    if (k === "help_old") return infoSheet("Help 求助", '<div class="card"><div style="font-size:21px;font-weight:800">Police 110 · Ambulance/Fire 119</div><div class="small muted">Tourist hotline 0800-011-765</div><div class="actions"><a class="btn primary" href="tel:110">Call 110</a><a class="btn primary" href="tel:119">Call 119</a></div></div>');
+    if (k === "tobook") return infoSheet("To book / confirm", '<div class="card">' + T.to_book.map(function (x) { return '<div class="pick"><div class="grow small">' + esc(x) + '</div></div>'; }).join("") + '</div>');
+  }
+
+  // ---------- frame ----------
+  var TABS = [["home", "Home"], ["plan", "Plan"], ["map", "Map"], ["log", "Log"], ["spend", "Spend"]];
+  function render() {
+    $("tabs").innerHTML = TABS.map(function (t) { return '<button class="tab ' + (state.tab === t[0] ? "on" : "") + '" data-tab="' + t[0] + '">' + ICON[t[0]] + '<span>' + t[1] + '</span></button>'; }).join("");
+    if (state.tab === "home") renderHome(); else if (state.tab === "plan") renderPlan(); else if (state.tab === "map") renderMap(); else if (state.tab === "help") renderHelp(); else renderSoon(state.tab);
+    window.scrollTo(0, 0);
+  }
+  function renderPreview() {
+    $("previewStrip").innerHTML = '<b>Before the trip · preview</b>' + T.days.map(function (d, i) {
+      return '<button class="chip ' + (state.previewIdx === i ? "on" : "") + '" data-pday="' + i + '">' + d.dow + ' ' + dayLabel(d).dd + '</button>';
+    }).join("");
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("button,[data-tab],[data-day]"); if (!b) return;
+    if (b.dataset.tab) { state.tab = b.dataset.tab; render(); }
+    else if (b.dataset.day) { state.day = +b.dataset.day; renderPlan(); }
+    else if (b.dataset.icat) { state.ideaCat = b.dataset.icat; renderPlan(); }
+    else if (b.dataset.plus) infoSheet("Add to the trip", '<div class="card"><div class="muted">Swap a spare day or a day trip from Ideas into one of the days.</div><div class="actions"><button class="btn primary" data-mode="ideas" data-close>Open Ideas</button></div><div class="small muted" style="margin-top:8px">The actual swap is built in B3.</div></div>');
+    else if (b.dataset.unlock) { var v = ($("gcode") || {}).value || ""; try { if (v) localStorage.setItem("trip.groupCode", v); } catch (e) {} closeSheet(); toast(v ? "Code saved on this phone — booking details connect in B4" : "Enter the group code first"); }
+    else if (b.dataset.mode) { state.planMode = b.dataset.mode; renderPlan(); window.scrollTo(0, 0); }
+    else if (b.dataset.taxi) taxiSheet(b.dataset.taxi);
+    else if (b.dataset.mrt) mrtSheet(b.dataset.mrt);
+    else if (b.dataset.home) homeShortcut(b.dataset.home);
+    else if (b.dataset.goplan) { state.tab = "plan"; state.planMode = "itin"; state.day = +b.dataset.goplan; render(); }
+    else if (b.dataset.swap) {
+      var idea = ideaById(b.dataset.swap), allowed = idea.swap_into || ["2027-01-05", "2027-01-06", "2027-01-07"];
+      infoSheet("Swap “" + esc(idea.title) + "” into…", '<div class="small muted">Replaces that day\'s plan on this phone (shared with the group in B4). You can undo it.</div>' +
+        allowed.map(function (dt) { var i = T.days.map(function (d) { return d.date; }).indexOf(dt), d = T.days[i]; return '<button class="phr" data-swapto="' + dt + '" data-swapid="' + idea.id + '"><div class="zh" style="font-size:19px">' + esc(d.dow) + ' ' + (+dt.slice(8)) + ' Jan</div><div class="en">Now: ' + esc(d.title) + '</div></button>'; }).join(""));
+    }
+    else if (b.dataset.swapto) { var sw = loadSwaps(); sw[b.dataset.swapto] = b.dataset.swapid; saveSwaps(sw); closeSheet(); state.tab = "plan"; state.planMode = "itin"; state.day = T.days.map(function (d) { return d.date; }).indexOf(b.dataset.swapto); render(); toast("Swapped — Undo is at the top of the day"); }
+    else if (b.dataset.unswap) { var sw2 = loadSwaps(); delete sw2[b.dataset.unswap]; saveSwaps(sw2); renderPlan(); toast("Back to the original plan"); }
+    else if (b.dataset.mapf) { state.mapFilter = b.dataset.mapf; renderMap(); }
+    else if (b.dataset.gps) locate(b.dataset.gps);
+    else if (b.dataset.phr) { var ph = PHRASES[+b.dataset.phr]; infoSheet("", '<div class="bigsay">' + esc(ph[0]) + '</div><div class="muted" style="font-size:19px">' + esc(ph[1]) + '</div>'); }
+    else if (b.dataset.pday) { state.previewIdx = +b.dataset.pday; renderPreview(); if (state.tab === "home") renderHome(); }
+    else if (b.id === "langBtn") toast("Names always show English first, then 中文");
+  });
+
+  fetch("data/trip.json", { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (j) {
+    T = j; renderPreview(); render();
+  }).catch(function (err) { $("view").innerHTML = '<div class="loading">Could not load trip data: ' + esc(err.message) + '</div>'; });
+})();
+</script>
 </body>
 </html>
