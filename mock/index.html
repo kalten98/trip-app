@@ -177,6 +177,23 @@
            opacity: 0; transition: opacity .2s; pointer-events: none; max-width: calc(100% - 32px); }
   .toast.on { opacity: 1; }
   .loading { padding: 60px 16px; text-align: center; color: var(--muted); }
+  .mtabs { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line); margin: 6px -16px 0; padding: 0 16px; background: #fff; }
+  .mtabs button { border: 0; background: none; min-height: 52px; font-size: 19px; font-weight: 600; color: var(--ink); cursor: pointer; position: relative; }
+  .mtabs button.on { font-weight: 800; }
+  .mtabs button.on::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 4px; border-radius: 2px; background: var(--ink); }
+  .crow { display: flex; gap: 10px; align-items: center; overflow-x: auto; padding: 14px 16px 6px; margin: 0 -16px; scrollbar-width: none; }
+  .crow::-webkit-scrollbar { display: none; }
+  .cp { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #d6d9df;
+        background: #fff; font-size: 18px; font-weight: 600; cursor: pointer; white-space: nowrap; color: var(--ink); }
+  .cp svg { width: 20px; height: 20px; }
+  .cp.on { background: #141a26; border-color: #141a26; color: #fff; }
+  .cplus { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #e9ebf0; display: grid; place-items: center; cursor: pointer; }
+  .cplus svg { width: 22px; height: 22px; }
+  .ovday { display: grid; grid-template-columns: 58px 1fr auto; gap: 12px; align-items: center; cursor: pointer; }
+  .ovday .dd { text-align: center; border-radius: 14px; background: var(--bg); padding: 6px 0; }
+  .ovday .dd b { display: block; font-size: 23px; line-height: 1.1; } .ovday .dd span { font-size: 16px; color: var(--muted); font-weight: 700; }
+  .ovday .t { font-weight: 800; font-size: 18px; } .ovday .s { font-size: 16px; color: var(--muted); }
+  .codebox { width: 100%; min-height: 50px; border: 1.5px solid #d6d9df; border-radius: 12px; padding: 0 14px; font: 700 20px var(--font); letter-spacing: .12em; margin-top: 10px; }
   .seg { display: grid; grid-template-columns: 1fr 1fr; background: #e9ebf0; border-radius: 14px; padding: 4px; margin-top: 14px; }
   .seg button { border: 0; background: none; border-radius: 11px; min-height: 42px; font-weight: 800; font-size: 17px; cursor: pointer; color: var(--muted); }
   .seg button.on { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(16,24,40,.12); }
@@ -255,11 +272,14 @@
     lift: I('<rect x="5" y="3" width="14" height="18" rx="2"/><path d="m9 9 3-3 3 3M9 15l3 3 3-3"/>'),
     esc: I('<path d="M3 19h4l9-11h5"/><path d="M3 15h2.5l9-11"/>'),
     stairs: I('<path d="M3 20h5v-5h5v-5h5V5h3"/>'),
+    menu: I('<path d="M4 6h16M4 12h16M4 18h16"/>'),
+    plus: I('<path d="M12 5v14M5 12h14"/>'),
+    chev: I('<path d="m9 6 6 6-6 6"/>'),
     lock: I('<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>')
   };
   ICON.hotelk = ICON.rest;
 
-  var T = null, state = { tab: "home", day: 0, planMode: "itin", previewIdx: 1, previewTime: "10:00" };
+  var T = null, state = { tab: "home", day: -1, planMode: "itin", ideaCat: "all", previewIdx: 1 };
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
 
@@ -339,11 +359,12 @@
     return '<div class="actions"><a class="btn primary" href="' + gmaps(p) + '" target="_blank" rel="noopener">' + ICON.go + 'Go</a>' +
       '<button class="btn" data-taxi="' + p.id + '">' + ICON.taxi + 'Taxi card</button>' + (compact ? "" : mrt) + '</div>';
   }
-  function badges(p) {
+  function badges(p, date) {
     if (!p) return "";
-    var b = [];
+    var b = [], hours = p.hours;
+    if (p.id === "hotel") hours = date === T.dates.start ? "Check-in from 15:00" : date === T.dates.end ? "Check-out before 11:00" : "";
     if (p.verify) b.push('<span class="badge b-warn">⚠ To recheck</span>');
-    if (p.hours) b.push('<span class="badge b-info">' + esc(p.hours) + '</span>');
+    if (hours) b.push('<span class="badge b-info">' + esc(hours) + '</span>');
     return b.length ? '<div class="actions" style="gap:6px">' + b.join("") + '</div>' : "";
   }
   function mealBlock(m, title) {
@@ -376,7 +397,7 @@
     var iso = tp.getFullYear() + "-" + String(tp.getMonth() + 1).padStart(2, "0") + "-" + String(tp.getDate()).padStart(2, "0");
     var idx = T.days.map(function (d) { return d.date; }).indexOf(iso);
     if (idx >= 0) return { idx: idx, time: String(tp.getHours()).padStart(2, "0") + ":" + String(tp.getMinutes()).padStart(2, "0"), live: true };
-    return { idx: state.previewIdx, time: state.previewTime, live: false };
+    return { idx: state.previewIdx, time: String(tp.getHours()).padStart(2, "0") + ":" + String(tp.getMinutes()).padStart(2, "0"), live: false };
   }
   function blockAt(d, now) {
     var items = d.items, cur = null, nxt = null;
@@ -398,7 +419,7 @@
       pct = Math.max(0, Math.min(100, Math.round((toMin(now) - st) / Math.max(1, en - st) * 100)));
       win = B.cur.time + (B.next ? "–" + B.next.time : "");
     }
-    var label = B.cur ? (ni.live ? "Now" : "At " + now) + " · " + win : "Starts " + B.next.time;
+    var label = B.cur ? "Now " + now + " · " + win : "Starts " + B.next.time;
     var showPlace = p && focus.kind !== "flight" && !(focus.place === "hotel" && focus.kind === "travel");
 
     var html = '<section class="hero"><div class="kicker">Day ' + (ni.idx + 1) + ' of 6 · ' + esc(d.dow) + ' ' + dayLabel(d).dd + ' Jan · ' + esc(d.title) + '</div>' +
@@ -421,7 +442,7 @@
 
     html += '<section class="section card next"><div class="label">' + (B.cur ? "Now · " + esc(B.cur.time) : "Next up · " + esc(focus.time)) + '</div>' +
       '<div class="what">' + esc(focus.text) + '</div>' + (showPlace ? names(p) : "") + (focus.transport ? '<div class="small muted" style="margin-top:6px">' + esc(focus.transport) + '</div>' : "") +
-      (focus.kind === "meal" ? mealBlock(focus.meal) : (showPlace ? badges(p) + placeActions(p) : "")) + '</section>';
+      (focus.kind === "meal" ? mealBlock(focus.meal) : (showPlace ? badges(p, d.date) + placeActions(p) : "")) + '</section>';
 
     if (nextMeal && nextMeal !== focus) html += '<section class="section card">' + mealBlock(nextMeal.meal, "Next meal · " + nextMeal.time) + '</section>';
 
@@ -454,7 +475,7 @@
       html += '<div class="item"><div class="tm">' + esc(it.time) + '</div><div class="card">' +
         '<div class="kind k-' + k + '">' + icon + kindName + '</div><div class="txt">' + esc(it.text) + '</div>' +
         (it.transport ? '<div class="tr">' + esc(it.transport) + '</div>' : "") +
-        (k === "meal" ? mealBlock(it.meal) : (p && k !== "flight" && !(it.place === "hotel" && k !== "hotel") ? names(p) + badges(p) + placeActions(p) : "")) +
+        (k === "meal" ? mealBlock(it.meal) : (p && k !== "flight" && !(it.place === "hotel" && k !== "hotel") ? names(p) + badges(p, d.date) + placeActions(p) : "")) +
         (it.note ? '<div class="small muted" style="margin-top:6px">' + esc(it.note) + '</div>' : "") + '</div></div>';
     });
     return html + '</div>';
@@ -472,12 +493,15 @@
     return out;
   }
   function renderPlan() {
-    var html = '<div class="seg"><button class="' + (state.planMode === "itin" ? "on" : "") + '" data-mode="itin">Itinerary 行程</button>' +
-      '<button class="' + (state.planMode === "ideas" ? "on" : "") + '" data-mode="ideas">Ideas 備選</button></div>';
+    var html = '<div class="mtabs"><button class="' + (state.planMode === "itin" ? "on" : "") + '" data-mode="itin">Itinerary</button>' +
+      '<button class="' + (state.planMode === "ideas" ? "on" : "") + '" data-mode="ideas">Ideas</button></div>';
     if (state.planMode === "ideas") { $("view").innerHTML = html + ideasHtml(); return; }
-    html += '<div class="daytabs">' + T.days.map(function (d, i) { var l = dayLabel(d); return '<button class="dt ' + (state.day === i ? "on" : "") + '" data-day="' + i + '"><div class="dw">' + l.dw + '</div><div class="dd">' + l.dd + '</div></button>'; }).join("") + '</div>';
+    html += '<div class="crow"><button class="cp ' + (state.day === -1 ? "on" : "") + '" data-day="-1">' + ICON.menu + 'Overview</button>' +
+      T.days.map(function (d, i) { return '<button class="cp ' + (state.day === i ? "on" : "") + '" data-day="' + i + '">Jan ' + dayLabel(d).dd + '</button>'; }).join("") +
+      '<button class="cplus" data-plus="1" aria-label="Add a spare day or idea">' + ICON.plus + '</button></div>';
+    if (state.day === -1) { $("view").innerHTML = html + overviewHtml(); return; }
     var d = T.days[state.day];
-    html += '<section class="section dayhead"><h2>' + esc(d.title) + '</h2><div class="zh">' + esc(d.title_zh || "") + '</div>' + notesHtml(d) + '</section>';
+    html += '<section class="section dayhead"><div class="small muted" style="font-weight:700">' + esc(d.dow) + ' ' + dayLabel(d).dd + ' Jan 2027</div><h2>' + esc(d.title) + '</h2><div class="zh">' + esc(d.title_zh || "") + '</div>' + notesHtml(d) + '</section>';
     html += timelineHtml(d);
     var fp = foodPicksFor(d.date);
     if (fp.length) html += '<details class="picks card section" open><summary>' + ICON.meal + 'Your food picks here (' + fp.length + ')</summary>' +
@@ -489,32 +513,50 @@
       d.near_hotel.map(function (id) { var p = place(id); return pickRow({ en: p.en, zh: p.zh, lat: p.lat, lng: p.lng, note: "" }, place("hotel")); }).join("") + '</details>';
     $("view").innerHTML = html + '<div style="height:16px"></div>';
   }
+  function overviewHtml() {
+    return '<section class="section"><div class="card">' + T.days.map(function (d, i) {
+      var stops = d.items.filter(function (it) { return it.kind === "visit" || it.kind === "meal"; }).map(function (it) { var p = place(it.place); return p ? (p.zh || p.en) : ""; })
+        .filter(Boolean).filter(function (v, j, a) { return a.indexOf(v) === j; }).slice(0, 4).join(" · ");
+      return '<div class="pick ovday" data-day="' + i + '"><div class="dd"><b>' + dayLabel(d).dd + '</b><span>' + esc(d.dow) + '</span></div>' +
+        '<div style="min-width:0"><div class="t">' + esc(d.title) + '</div><div class="s zh">' + esc(d.title_zh || "") + '</div>' + (stops ? '<div class="s zh">' + esc(stops) + '</div>' : '') + '</div>' +
+        '<span style="color:var(--muted)">' + ICON.chev + '</span></div>';
+    }).join("") + '</div></section>' +
+    '<section class="section card"><div class="kind k-visit">' + ICON.info + 'Trip basics</div>' +
+      '<div class="small" style="margin-top:6px">SQ878 Sun 3 Jan 11:40 → 16:20 · SQ879 Fri 8 Jan 17:35 → 22:20</div>' +
+      '<div class="small" style="margin-top:4px">HOTEL COZZI Zhongxiao 和逸飯店・台北忠孝館 · Check-in 3 Jan from 15:00 · Check-out 8 Jan before 11:00 · Breakfast included 4–8 Jan</div></section>' +
+    '<div style="height:16px"></div>';
+  }
   function ideaCard(s, tone, icon, sub) {
     return '<details class="card idea"><summary><span class="tile ' + tone + '" style="width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none">' + icon + '</span>' +
       '<div style="flex:1;min-width:0"><div class="t">' + esc(s.title) + '</div><div class="s zh">' + esc(s.title_zh || "") + '</div><div class="s">' + esc(sub) + '</div></div></summary>' +
       '<div class="actions"><button class="btn primary" data-swap="' + esc(s.id) + '">' + ICON.swap + 'Swap into a day</button></div>' + timelineHtml(s) + '</details>';
   }
+  var IDEA_CATS = [["all", "Overview"], ["spare", "Spare days"], ["trips", "Day trips"], ["food", "Food picks"], ["saved", "Saved"], ["no", "Not chosen"]];
   function ideasHtml() {
-    var html = '<div class="small muted" style="margin-top:12px">Backups and things we discussed. Swap a spare day or day trip into the plan if the weather or plans change.</div>';
-    html += '<section class="section"><h2>Spare days <span class="zh">備用日</span></h2>' + T.spare_days.map(function (s) {
+    var c = state.ideaCat, show = function (k) { return c === "all" || c === k; };
+    var html = '<div class="crow">' + IDEA_CATS.map(function (x) { return '<button class="cp ' + (c === x[0] ? "on" : "") + '" data-icat="' + x[0] + '">' + (x[0] === "all" ? ICON.menu : "") + x[1] + '</button>'; }).join("") + '</div>';
+    html += '<div class="small muted" style="margin-top:6px">Backups and things we discussed. Swap a spare day or day trip into the plan if the weather or plans change.</div>';
+    if (show("spare")) html += '<section class="section"><h2>Spare days <span class="zh">備用日</span></h2>' + T.spare_days.map(function (s) {
       return ideaCard(s, "t-violet", ICON.swap, "Closed: " + s.closed + " · swap into " + s.swap_into.map(function (x) { return +x.slice(8); }).join(", ") + " Jan");
     }).join("") + '</section>';
-    html += '<section class="section"><h2>Day-trip alternatives <span class="zh">其他一日遊</span></h2>' + (T.idea_daytrips || []).map(function (s) {
+    if (show("trips")) html += '<section class="section"><h2>Day-trip alternatives <span class="zh">其他一日遊</span></h2>' + (T.idea_daytrips || []).map(function (s) {
       return ideaCard(s, "t-teal", ICON.travel, s.why + (s.closed ? " · Closed: " + s.closed : ""));
     }).join("") + '</section>';
     var fp = (T.ideas || {}).food_picks;
-    if (fp) html += '<section class="section"><h2>' + esc(fp.title) + ' <span class="zh">' + esc(fp.title_zh) + '</span></h2>' + fp.by_area.map(function (g) {
+    if (fp && show("food")) html += '<section class="section"><h2>' + esc(fp.title) + ' <span class="zh">' + esc(fp.title_zh) + '</span></h2>' + fp.by_area.map(function (g) {
       return '<div class="card" style="margin-bottom:10px"><div class="kind k-meal">' + ICON.meal + esc(g.area) + ' · ' + (+g.day.slice(8)) + ' Jan</div>' +
         g.places.map(function (id) { var p = place(id); return pickRow({ en: p.en, zh: p.zh, lat: p.lat, lng: p.lng, note: (p.access || "") + (p.verify ? " ⚠ check" : "") }, null); }).join("") + '</div>';
     }).join("") + '<div class="small muted">' + esc(fp.note || "") + '</div></section>';
-    var groups = {};
-    T.saved_places.filter(function (s) { return s.in_trip; }).forEach(function (s) { (groups[s.area] = groups[s.area] || []).push(s); });
-    html += '<section class="section"><h2>Saved places by area <span class="zh">收藏地點</span></h2>' + Object.keys(groups).map(function (a) {
-      return '<details class="card idea"><summary><div style="flex:1"><div class="t">' + esc(a) + '</div><div class="s">' + groups[a].length + ' places</div></div></summary>' +
-        groups[a].map(function (s) { return pickRow(s, null); }).join("") + '</details>';
-    }).join("") + '</section>';
+    if (show("saved")) {
+      var groups = {};
+      T.saved_places.filter(function (s) { return s.in_trip; }).forEach(function (s) { (groups[s.area] = groups[s.area] || []).push(s); });
+      html += '<section class="section"><h2>Saved places by area <span class="zh">收藏地點</span></h2>' + Object.keys(groups).map(function (a) {
+        return '<details class="card idea"><summary><div style="flex:1"><div class="t">' + esc(a) + '</div><div class="s">' + groups[a].length + ' places</div></div></summary>' +
+          groups[a].map(function (s) { return pickRow(s, null); }).join("") + '</details>';
+      }).join("") + '</section>';
+    }
     var nc = (T.ideas || {}).not_chosen || [];
-    if (nc.length) html += '<section class="section"><h2>Not chosen, and why <span class="zh">未採用</span></h2><div class="card">' +
+    if (nc.length && show("no")) html += '<section class="section"><h2>Not chosen, and why <span class="zh">未採用</span></h2><div class="card">' +
       nc.map(function (x) { return '<div class="pick"><div class="grow"><div class="en">' + esc(x.what) + '</div><div class="small muted">' + esc(x.why) + '</div></div></div>'; }).join("") + '</div></section>';
     return html + '<div style="height:16px"></div>';
   }
@@ -533,9 +575,15 @@
       return '<div class="card" style="margin-bottom:10px"><div class="kind k-flight">' + ICON.flight + esc(f.no) + ' · ' + esc(f.date) + '</div>' +
         '<div style="font-size:23px;font-weight:800;margin-top:6px">' + esc(f.dep) + ' → ' + esc(f.arr) + '</div><div class="muted">' + esc(f.from) + ' → ' + esc(f.to) + '</div></div>';
     }).join("") + '<div class="small muted">Booking reference and the full confirmation load from Bookings after the group code (B4).</div>');
-    if (k === "hotel") { var h = place("hotel"); return infoSheet("Hotel 飯店", names(h) + '<div class="small muted" style="margin-top:6px">' + esc(h.address) + '</div><div class="small" style="margin-top:6px">' + esc(h.hours) + ' · 3–8 Jan · 5 nights · 2 rooms · Breakfast ' + esc(T.hotel_breakfast || "") + '</div>' + placeActions(h)); }
-    if (k === "bookings") return infoSheet("Bookings 訂單", '<div class="card lock"><span style="color:var(--accent)">' + ICON.lock + '</span><div><div class="small muted">Group booking no.</div><div class="n">' + esc(T.booking_masked) + '</div></div></div>' +
-      '<div class="card" style="margin-top:10px"><div class="muted">' + esc(T.booking_note) + '</div><div class="small muted" style="margin-top:6px">Behind the code: flight PNRs and e-tickets for the 4 travellers, hotel confirmation, and the full voucher and screenshots.</div><div class="actions"><button class="btn primary" data-close>Enter group code (B4)</button></div></div>');
+    if (k === "hotel") { var h = place("hotel"); return infoSheet("Hotel 飯店", names(h) + '<div class="small muted" style="margin-top:6px">' + esc(h.address) + '</div><div class="small" style="margin-top:6px">Check-in 3 Jan from 15:00 · Check-out 8 Jan before 11:00 · 5 nights · 2 rooms · Breakfast ' + esc(T.hotel_breakfast || "") + '</div>' + placeActions(h)); }
+    if (k === "bookings") {
+      var saved = ""; try { saved = localStorage.getItem("trip.groupCode") || ""; } catch (e) {}
+      return infoSheet("Bookings 訂單", '<div class="card lock"><span style="color:var(--accent)">' + ICON.lock + '</span><div><div class="small muted">Group booking no.</div><div class="n">' + esc(T.booking_masked) + '</div></div></div>' +
+        '<div class="card" style="margin-top:10px"><label class="small" style="font-weight:800" for="gcode">Group code</label>' +
+        '<input id="gcode" class="codebox" type="password" inputmode="text" autocomplete="off" placeholder="Enter the group code" value="' + esc(saved) + '">' +
+        '<div class="actions"><button class="btn primary" data-unlock="1">' + ICON.lock + 'Unlock</button></div>' +
+        '<div class="small muted" style="margin-top:8px">' + (saved ? "Code saved on this phone. " : "") + 'Mock: the code is kept on this phone only. Checking it and showing the full booking number, PNRs, e-tickets and the voucher is connected in B4.</div></div>');
+    }
     if (k === "transport") return infoSheet("Transport 交通",
       '<div class="card" style="margin-bottom:10px"><div class="kind k-travel">' + ICON.train + '1 · MRT 捷運</div><div style="margin-top:6px"><b>Hotel station:</b> Shandao Temple 善導寺</div>' +
         '<div class="actions" style="margin-top:6px">' + recChips("shandao") + '</div><div class="small muted" style="margin-top:6px">Exit 6 escalators (hotel side) · Exit 3 lift (across Zhongxiao E. Rd) · Avoid 2, 5</div>' +
@@ -556,15 +604,17 @@
     window.scrollTo(0, 0);
   }
   function renderPreview() {
-    var times = ["08:00", "10:00", "12:30", "15:00", "18:00"];
-    $("previewStrip").innerHTML = '<b>Mock · preview as</b>' + T.days.map(function (d, i) {
+    $("previewStrip").innerHTML = '<b>Mock · preview day</b>' + T.days.map(function (d, i) {
       return '<button class="chip ' + (state.previewIdx === i ? "on" : "") + '" data-pday="' + i + '">' + d.dow + ' ' + dayLabel(d).dd + '</button>';
-    }).join("") + times.map(function (t) { return '<button class="chip ' + (state.previewTime === t ? "on" : "") + '" data-ptime="' + t + '">' + t + '</button>'; }).join("");
+    }).join("");
   }
   document.addEventListener("click", function (e) {
-    var b = e.target.closest("button,[data-tab]"); if (!b) return;
+    var b = e.target.closest("button,[data-tab],[data-day]"); if (!b) return;
     if (b.dataset.tab) { state.tab = b.dataset.tab; render(); }
     else if (b.dataset.day) { state.day = +b.dataset.day; renderPlan(); }
+    else if (b.dataset.icat) { state.ideaCat = b.dataset.icat; renderPlan(); }
+    else if (b.dataset.plus) infoSheet("Add to the trip", '<div class="card"><div class="muted">Swap a spare day or a day trip from Ideas into one of the days.</div><div class="actions"><button class="btn primary" data-mode="ideas" data-close>Open Ideas</button></div><div class="small muted" style="margin-top:8px">The actual swap is built in B3.</div></div>');
+    else if (b.dataset.unlock) { var v = ($("gcode") || {}).value || ""; try { if (v) localStorage.setItem("trip.groupCode", v); } catch (e) {} closeSheet(); toast(v ? "Code saved on this phone — booking details connect in B4" : "Enter the group code first"); }
     else if (b.dataset.mode) { state.planMode = b.dataset.mode; renderPlan(); window.scrollTo(0, 0); }
     else if (b.dataset.taxi) taxiSheet(b.dataset.taxi);
     else if (b.dataset.mrt) mrtSheet(b.dataset.mrt);
@@ -572,7 +622,6 @@
     else if (b.dataset.goplan) { state.tab = "plan"; state.planMode = "itin"; state.day = +b.dataset.goplan; render(); }
     else if (b.dataset.swap) toast("Swap " + b.dataset.swap + " into a day — works in B3");
     else if (b.dataset.pday) { state.previewIdx = +b.dataset.pday; renderPreview(); if (state.tab === "home") renderHome(); }
-    else if (b.dataset.ptime) { state.previewTime = b.dataset.ptime; renderPreview(); if (state.tab === "home") renderHome(); }
     else if (b.id === "langBtn") toast("Names always show English first, then 中文");
   });
 
