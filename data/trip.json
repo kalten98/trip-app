@@ -1503,10 +1503,11 @@
     },
     {
      "time": "17:20",
-     "text": "Meet the Klook van driver at T2 arrivals (driver waits up to 90 min after landing)",
+     "text": "Meet the Klook van driver after customs (voucher meeting point: Arrival Hall near Gates 21–22; driver messages you; waits up to 90 min after landing)",
      "place": "tpe_t2",
      "kind": "travel",
-     "transport": "Klook airport van (Hyundai Staria / VW T6, max 7 pax, 8 bags) → hotel, ~50–60 min"
+     "transport": "Klook airport van (Hyundai Staria / VW T6, max 7 pax, 8 bags) → hotel, ~50–60 min",
+     "note": "Voucher says Terminal 1 but SQ878 lands at Terminal 2 — confirm with the operator before the trip"
     },
     {
      "time": "18:30",
@@ -1908,7 +1909,7 @@
      "text": "Klook van pick-up at the hotel lobby: be in the lobby by 13:15",
      "place": "hotel",
      "kind": "travel",
-     "transport": "Klook airport van (Hyundai Staria / VW T6) → Taoyuan T2, ~50–60 min · 15 min free wait, then NT$300 per 15 min · late/no-show = no refund"
+     "transport": "Klook airport van (Hyundai Staria / VW T6) → Taoyuan T2, ~50–60 min · driver waits 15 min from 13:30 · late/no-show = no refund"
     },
     {
      "time": "14:30",
@@ -2840,7 +2841,7 @@
   }
  ],
  "to_book": [
-  "Airport van 機場接送 Taiwan (Klook): 3 Jan Taoyuan T2 桃園機場第二航廈 → hotel booked 25 Nov (status 'confirming' — check it turns confirmed); 8 Jan 13:30 hotel → T2 booked BUT the voucher shows HOTEL COZZI Minsheng 和逸飯店・台北民生館 and 2 passengers: ask Klook / Ri Hong Travel to change to HOTEL COZZI Zhongxiao 和逸飯店・台北忠孝館 (31 Sec. 1 Zhongxiao E. Rd) and 4 passengers (free cancellation up to 24 h before)",
+  "Airport van 機場接送 Taiwan (Klook) — both booked and confirmed 25 Nov: 3 Jan Taoyuan 桃園機場 → hotel; 8 Jan 13:30 hotel → Taoyuan T2. Ask the 3 Jan operator to confirm the meeting point (voucher says Terminal 1 Gates 21–22; SQ878 lands at Terminal 2). Driver details arrive 3 h–1 day before; turn on 'allow others to add me as a friend' in the messaging app",
   "Airport van Singapore (Kelvin): 3 Jan ~08:00 home → Changi T3; 8 Jan Changi → home after SQ879 lands 22:20 — booked; correct his message (3 Jan is a Sunday; return is 8 Jan 2027, not 2026)",
   "Klook 88273 private car, Tue 5 Jan, Old Caoling Tunnel 舊草嶺隧道: English-speaking driver, 5-seater ~S$211 or 9-seater ~S$262 + Gongliao 貢寮 surcharge TWD 1,000 (TWD 1,600 if Dali 大里/Toucheng 頭城); confirm 8 h is enough",
   "Electric tuk-tuks 嘟嘟車 at Fulong 福隆 (2 × 3-seat, ~NT$700 / 1.5 h each): pay on the day; check weekday walking rule and 08:30–17:00 hours",
